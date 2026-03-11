@@ -1,2212 +1,2058 @@
 <!DOCTYPE html>
 <html lang="kk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eco-Hub №54 | Экологиялық із және Су ізін есептеу</title>
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NSV7HCQLBJ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-NSV7HCQLBJ');
-    </script>
-    
-    <style>
-        :root {
-            --primary: #2ecc71;
-            --secondary: #3498db;
-            --accent: #9b59b6;
-            --warning: #f39c12;
-            --danger: #e74c3c;
-            --dark: #0b1a27;
-            --darker: #071118;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.1);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
-            color: #fff;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-        
-        header {
-            background: rgba(11, 26, 39, 0.95);
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            opacity: 0.85;
-            transition: 0.3s;
-            padding: 5px 10px;
-            border-radius: 8px;
-        }
-        
-        nav a:hover, nav a.active {
-            opacity: 1;
-            color: var(--primary);
-            background: rgba(46, 204, 113, 0.15);
-        }
-        
-        .lang-switch {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .lang-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-        
-        .lang-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 25px 20px;
-        }
-        
-        .hero {
-            text-align: center;
-            padding: 40px 20px;
-            margin-bottom: 30px;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .hero p {
-            opacity: 0.85;
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 20px;
-        }
-        
-        .hero-badges {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .badge {
-            background: rgba(52, 152, 219, 0.2);
-            padding: 6px 16px;
-            border-radius: 20px;
-            border: 1px solid var(--secondary);
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        section {
-            margin-bottom: 40px;
-            scroll-margin-top: 100px;
-        }
-        
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--primary);
-        }
-        
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-        
-        .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid var(--border);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border-color: var(--primary);
-        }
-        
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .card-header h3 {
-            font-size: 1.3rem;
-            color: var(--primary);
-        }
-        
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .stat-card {
-            background: rgba(52, 152, 219, 0.15);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(52, 152, 219, 0.3);
-        }
-        
-        .stat-card .value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--secondary);
-            display: block;
-        }
-        
-        .stat-card .label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 5px;
-            display: block;
-        }
-        
-        .stat-card .unit {
-            font-size: 0.8rem;
-            opacity: 0.6;
-            display: block;
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .info-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-        }
-        
-        .info-icon {
-            font-size: 2.5rem;
-            min-width: 50px;
-        }
-        
-        .info-content h4 {
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-        
-        .info-content p {
-            opacity: 0.85;
-            font-size: 0.95rem;
-        }
-        
-        .tariff-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid var(--border);
-        }
-        
-        .tariff-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .tariff-logo {
-            font-size: 2.5rem;
-            background: rgba(243, 156, 18, 0.2);
-            padding: 10px;
-            border-radius: 12px;
-        }
-        
-        .tariff-header h3 {
-            margin: 0;
-            font-size: 1.3rem;
-        }
-        
-        .tariff-source {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            margin: 3px 0 0;
-        }
-        
-        .tariff-link {
-            color: var(--secondary);
-            text-decoration: none;
-        }
-        
-        .tariff-link:hover {
-            text-decoration: underline;
-        }
-        
-        .tariff-badge {
-            margin-left: auto;
-            background: rgba(46, 204, 113, 0.2);
-            padding: 5px 12px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            color: var(--primary);
-        }
-        
-        .tariff-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .tariff-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
-        
-        .tariff-label {
-            display: block;
-            font-size: 0.9rem;
-            opacity: 0.85;
-            margin-bottom: 8px;
-        }
-        
-        .tariff-value {
-            display: block;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .tariff-unit {
-            display: block;
-            font-size: 0.8rem;
-            opacity: 0.6;
-            margin-top: 3px;
-        }
-        
-        .tariff-note {
-            background: rgba(243, 156, 18, 0.1);
-            border-left: 3px solid var(--warning);
-            padding: 12px 15px;
-            border-radius: 0 8px 8px 0;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        .tariff-note a {
-            color: var(--secondary);
-            text-decoration: none;
-        }
-        
-        .calculator-section {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid var(--border);
-        }
-        
-        .calc-tabs {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        
-        .calc-tab {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-        
-        .calc-tab:hover, .calc-tab.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: var(--dark);
-        }
-        
-        .calc-content {
-            display: none;
-        }
-        
-        .calc-content.active {
-            display: block;
-        }
-        
-        .question-container {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            padding: 25px;
-            margin: 20px 0;
-        }
-        
-        .question-text {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        
-        .question-hint {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            margin-bottom: 15px;
-            font-style: italic;
-        }
-        
-        .input-group {
-            margin: 15px 0;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            opacity: 0.9;
-        }
-        
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-        }
-        
-        .options {
-            display: grid;
-            gap: 12px;
-        }
-        
-        .option-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 15px 20px;
-            border-radius: 12px;
-            cursor: pointer;
-            text-align: left;
-            transition: 0.3s;
-            font-size: 1rem;
-        }
-        
-        .option-btn:hover {
-            background: rgba(46, 204, 113, 0.2);
-            border-color: var(--primary);
-        }
-        
-        .option-btn.selected {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: var(--dark);
-        }
-        
-        .calc-navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 25px;
-            gap: 15px;
-        }
-        
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 12px 25px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-        
-        .nav-btn:hover {
-            background: var(--secondary);
-            border-color: var(--secondary);
-        }
-        
-        .nav-btn.primary {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: var(--dark);
-        }
-        
-        .nav-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .progress-bar {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            height: 8px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            height: 100%;
-            transition: width 0.3s;
-        }
-        
-        .results-section {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid var(--border);
-            text-align: center;
-            display: none;
-        }
-        
-        .results-section.active {
-            display: block;
-        }
-        
-        .result-card {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            padding: 25px;
-            margin: 20px 0;
-        }
-        
-        .result-value {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .result-label {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            margin-top: 10px;
-        }
-        
-        .result-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-        
-        .planet-visual {
-            font-size: 4rem;
-            margin: 20px 0;
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .overshoot-day {
-            background: linear-gradient(135deg, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.2));
-            padding: 20px;
-            border-radius: 16px;
-            margin: 20px 0;
-            border: 2px solid var(--danger);
-        }
-        
-        .overshoot-day .date {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--danger);
-        }
-        
-        .comparison-box {
-            background: rgba(52, 152, 219, 0.15);
-            padding: 15px;
-            border-radius: 12px;
-            margin: 15px 0;
-        }
-        
-        .comparison-box .kz-avg {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-        
-        .recommendations-container {
-            animation: fadeIn 0.5s ease;
-            margin-top: 30px;
-            padding: 25px;
-            background: rgba(46, 204, 113, 0.1);
-            border-radius: 16px;
-            border: 2px solid var(--primary);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .recommendations-container h4 {
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-        
-        .recommendations-container h5 {
-            font-size: 1.1rem;
-            margin: 15px 0 10px;
-            color: var(--secondary);
-        }
-        
-        .recommendations-container p {
-            line-height: 1.6;
-            opacity: 0.9;
-            margin: 10px 0;
-        }
-        
-        .recommendations-container strong {
-            color: var(--primary);
-        }
-        
-        .science-note {
-            font-style: italic;
-            border-left: 3px solid var(--gray);
-            padding: 10px;
-            margin: 10px 0;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 0 8px 8px 0;
-        }
-        
-        .action-tip {
-            font-weight: 600;
-            background: rgba(46, 204, 113, 0.15);
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-            color: var(--primary);
-        }
-        
-        .challenge-card {
-            background: linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(52, 152, 219, 0.2));
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-            text-align: center;
-            border: 2px solid var(--primary);
-        }
-        
-        .contact-section {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid var(--border);
-            margin-top: 30px;
-        }
-        
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .form-group {
-            margin: 15px 0;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            opacity: 0.9;
-        }
-        
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-        }
-        
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .submit-btn {
-            background: var(--primary);
-            color: var(--dark);
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-        }
-        
-        .submit-btn:hover {
-            background: #27ae60;
-            transform: translateY(-2px);
-        }
-        
-        .contact-info {
-            background: rgba(52, 152, 219, 0.15);
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 20px;
-            border-left: 4px solid var(--secondary);
-        }
-        
-        .contact-info p {
-            margin: 8px 0;
-            opacity: 0.9;
-        }
-        
-        .map-section {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            margin-bottom: 25px;
-        }
-        
-        .map-container {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            height: 400px;
-            overflow: hidden;
-        }
-        
-        .map-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .org-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .org-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid var(--border);
-            transition: 0.3s;
-            text-decoration: none;
-            color: #fff;
-        }
-        
-        .org-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .org-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-        
-        .org-name {
-            font-weight: 700;
-            margin-bottom: 5px;
-            display: block;
-        }
-        
-        .org-desc {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-        
-        .bar-container {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            margin: 10px 0;
-            position: relative;
-            height: 30px;
-        }
-        
-        .bar {
-            height: 100%;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            font-size: 0.85rem;
-            margin: 2px 0;
-        }
-        
-        .bar.national {
-            background: linear-gradient(90deg, #3498db, #2980b9);
-        }
-        
-        .bar.user {
-            background: linear-gradient(90deg, #2ecc71, #27ae60);
-        }
-        
-        .bar.user.high {
-            background: linear-gradient(90deg, #e74c3c, #c0392b);
-        }
-        
-        .bar.user.medium {
-            background: linear-gradient(90deg, #f1c40f, #f39c12);
-        }
-        
-        .bar-label {
-            font-size: 0.8rem;
-            white-space: nowrap;
-        }
-        
-        .food-comparison {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            margin: 20px 0;
-        }
-        
-        .food-comparison h4 {
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-        
-        .bar-item {
-            margin: 15px 0;
-        }
-        
-        .bar-item .label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 40px;
-            border-top: 1px solid var(--border);
-            opacity: 0.75;
-        }
-        
-        footer a {
-            color: var(--secondary);
-            text-decoration: none;
-        }
-        
-        .tabs {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-        }
-        
-        .tab-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        
-        .tab-btn:hover, .tab-btn.active {
-            background: var(--primary);
-            color: var(--dark);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            nav ul {
-                justify-content: center;
-            }
-            
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .calc-tabs, .tabs {
-                flex-direction: column;
-            }
-            
-            .tariff-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .tariff-badge {
-                margin-left: 0;
-            }
-            
-            .recommendations-container {
-                padding: 15px !important;
-            }
-            
-            .recommendations-container h4 {
-                font-size: 1.2rem;
-            }
-            
-            .recommendations-container p {
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco-Hub №54 | Экологиялық із және Су ізін есептеу</title>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NSV7HCQLBJ"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-NSV7HCQLBJ');
+</script>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Eco-Hub №54 - Экологиялық із және су ізін есептеу калькуляторы. Қазақстанға арналған нақты деректермен.">
+<meta name="keywords" content="экология, эко-із, су ізін есептеу, Қазақстан, тұрақты даму, экологиялық калькулятор">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (әлеуметтік желілер үшін) -->
+<meta property="og:title" content="Eco-Hub №54 | Экологиялық калькулятор">
+<meta property="og:description" content="Өз экологиялық ізіңізді есептеңіз!">
+<meta property="og:url" content="https://bakhytbekkhakim-droid.github.io/ecohub-54/">
+<meta property="og:type" content="website">
+
+<style>
+:root {
+--primary: #2ecc71;
+--secondary: #3498db;
+--accent: #9b59b6;
+--warning: #f39c12;
+--danger: #e74c3c;
+--dark: #0b1a27;
+--darker: #071118;
+--card-bg: rgba(255, 255, 255, 0.05);
+--border: rgba(255, 255, 255, 0.1);
+}
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+color: #fff;
+line-height: 1.6;
+min-height: 100vh;
+}
+header {
+background: rgba(11, 26, 39, 0.95);
+padding: 15px 20px;
+position: sticky;
+top: 0;
+z-index: 1000;
+backdrop-filter: blur(10px);
+border-bottom: 1px solid var(--border);
+}
+.header-content {
+max-width: 1200px;
+margin: 0 auto;
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 15px;
+}
+.logo {
+font-size: 1.5rem;
+font-weight: bold;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+nav ul {
+display: flex;
+list-style: none;
+gap: 20px;
+flex-wrap: wrap;
+}
+nav a {
+color: #fff;
+text-decoration: none;
+opacity: 0.85;
+transition: 0.3s;
+padding: 5px 10px;
+border-radius: 8px;
+}
+nav a:hover, nav a.active {
+opacity: 1;
+color: var(--primary);
+background: rgba(46, 204, 113, 0.15);
+}
+.lang-switch {
+display: flex;
+gap: 5px;
+}
+.lang-btn {
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--border);
+color: #fff;
+padding: 5px 10px;
+border-radius: 6px;
+cursor: pointer;
+font-size: 0.85rem;
+}
+.lang-btn.active {
+background: var(--primary);
+border-color: var(--primary);
+}
+.container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 25px 20px;
+}
+.hero {
+text-align: center;
+padding: 40px 20px;
+margin-bottom: 30px;
+}
+.hero h1 {
+font-size: 2.5rem;
+margin-bottom: 15px;
+background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+.hero p {
+opacity: 0.85;
+font-size: 1.2rem;
+max-width: 700px;
+margin: 0 auto 20px;
+}
+.hero-badges {
+display: flex;
+justify-content: center;
+gap: 10px;
+flex-wrap: wrap;
+}
+.badge {
+background: rgba(52, 152, 219, 0.2);
+padding: 6px 16px;
+border-radius: 20px;
+border: 1px solid var(--secondary);
+font-size: 0.85rem;
+display: flex;
+align-items: center;
+gap: 5px;
+}
+section {
+margin-bottom: 40px;
+scroll-margin-top: 100px;
+}
+.section-title {
+font-size: 1.8rem;
+margin-bottom: 20px;
+display: flex;
+align-items: center;
+gap: 10px;
+color: var(--primary);
+}
+.cards-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 20px;
+margin-bottom: 25px;
+}
+.card {
+background: var(--card-bg);
+border-radius: 20px;
+padding: 25px;
+border: 1px solid var(--border);
+transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+transform: translateY(-5px);
+box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+border-color: var(--primary);
+}
+.card-header {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 15px;
+padding-bottom: 12px;
+border-bottom: 1px solid var(--border);
+}
+.card-header h3 {
+font-size: 1.3rem;
+color: var(--primary);
+}
+.stats-container {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 15px;
+margin: 20px 0;
+}
+.stat-card {
+background: rgba(52, 152, 219, 0.15);
+border-radius: 16px;
+padding: 20px;
+text-align: center;
+border: 1px solid rgba(52, 152, 219, 0.3);
+}
+.stat-card .value {
+font-size: 2rem;
+font-weight: bold;
+color: var(--secondary);
+display: block;
+}
+.stat-card .label {
+font-size: 0.9rem;
+opacity: 0.8;
+margin-top: 5px;
+display: block;
+}
+.stat-card .unit {
+font-size: 0.8rem;
+opacity: 0.6;
+display: block;
+}
+.info-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 20px;
+margin: 20px 0;
+}
+.info-card {
+background: var(--card-bg);
+border-radius: 16px;
+padding: 20px;
+border: 1px solid var(--border);
+display: flex;
+gap: 15px;
+align-items: flex-start;
+}
+.info-icon {
+font-size: 2.5rem;
+min-width: 50px;
+}
+.info-content h4 {
+color: var(--primary);
+margin-bottom: 8px;
+}
+.info-content p {
+opacity: 0.85;
+font-size: 0.95rem;
+}
+.tariff-card {
+background: var(--card-bg);
+border-radius: 20px;
+padding: 25px;
+border: 1px solid var(--border);
+}
+.tariff-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 15px;
+margin-bottom: 20px;
+}
+.tariff-logo {
+font-size: 2.5rem;
+background: rgba(243, 156, 18, 0.2);
+padding: 10px;
+border-radius: 12px;
+}
+.tariff-header h3 {
+margin: 0;
+font-size: 1.3rem;
+}
+.tariff-source {
+font-size: 0.85rem;
+opacity: 0.8;
+margin: 3px 0 0;
+}
+.tariff-link {
+color: var(--secondary);
+text-decoration: none;
+}
+.tariff-link:hover {
+text-decoration: underline;
+}
+.tariff-badge {
+margin-left: auto;
+background: rgba(46, 204, 113, 0.2);
+padding: 5px 12px;
+border-radius: 10px;
+font-size: 0.8rem;
+color: var(--primary);
+}
+.tariff-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 15px;
+margin: 20px 0;
+}
+.tariff-item {
+background: rgba(0, 0, 0, 0.2);
+padding: 15px;
+border-radius: 12px;
+text-align: center;
+}
+.tariff-label {
+display: block;
+font-size: 0.9rem;
+opacity: 0.85;
+margin-bottom: 8px;
+}
+.tariff-value {
+display: block;
+font-size: 1.8rem;
+font-weight: bold;
+color: var(--primary);
+}
+.tariff-unit {
+display: block;
+font-size: 0.8rem;
+opacity: 0.6;
+margin-top: 3px;
+}
+.tariff-note {
+background: rgba(243, 156, 18, 0.1);
+border-left: 3px solid var(--warning);
+padding: 12px 15px;
+border-radius: 0 8px 8px 0;
+font-size: 0.9rem;
+opacity: 0.9;
+}
+.tariff-note a {
+color: var(--secondary);
+text-decoration: none;
+}
+.calculator-section {
+background: var(--card-bg);
+border-radius: 20px;
+padding: 30px;
+border: 1px solid var(--border);
+}
+.calc-tabs {
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+margin-bottom: 20px;
+}
+.calc-tab {
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--border);
+color: #fff;
+padding: 12px 20px;
+border-radius: 12px;
+cursor: pointer;
+font-size: 1rem;
+transition: 0.3s;
+}
+.calc-tab:hover, .calc-tab.active {
+background: var(--primary);
+border-color: var(--primary);
+color: var(--dark);
+}
+.calc-content {
+display: none;
+}
+.calc-content.active {
+display: block;
+}
+.question-container {
+background: rgba(0, 0, 0, 0.2);
+border-radius: 16px;
+padding: 25px;
+margin: 20px 0;
+}
+.question-text {
+font-size: 1.2rem;
+margin-bottom: 20px;
+}
+.question-hint {
+font-size: 0.9rem;
+opacity: 0.7;
+margin-bottom: 15px;
+font-style: italic;
+}
+.input-group {
+margin: 15px 0;
+}
+.input-group label {
+display: block;
+margin-bottom: 8px;
+opacity: 0.9;
+}
+.input-group input {
+width: 100%;
+padding: 12px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--border);
+border-radius: 8px;
+color: #fff;
+font-size: 1rem;
+}
+.options {
+display: grid;
+gap: 12px;
+}
+.option-btn {
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--border);
+color: #fff;
+padding: 15px 20px;
+border-radius: 12px;
+cursor: pointer;
+text-align: left;
+transition: 0.3s;
+font-size: 1rem;
+}
+.option-btn:hover {
+background: rgba(46, 204, 113, 0.2);
+border-color: var(--primary);
+}
+.option-btn.selected {
+background: var(--primary);
+border-color: var(--primary);
+color: var(--dark);
+}
+.calc-navigation {
+display: flex;
+justify-content: space-between;
+margin-top: 25px;
+gap: 15px;
+}
+.nav-btn {
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--border);
+color: #fff;
+padding: 12px 25px;
+border-radius: 12px;
+cursor: pointer;
+font-size: 1rem;
+transition: 0.3s;
+}
+.nav-btn:hover {
+background: var(--secondary);
+border-color: var(--secondary);
+}
+.nav-btn.primary {
+background: var(--primary);
+border-color: var(--primary);
+color: var(--dark);
+}
+.nav-btn:disabled {
+opacity: 0.5;
+cursor: not-allowed;
+}
+.progress-bar {
+background: rgba(255, 255, 255, 0.1);
+border-radius: 10px;
+height: 8px;
+margin: 20px 0;
+overflow: hidden;
+}
+.progress-fill {
+background: linear-gradient(90deg, var(--primary), var(--secondary));
+height: 100%;
+transition: width 0.3s;
+}
+.results-section {
+background: var(--card-bg);
+border-radius: 20px;
+padding: 30px;
+border: 1px solid var(--border);
+text-align: center;
+display: none;
+}
+.results-section.active {
+display: block;
+}
+.result-card {
+background: rgba(0, 0, 0, 0.2);
+border-radius: 16px;
+padding: 25px;
+margin: 20px 0;
+}
+.result-value {
+font-size: 3rem;
+font-weight: bold;
+color: var(--primary);
+}
+.result-label {
+font-size: 1.1rem;
+opacity: 0.8;
+margin-top: 10px;
+}
+.result-actions {
+display: flex;
+justify-content: center;
+gap: 15px;
+margin-top: 25px;
+flex-wrap: wrap;
+}
+.planet-visual {
+font-size: 4rem;
+margin: 20px 0;
+animation: bounce 2s infinite;
+}
+@keyframes bounce {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-10px); }
+}
+.overshoot-day {
+background: linear-gradient(135deg, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.2));
+padding: 20px;
+border-radius: 16px;
+margin: 20px 0;
+border: 2px solid var(--danger);
+}
+.overshoot-day .date {
+font-size: 2rem;
+font-weight: bold;
+color: var(--danger);
+}
+.comparison-box {
+background: rgba(52, 152, 219, 0.15);
+padding: 15px;
+border-radius: 12px;
+margin: 15px 0;
+}
+.comparison-box .kz-avg {
+font-size: 1.3rem;
+font-weight: 600;
+color: var(--secondary);
+}
+.recommendations-container {
+animation: fadeIn 0.5s ease;
+margin-top: 30px;
+padding: 25px;
+background: rgba(46, 204, 113, 0.1);
+border-radius: 16px;
+border: 2px solid var(--primary);
+}
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+.recommendations-container h4 {
+border-bottom: 2px solid var(--primary);
+padding-bottom: 10px;
+margin-bottom: 15px;
+color: var(--primary);
+}
+.recommendations-container h5 {
+font-size: 1.1rem;
+margin: 15px 0 10px;
+color: var(--secondary);
+}
+.recommendations-container p {
+line-height: 1.6;
+opacity: 0.9;
+margin: 10px 0;
+}
+.recommendations-container strong {
+color: var(--primary);
+}
+.science-note {
+font-style: italic;
+border-left: 3px solid var(--gray);
+padding: 10px;
+margin: 10px 0;
+background: rgba(0, 0, 0, 0.2);
+border-radius: 0 8px 8px 0;
+}
+.action-tip {
+font-weight: 600;
+background: rgba(46, 204, 113, 0.15);
+padding: 12px;
+border-radius: 8px;
+margin: 10px 0;
+color: var(--primary);
+}
+.challenge-card {
+background: linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(52, 152, 219, 0.2));
+padding: 15px;
+border-radius: 12px;
+margin-top: 15px;
+text-align: center;
+border: 2px solid var(--primary);
+}
+.contact-section {
+background: var(--card-bg);
+border-radius: 20px;
+padding: 30px;
+border: 1px solid var(--border);
+margin-top: 30px;
+}
+.contact-form {
+max-width: 600px;
+margin: 0 auto;
+}
+.form-group {
+margin: 15px 0;
+}
+.form-group label {
+display: block;
+margin-bottom: 8px;
+opacity: 0.9;
+}
+.form-group input, .form-group textarea {
+width: 100%;
+padding: 12px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--border);
+border-radius: 8px;
+color: #fff;
+font-size: 1rem;
+}
+.form-group textarea {
+min-height: 120px;
+resize: vertical;
+}
+.submit-btn {
+background: var(--primary);
+color: var(--dark);
+border: none;
+padding: 15px 30px;
+border-radius: 8px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+transition: 0.3s;
+width: 100%;
+}
+.submit-btn:hover {
+background: #27ae60;
+transform: translateY(-2px);
+}
+.contact-info {
+background: rgba(52, 152, 219, 0.15);
+padding: 20px;
+border-radius: 12px;
+margin-top: 20px;
+border-left: 4px solid var(--secondary);
+}
+.contact-info p {
+margin: 8px 0;
+opacity: 0.9;
+}
+.map-section {
+background: var(--card-bg);
+border-radius: 20px;
+padding: 20px;
+border: 1px solid var(--border);
+margin-bottom: 25px;
+}
+.map-container {
+background: rgba(0, 0, 0, 0.2);
+border-radius: 16px;
+height: 400px;
+overflow: hidden;
+}
+.map-iframe {
+width: 100%;
+height: 100%;
+border: none;
+}
+.org-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 15px;
+margin: 20px 0;
+}
+.org-card {
+background: var(--card-bg);
+border-radius: 16px;
+padding: 20px;
+text-align: center;
+border: 1px solid var(--border);
+transition: 0.3s;
+text-decoration: none;
+color: #fff;
+}
+.org-card:hover {
+transform: translateY(-5px);
+}
+.org-icon {
+font-size: 2.5rem;
+margin-bottom: 10px;
+display: block;
+}
+.org-name {
+font-weight: 700;
+margin-bottom: 5px;
+display: block;
+}
+.org-desc {
+font-size: 0.85rem;
+opacity: 0.7;
+}
+.bar-container {
+background: rgba(255, 255, 255, 0.1);
+border-radius: 8px;
+margin: 10px 0;
+position: relative;
+height: 30px;
+}
+.bar {
+height: 100%;
+border-radius: 8px;
+display: flex;
+align-items: center;
+padding-left: 10px;
+font-size: 0.85rem;
+margin: 2px 0;
+}
+.bar.national {
+background: linear-gradient(90deg, #3498db, #2980b9);
+}
+.bar.user {
+background: linear-gradient(90deg, #2ecc71, #27ae60);
+}
+.bar.user.high {
+background: linear-gradient(90deg, #e74c3c, #c0392b);
+}
+.bar.user.medium {
+background: linear-gradient(90deg, #f1c40f, #f39c12);
+}
+.bar-label {
+font-size: 0.8rem;
+white-space: nowrap;
+}
+.food-comparison {
+background: var(--card-bg);
+border-radius: 16px;
+padding: 20px;
+border: 1px solid var(--border);
+margin: 20px 0;
+}
+.food-comparison h4 {
+color: var(--primary);
+margin-bottom: 15px;
+}
+.bar-item {
+margin: 15px 0;
+}
+.bar-item .label {
+display: block;
+margin-bottom: 5px;
+font-weight: 600;
+}
+footer {
+text-align: center;
+padding: 30px 20px;
+margin-top: 40px;
+border-top: 1px solid var(--border);
+opacity: 0.75;
+}
+footer a {
+color: var(--secondary);
+text-decoration: none;
+}
+.tabs {
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+margin-bottom: 25px;
+}
+.tab-btn {
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--border);
+color: #fff;
+padding: 10px 20px;
+border-radius: 8px;
+cursor: pointer;
+transition: 0.3s;
+}
+.tab-btn:hover, .tab-btn.active {
+background: var(--primary);
+color: var(--dark);
+}
+.tab-content {
+display: none;
+}
+.tab-content.active {
+display: block;
+}
+@media (max-width: 768px) {
+.header-content {
+flex-direction: column;
+text-align: center;
+}
+nav ul {
+justify-content: center;
+}
+.hero h1 {
+font-size: 1.8rem;
+}
+.calc-tabs, .tabs {
+flex-direction: column;
+}
+.tariff-header {
+flex-direction: column;
+align-items: flex-start;
+}
+.tariff-badge {
+margin-left: 0;
+}
+.recommendations-container {
+padding: 15px !important;
+}
+.recommendations-container h4 {
+font-size: 1.2rem;
+}
+.recommendations-container p {
+font-size: 0.9rem;
+}
+}
+</style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">
-                <span class="logo-icon">🌱</span>
-                <span>Eco-Hub №54</span>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#home" class="active">🏠 Басты</a></li>
-                    <li><a href="#legal-water">⚖️ Заңнама</a></li>
-                    <li><a href="#calculator">🧮 Калькулятор</a></li>
-                    <li><a href="#monitoring">📊 Мониторинг</a></li>
-                    <li><a href="#contact">📧 Байланыс</a></li>
-                    <li><a href="#about">🎓 Жоба</a></li>
-                </ul>
-            </nav>
-            <div class="lang-switch">
-                <button class="lang-btn active" onclick="switchLang('kk')">KK</button>
-                <button class="lang-btn" onclick="switchLang('ru')">RU</button>
-            </div>
-        </div>
-    </header>
+<header>
+<div class="header-content">
+<div class="logo">
+<span class="logo-icon">🌱</span>
+<span>Eco-Hub №54</span>
+</div>
+<nav>
+<ul>
+<li><a href="#home" class="active">🏠 Басты</a></li>
+<li><a href="#legal-water">⚖️ Заңнама</a></li>
+<li><a href="#calculator">🧮 Калькулятор</a></li>
+<li><a href="#monitoring">📊 Мониторинг</a></li>
+<li><a href="#contact">📧 Байланыс</a></li>
+<li><a href="#about">🎓 Жоба</a></li>
+</ul>
+</nav>
+<div class="lang-switch">
+<button class="lang-btn active" onclick="switchLang('kk')">KK</button>
+<button class="lang-btn" onclick="switchLang('ru')">RU</button>
+</div>
+</div>
+</header>
+<div class="container">
+<!-- Hero Section -->
+<section id="home" class="hero">
+<h1>🌍💧 Экологиялық із және Су ізін есептеу</h1>
+<p>Қазақстанға арналған нақты деректермен — №54 мектеп-лицейі</p>
+<div class="hero-badges">
+<span class="badge">🇰🇿 ҚР Статистика деректері</span>
+<span class="badge">🌱 Эко-із</span>
+<span class="badge">💧 Су ізін</span>
+<span class="badge">💰 ТКШ тарифтері</span>
+<span class="badge">🤖 AI-кеңесші</span>
+<span class="badge">🔒 Деректер қорғалған</span>
+</div>
+</section>
 
-    <div class="container">
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <h1>🌍💧 Экологиялық із және Су ізін есептеу</h1>
-            <p>Қазақстанға арналған нақты деректермен — №54 мектеп-лицейі</p>
-            <div class="hero-badges">
-                <span class="badge">🇰🇿 ҚР Статистика деректері</span>
-                <span class="badge">🌱 Эко-із</span>
-                <span class="badge">💧 Су ізін</span>
-                <span class="badge">💰 ТКШ тарифтері</span>
-                <span class="badge">🤖 AI-кеңесші</span>
-                <span class="badge">🔒 Деректер қорғалған</span>
-            </div>
-        </section>
+<!-- Tariffs Section -->
+<section id="tariffs">
+<h2 class="section-title">💰 Астана қ. ТКШ тарифтері</h2>
+<div class="tariff-card">
+<div class="tariff-header">
+<div style="display: flex; align-items: center; gap: 15px;">
+<span class="tariff-logo">📅</span>
+<div>
+<h3>Қолданыстағы тарифтер</h3>
+<p class="tariff-source">Жаңартылды: <strong>9 наурыз 2025</strong> | <a href="https://astana.gov.kz" target="_blank" class="tariff-link">astana.gov.kz ↗</a></p>
+</div>
+</div>
+<span class="tariff-badge">✅ Өзекті</span>
+</div>
+<div class="tariff-grid">
+<div class="tariff-item">
+<span class="tariff-label">🗑️ Қоқыс шығару (пәтерлер)</span>
+<span class="tariff-value">637</span>
+<span class="tariff-unit">₸/адам/ай</span>
+<span style="font-size: 0.75rem; opacity: 0.6; display: block; margin-top: 5px;">алдыңғысынан +63%</span>
+</div>
+<div class="tariff-item">
+<span class="tariff-label">🗑️ Қоқыс шығару (жеке сектор)</span>
+<span class="tariff-value">679</span>
+<span class="tariff-unit">₸/адам/ай</span>
+<span style="font-size: 0.75rem; opacity: 0.6; display: block; margin-top: 5px;">алдыңғысынан +74%</span>
+</div>
+<div class="tariff-item">
+<span class="tariff-label">💧 Ауыз су</span>
+<span class="tariff-value">97</span>
+<span class="tariff-unit">₸/м³</span>
+<span style="font-size: 0.75rem; opacity: 0.6; display: block; margin-top: 5px; color: var(--warning);">2026: ~135 ₸</span>
+</div>
+<div class="tariff-item">
+<span class="tariff-label">⚡ Электр (күн)</span>
+<span class="tariff-value">22.68</span>
+<span class="tariff-unit">₸/кВт·сағ</span>
+<span style="font-size: 0.75rem; opacity: 0.6; display: block; margin-top: 5px;">Түн: 11.34 ₸</span>
+</div>
+</div>
+<div class="tariff-note">
+🎁 <strong>Жеңілдіктер:</strong> Көпбалалы отбасылар, мүгедектер — 50% жеңілдік.
+<a href="https://egov.kz" target="_blank" style="color: var(--secondary);">Ресімдеу ↗</a>
+</div>
+</div>
+</section>
 
-        <!-- Tariffs Section -->
-        <section id="tariffs">
-            <h2 class="section-title">💰 Астана қ. ТКШ тарифтері</h2>
-            <div class="tariff-card">
-                <div class="tariff-header">
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <span class="tariff-logo">📅</span>
-                        <div>
-                            <h3>Қолданыстағы тарифтер</h3>
-                            <p class="tariff-source">Жаңартылды: <strong>9 наурыз 2025</strong> | <a href="https://astana.gov.kz" target="_blank" class="tariff-link">astana.gov.kz ↗</a></p>
-                        </div>
-                    </div>
-                    <span class="tariff-badge">✅ Өзекті</span>
-                </div>
-                <div class="tariff-grid">
-                    <div class="tariff-item">
-                        <span class="tariff-label">🗑️ Қоқыс шығару (пәтерлер)</span>
-                        <span class="tariff-value">637</span>
-                        <span class="tariff-unit">₸/адам/ай</span>
-                        <span style="font-size: 0.75rem; opacity: 0.6; display: block; margin-top: 5px;">алдыңғысынан +63%</span>
-                    </div>
-                    <div class="tariff-item">
-                        <span class="tariff-label">🗑️ Қоқыс шығару (жеке сектор)</span>
-                        <span class="tariff-value">679</span>
-                        <span class="tariff-unit">₸/адам/ай</span>
-                        <span style="font-size: 0.75rem; opacity: 0.6; display: block; margin-top: 5px;">алдыңғысынан +74%</span>
-                    </div>
-                    <div class="tariff-item">
-                        <span class="tariff-label">💧 Ауыз су</span>
-                        <span class="tariff-value">97</span>
-                        <span class="tariff-unit">₸/м³</span>
-                        <span style="font-size: 0.75rem; opacity: 0.6; display: block; margin-top: 5px; color: var(--warning);">2026: ~135 ₸</span>
-                    </div>
-                    <div class="tariff-item">
-                        <span class="tariff-label">⚡ Электр (күн)</span>
-                        <span class="tariff-value">22.68</span>
-                        <span class="tariff-unit">₸/кВт·сағ</span>
-                        <span style="font-size: 0.75rem; opacity: 0.6; display: block; margin-top: 5px;">Түн: 11.34 ₸</span>
-                    </div>
-                </div>
-                <div class="tariff-note">
-                    🎁 <strong>Жеңілдіктер:</strong> Көпбалалы отбасылар, мүгедектер — 50% жеңілдік. 
-                    <a href="https://egov.kz" target="_blank" style="color: var(--secondary);">Ресімдеу ↗</a>
-                </div>
-            </div>
-        </section>
+<!-- Water Code Section -->
+<section id="legal-water">
+<h2 class="section-title">⚖️ Су кодексі: Білу маңызды</h2>
+<div class="info-grid">
+<div class="info-card">
+<span class="info-icon">📜</span>
+<div class="info-content">
+<h4>Суды пайдаланушылардың міндеттері</h4>
+<p>ҚР Су кодексінің 45-бабына сәйкес:</p>
+<ul style="margin: 10px 0 0 20px; opacity: 0.9;">
+<li>✅ Суды үнемді пайдалану</li>
+<li>✅ Су нысандарын ластанудан қорғау</li>
+<li>✅ Су өлшеу құралдарын орнату</li>
+<li>✅ Төлемдерді уақытылы төлеу</li>
+</ul>
+<p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.7;">
+📚 Дереккөз: <a href="https://adilet.zan.kz/kaz/docs/K030000401_" target="_blank" style="color: var(--secondary);">Су кодексі РК ↗</a>
+</p>
+</div>
+</div>
+<div class="info-card">
+<span class="info-icon">🚫</span>
+<div class="info-content">
+<h4>Су қорғау аймақтарында тыйым салынады</h4>
+<p>Су кодексінің 108-бабы бойынша өзен-көл жағалауында:</p>
+<ul style="margin: 10px 0 0 20px; opacity: 0.9;">
+<li>❌ Көлік жуу және майлау</li>
+<li>❌ Қоқыс пен қалдық тастау</li>
+<li>❌ Химиялық заттарды ағызу</li>
+<li>❌ Жағалауды бұзу жұмыстары</li>
+</ul>
+<p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.7;">
+⚠️ Бұзушылық үшін әкімшілік жауапкершілік қарастырылған
+</p>
+</div>
+</div>
+<div class="info-card">
+<span class="info-icon">🏫</span>
+<div class="info-content">
+<h4>Мектептерге арналған талаптар</h4>
+<p>Білім беру мекемелері үшін:</p>
+<ul style="margin: 10px 0 0 20px; opacity: 0.9;">
+<li>💧 Ауыз су сапасын бақылау</li>
+<li>🚰 Су үнемдейтін құрылғылар орнату</li>
+<li>📊 Су тұтынуды есепке алу</li>
+<li>🎓 Оқушыларға эко-сауаттылықты үйрету</li>
+</ul>
+</div>
+</div>
+</div>
+<div style="background: rgba(155, 89, 182, 0.15); padding: 15px; border-radius: 12px; margin-top: 20px; border-left: 4px solid var(--accent);">
+<strong style="color: var(--accent);">📌 Еске саламыз:</strong>
+<span style="opacity: 0.9;">Су кодексінің 92-бабы бойынша ауыз су сапасы мемлекеттік стандарттарға сәйкес келуі тиіс. Мектептегі судың түсі, дәмі немесе иісі өзгерсе — бұл заң бұзушылық болып табылады.</span>
+</div>
+</section>
 
-        <!-- Water Code Section -->
-        <section id="legal-water">
-            <h2 class="section-title">⚖️ Су кодексі: Білу маңызды</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <span class="info-icon">📜</span>
-                    <div class="info-content">
-                        <h4>Суды пайдаланушылардың міндеттері</h4>
-                        <p>ҚР Су кодексінің 45-бабына сәйкес:</p>
-                        <ul style="margin: 10px 0 0 20px; opacity: 0.9;">
-                            <li>✅ Суды үнемді пайдалану</li>
-                            <li>✅ Су нысандарын ластанудан қорғау</li>
-                            <li>✅ Су өлшеу құралдарын орнату</li>
-                            <li>✅ Төлемдерді уақытылы төлеу</li>
-                        </ul>
-                        <p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.7;">
-                            📚 Дереккөз: <a href="https://adilet.zan.kz/kaz/docs/K030000401_" target="_blank" style="color: var(--secondary);">Су кодексі РК ↗</a>
-                        </p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <span class="info-icon">🚫</span>
-                    <div class="info-content">
-                        <h4>Су қорғау аймақтарында тыйым салынады</h4>
-                        <p>Су кодексінің 108-бабы бойынша өзен-көл жағалауында:</p>
-                        <ul style="margin: 10px 0 0 20px; opacity: 0.9;">
-                            <li>❌ Көлік жуу және майлау</li>
-                            <li>❌ Қоқыс пен қалдық тастау</li>
-                            <li>❌ Химиялық заттарды ағызу</li>
-                            <li>❌ Жағалауды бұзу жұмыстары</li>
-                        </ul>
-                        <p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.7;">
-                            ⚠️ Бұзушылық үшін әкімшілік жауапкершілік қарастырылған
-                        </p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <span class="info-icon">🏫</span>
-                    <div class="info-content">
-                        <h4>Мектептерге арналған талаптар</h4>
-                        <p>Білім беру мекемелері үшін:</p>
-                        <ul style="margin: 10px 0 0 20px; opacity: 0.9;">
-                            <li>💧 Ауыз су сапасын бақылау</li>
-                            <li>🚰 Су үнемдейтін құрылғылар орнату</li>
-                            <li>📊 Су тұтынуды есепке алу</li>
-                            <li>🎓 Оқушыларға эко-сауаттылықты үйрету</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div style="background: rgba(155, 89, 182, 0.15); padding: 15px; border-radius: 12px; margin-top: 20px; border-left: 4px solid var(--accent);">
-                <strong style="color: var(--accent);">📌 Еске саламыз:</strong> 
-                <span style="opacity: 0.9;">Су кодексінің 92-бабы бойынша ауыз су сапасы мемлекеттік стандарттарға сәйкес келуі тиіс. Мектептегі судың түсі, дәмі немесе иісі өзгерсе — бұл заң бұзушылық болып табылады.</span>
-            </div>
-        </section>
+<!-- Water Statistics -->
+<section id="water-stats">
+<h2 class="section-title">💧 Су ресурстары: Статистика</h2>
+<div class="stats-container">
+<div class="stat-card">
+<span class="value">100.5</span>
+<span class="label">Қазақстандағы су қоры</span>
+<span class="unit">км³/жыл (жалпы)</span>
+</div>
+<div class="stat-card">
+<span class="value">5,400</span>
+<span class="label">Жан басына</span>
+<span class="unit">м³/жыл (орташа)</span>
+</div>
+<div class="stat-card">
+<span class="value">180</span>
+<span class="label">Астанада су тұтыну</span>
+<span class="unit">литр/адам/күн</span>
+</div>
+<div class="stat-card">
+<span class="value">30-40%</span>
+<span class="label">Су жоғалтуы</span>
+<span class="unit">ескі құбырлар</span>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>📊</span>
+<h3>Су ресурстары туралы талдау</h3>
+</div>
+<p>Қазақстан су ресурстарына бай ел болғанымен, су тапшылығы мәселелері бар:</p>
+<ul style="margin: 15px 0 15px 25px; opacity: 0.85;">
+<li>Су құбырларының тозуы (70%-дан астамы ескірген)</li>
+<li>Су ресурстарын тиімсіз пайдалану</li>
+<li>Өнеркәсіптік ластану</li>
+<li>Климат өзгеруінің әсері</li>
+</ul>
+</div>
+</section>
 
-        <!-- Water Statistics -->
-        <section id="water-stats">
-            <h2 class="section-title">💧 Су ресурстары: Статистика</h2>
-            <div class="stats-container">
-                <div class="stat-card">
-                    <span class="value">100.5</span>
-                    <span class="label">Қазақстандағы су қоры</span>
-                    <span class="unit">км³/жыл (жалпы)</span>
-                </div>
-                <div class="stat-card">
-                    <span class="value">5,400</span>
-                    <span class="label">Жан басына</span>
-                    <span class="unit">м³/жыл (орташа)</span>
-                </div>
-                <div class="stat-card">
-                    <span class="value">180</span>
-                    <span class="label">Астанада су тұтыну</span>
-                    <span class="unit">литр/адам/күн</span>
-                </div>
-                <div class="stat-card">
-                    <span class="value">30-40%</span>
-                    <span class="label">Су жоғалтуы</span>
-                    <span class="unit">ескі құбырлар</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <span>📊</span>
-                    <h3>Су ресурстары туралы талдау</h3>
-                </div>
-                <p>Қазақстан су ресурстарына бай ел болғанымен, су тапшылығы мәселелері бар:</p>
-                <ul style="margin: 15px 0 15px 25px; opacity: 0.85;">
-                    <li>Су құбырларының тозуы (70%-дан астамы ескірген)</li>
-                    <li>Су ресурстарын тиімсіз пайдалану</li>
-                    <li>Өнеркәсіптік ластану</li>
-                    <li>Климат өзгеруінің әсері</li>
-                </ul>
-            </div>
-        </section>
+<!-- Key Concepts -->
+<section id="concepts">
+<h2 class="section-title">📚 Негізгі ұғымдар</h2>
+<div class="info-grid">
+<div class="info-card">
+<span class="info-icon">🌱</span>
+<div class="info-content">
+<h4>Биосыйымдылық</h4>
+<p>Табиғаттың ресурстарды қалпына келтіру және CO₂ сіңіру қабілеті.</p>
+</div>
+</div>
+<div class="info-card">
+<span class="info-icon">💧</span>
+<div class="info-content">
+<h4>Су ізін есептеу</h4>
+<p>Өнімдер мен қызметтерді өндіруге жұмсалатын тұщы су көлемі.</p>
+</div>
+</div>
+<div class="info-card">
+<span class="info-icon">⚠️</span>
+<div class="info-content">
+<h4>Эко-дефицит</h4>
+<p>Тұтыну биосыйымдылықтан асып кеткенде пайда болады.</p>
+</div>
+</div>
+</div>
+</section>
 
-        <!-- Key Concepts -->
-        <section id="concepts">
-            <h2 class="section-title">📚 Негізгі ұғымдар</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <span class="info-icon">🌱</span>
-                    <div class="info-content">
-                        <h4>Биосыйымдылық</h4>
-                        <p>Табиғаттың ресурстарды қалпына келтіру және CO₂ сіңіру қабілеті.</p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <span class="info-icon">💧</span>
-                    <div class="info-content">
-                        <h4>Су ізін есептеу</h4>
-                        <p>Өнімдер мен қызметтерді өндіруге жұмсалатын тұщы су көлемі.</p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <span class="info-icon">⚠️</span>
-                    <div class="info-content">
-                        <h4>Эко-дефицит</h4>
-                        <p>Тұтыну биосыйымдылықтан асып кеткенде пайда болады.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- Scientific Section -->
+<section id="scientific">
+<h2 class="section-title">🔬 Ғылыми зерттеулер, заңнама және бағдарламалар</h2>
+<div class="tabs">
+<button class="tab-btn active" onclick="filterSci('all')">📚 Барлығы</button>
+<button class="tab-btn" onclick="filterSci('research')">🔬 Ғылыми зерттеулер</button>
+<button class="tab-btn" onclick="filterSci('programs')">🏛️ Мемлекеттік бағдарламалар</button>
+<button class="tab-btn" onclick="filterSci('legislation')">⚖️ Заңнамалық өзгерістер</button>
+<button class="tab-btn" onclick="filterSci('projects')">🏗️ Іске асырылып жатқан жобалар</button>
+</div>
+<div class="cards-grid" id="scientificGrid">
+<div class="card" data-category="research water">
+<div class="card-header">
+<span>🔬</span>
+<h3>Кофе су ізін: 130 литр/кесе</h3>
+</div>
+<p style="opacity: 0.9;"><strong>130 литр су</strong> - бір кесе кофе (125 мл) өндіруге қажетті су көлемі (Poore & Nemecek, Science 2018).</p>
+<ul style="margin: 10px 0 0 20px; opacity: 0.85;">
+<li>☕ Дән өсіру: 110 л</li>
+<li>🚚 Өңдеу: 15 л</li>
+<li>🏭 Қаптама: 5 л</li>
+</ul>
+<p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.7;">
+📚 Дереккөз: <a href="https://journal.ecostandard.ru" target="_blank" style="color: var(--secondary);">EcoStandard Journal</a>
+</p>
+</div>
+<div class="card" data-category="legislation water">
+<div class="card-header">
+<span>⚖️</span>
+<h3>Су кодексі РК (2023)</h3>
+</div>
+<p style="opacity: 0.9;">Қазақстан Республикасының Су кодексі су ресурстарын қорғау, тиімді пайдалану және ластанудың алдын алу мәселелерін реттейді.</p>
+<ul style="margin: 10px 0 0 20px; opacity: 0.85;">
+<li>💧 Су пайдаланушылардың құқықтары мен міндеттері</li>
+<li>🔒 Су қорғау аймақтарын белгілеу</li>
+<li>⚖️ Экологиялық талаптар</li>
+</ul>
+<p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.7;">
+📚 Дереккөз: <a href="https://adilet.zan.kz" target="_blank" style="color: var(--secondary);">Әділет порталы</a>
+</p>
+</div>
+<div class="card" data-category="programs sustainability">
+<div class="card-header">
+<span>🏛️</span>
+<h3>"Жасыл Қазақстан" (2021-2030)</h3>
+</div>
+<p style="opacity: 0.9;">Мемлекеттік бағдарлама су тиімділігін арттыру, қайта өңдеуді дамыту және климат өзгеруіне бейімделуді көздейді.</p>
+<ul style="margin: 10px 0 0 20px; opacity: 0.85;">
+<li>🎯 Су шығынын 20% азайту</li>
+<li>♻️ Қайта өңдеу деңгейін 40%-ға жеткізу</li>
+<li>🌳 Көгалдандыруды кеңейту</li>
+</ul>
+<p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.7;">
+📚 Дереккөз: <a href="https://gov.kz" target="_blank" style="color: var(--secondary);">Үкімет порталы</a>
+</p>
+</div>
+</div>
+</section>
 
-        <!-- Scientific Section -->
-        <section id="scientific">
-            <h2 class="section-title">🔬 Ғылыми зерттеулер, заңнама және бағдарламалар</h2>
-            <div class="tabs">
-                <button class="tab-btn active" onclick="filterSci('all')">📚 Барлығы</button>
-                <button class="tab-btn" onclick="filterSci('research')">🔬 Ғылыми зерттеулер</button>
-                <button class="tab-btn" onclick="filterSci('programs')">🏛️ Мемлекеттік бағдарламалар</button>
-                <button class="tab-btn" onclick="filterSci('legislation')">⚖️ Заңнамалық өзгерістер</button>
-                <button class="tab-btn" onclick="filterSci('projects')">🏗️ Іске асырылып жатқан жобалар</button>
-            </div>
-            <div class="cards-grid" id="scientificGrid">
-                <div class="card" data-category="research water">
-                    <div class="card-header">
-                        <span>🔬</span>
-                        <h3>Кофе су ізін: 130 литр/кесе</h3>
-                    </div>
-                    <p style="opacity: 0.9;"><strong>130 литр су</strong> - бір кесе кофе (125 мл) өндіруге қажетті су көлемі (Poore & Nemecek, Science 2018).</p>
-                    <ul style="margin: 10px 0 0 20px; opacity: 0.85;">
-                        <li>☕ Дән өсіру: 110 л</li>
-                        <li>🚚 Өңдеу: 15 л</li>
-                        <li>🏭 Қаптама: 5 л</li>
-                    </ul>
-                    <p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.7;">
-                        📚 Дереккөз: <a href="https://journal.ecostandard.ru" target="_blank" style="color: var(--secondary);">EcoStandard Journal</a>
-                    </p>
-                </div>
-                <div class="card" data-category="legislation water">
-                    <div class="card-header">
-                        <span>⚖️</span>
-                        <h3>Су кодексі РК (2023)</h3>
-                    </div>
-                    <p style="opacity: 0.9;">Қазақстан Республикасының Су кодексі су ресурстарын қорғау, тиімді пайдалану және ластанудың алдын алу мәселелерін реттейді.</p>
-                    <ul style="margin: 10px 0 0 20px; opacity: 0.85;">
-                        <li>💧 Су пайдаланушылардың құқықтары мен міндеттері</li>
-                        <li>🔒 Су қорғау аймақтарын белгілеу</li>
-                        <li>⚖️ Экологиялық талаптар</li>
-                    </ul>
-                    <p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.7;">
-                        📚 Дереккөз: <a href="https://adilet.zan.kz" target="_blank" style="color: var(--secondary);">Әділет порталы</a>
-                    </p>
-                </div>
-                <div class="card" data-category="programs sustainability">
-                    <div class="card-header">
-                        <span>🏛️</span>
-                        <h3>"Жасыл Қазақстан" (2021-2030)</h3>
-                    </div>
-                    <p style="opacity: 0.9;">Мемлекеттік бағдарлама су тиімділігін арттыру, қайта өңдеуді дамыту және климат өзгеруіне бейімделуді көздейді.</p>
-                    <ul style="margin: 10px 0 0 20px; opacity: 0.85;">
-                        <li>🎯 Су шығынын 20% азайту</li>
-                        <li>♻️ Қайта өңдеу деңгейін 40%-ға жеткізу</li>
-                        <li>🌳 Көгалдандыруды кеңейту</li>
-                    </ul>
-                    <p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.7;">
-                        📚 Дереккөз: <a href="https://gov.kz" target="_blank" style="color: var(--secondary);">Үкімет порталы</a>
-                    </p>
-                </div>
-            </div>
-        </section>
+<!-- Calculator Section -->
+<section id="calculator">
+<h2 class="section-title">🧮 Кешенді экологиялық калькулятор</h2>
+<div class="calculator-section">
+<div class="calc-tabs">
+<button class="calc-tab active" onclick="switchCalcTab('eco')">🌱 Экологиялық із</button>
+<button class="calc-tab" onclick="switchCalcTab('water')">💧 Су ізін есептеу</button>
+</div>
+<!-- Ecological Footprint Calculator -->
+<div id="eco-calc" class="calc-content active">
+<div class="progress-bar">
+<div class="progress-fill" id="eco-progress" style="width: 0%"></div>
+</div>
+<div id="eco-questions"></div>
+</div>
+<!-- Water Footprint Calculator -->
+<div id="water-calc" class="calc-content">
+<div class="progress-bar">
+<div class="progress-fill" id="water-progress" style="width: 0%"></div>
+</div>
+<div id="water-questions"></div>
+</div>
+<!-- Results Section -->
+<div id="calc-results" class="results-section">
+<h3>📊 Сіздің нәтижелеріңіз</h3>
+<!-- Planet Visual -->
+<div class="planet-visual" id="planetVisual">🌍</div>
+<!-- Overshoot Day -->
+<div class="overshoot-day">
+<h4 style="margin-bottom: 10px;">📅 Жеке экологиялық қарыз күніңіз</h4>
+<div class="date" id="overshootDay">--</div>
+<p style="margin-top: 10px; opacity: 0.9;">Егер барлық адам сіз сияқты өмір сүрсе, Жер ресурстары осы күні таусылады</p>
+</div>
+<div class="cards-grid">
+<div class="card">
+<div class="card-header">
+<span>🌍</span>
+<h3>Экологиялық із</h3>
+</div>
+<div class="result-value" id="eco-result">0</div>
+<div class="result-label">планета қажет</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>💧</span>
+<h3>Су тұтыну</h3>
+</div>
+<div class="result-value" id="water-result">0</div>
+<div class="result-label">литр/күн</div>
+</div>
+</div>
+<!-- Comparison with Kazakhstan -->
+<div class="comparison-box">
+<strong>🇰🇿 Қазақстанмен салыстыру:</strong>
+<div style="margin-top: 10px;">
+<span>Сіздің көрсеткішіңіз: </span><strong id="userFootprint" style="color: var(--primary);">--</strong> gha<br>
+<span>ҚР орташа көрсеткіші: </span><strong class="kz-avg">9.731</strong> gha<br>
+<span id="comparisonResult" style="font-weight: 600;"></span>
+</div>
+</div>
+<!-- Food Comparison Chart -->
+<div class="food-comparison">
+<h4>🍽️ Тамақ тұтынуыңызды ҚР орташа деңгейімен салыстыру</h4>
+<div id="foodComparisonChart"></div>
+</div>
+<!-- Utility Costs -->
+<div id="utility-costs" style="display: none; margin-top: 20px;">
+<h4 style="color: var(--secondary); margin-bottom: 15px;">💰 Коммуналдық шығындар (Астана)</h4>
+<div class="cards-grid">
+<div class="card">
+<div class="card-header">
+<span>🗑️</span>
+<h3>ТБО</h3>
+</div>
+<div class="result-value" id="costTbo">0</div>
+<div class="result-label">₸/ай</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>💧</span>
+<h3>Су</h3>
+</div>
+<div class="result-value" id="costWater">0</div>
+<div class="result-label">₸/ай</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>⚡</span>
+<h3>Электр</h3>
+</div>
+<div class="result-value" id="costElectricity">0</div>
+<div class="result-label">₸/ай</div>
+</div>
+</div>
+<div style="background: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 12px; margin: 15px 0;">
+<strong style="color: var(--warning);">📊 Барлығы:</strong>
+<span style="color: var(--primary); font-size: 1.5rem; margin-left: 10px;" id="costTotal">0</span>
+<span style="opacity: 0.7;">₸/ай</span>
+</div>
+</div>
+<!-- AI Advisor -->
+<div class="ai-assistant" style="background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.2)); border: 2px solid var(--accent); border-radius: 16px; padding: 20px; margin: 20px 0;">
+<h4 style="color: var(--accent); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+🤖 AI-эко кеңесші
+</h4>
+<div id="aiTips"></div>
+</div>
+<!-- Scientific Recommendations -->
+<div class="recommendations-container" id="recommendations">
+<h4>🎓 Ғылыми негізделген ұсыныстар</h4>
+<div id="recommendations-content"></div>
+</div>
+<div class="result-actions">
+<button class="nav-btn" onclick="restartCalculator()">🔄 Қайта бастау</button>
+<button class="nav-btn primary" onclick="savePDF()">📄 PDF Сақтау</button>
+<button class="nav-btn" onclick="shareResults()">🔗 Бөлісу</button>
+</div>
+</div>
+</div>
+</section>
 
-        <!-- Calculator Section -->
-        <section id="calculator">
-            <h2 class="section-title">🧮 Кешенді экологиялық калькулятор</h2>
-            <div class="calculator-section">
-                <div class="calc-tabs">
-                    <button class="calc-tab active" onclick="switchCalcTab('eco')">🌱 Экологиялық із</button>
-                    <button class="calc-tab" onclick="switchCalcTab('water')">💧 Су ізін есептеу</button>
-                </div>
+<!-- Contact Section -->
+<section id="contact" class="contact-section">
+<h2 class="section-title">📧 Кері байланыс</h2>
+<div class="contact-form">
+<div class="form-group">
+<label for="contactName">Аты-жөніңіз *</label>
+<input type="text" id="contactName" required placeholder="Атыңызды енгізіңіз">
+</div>
+<div class="form-group">
+<label for="contactEmail">Электронды пошта *</label>
+<input type="email" id="contactEmail" required placeholder="email@example.com">
+</div>
+<div class="form-group">
+<label for="contactPhone">Телефон нөмірі</label>
+<input type="tel" id="contactPhone" placeholder="+7 (___) ___-__-__">
+</div>
+<div class="form-group">
+<label for="contactMessage">Хабарламаңыз *</label>
+<textarea id="contactMessage" required placeholder="Сұрағыңыз немесе ұсынысыңыз..."></textarea>
+</div>
+<button type="button" class="submit-btn" onclick="sendFeedback()">📩 Хат жіберу</button>
+<div class="contact-info">
+<h4 style="color: var(--secondary); margin-bottom: 10px;">📞 Байланыс ақпараты:</h4>
+<p><strong>📱 Телефон:</strong> <a href="tel:+77781969746" style="color: var(--primary);">8 (778) 196-97-46</a></p>
+<p><strong>📧 Email:</strong> <a href="mailto:hakimbakytbek@54sl.edu.kz" style="color: var(--primary);">hakimbakytbek@54sl.edu.kz</a></p>
+<p><strong>🏫 Мекенжай:</strong> Астана қ., №54 мектеп-лицей (А. Сейдімбек атындағы)</p>
+</div>
+</div>
+</section>
 
-                <!-- Ecological Footprint Calculator -->
-                <div id="eco-calc" class="calc-content active">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="eco-progress" style="width: 0%"></div>
-                    </div>
-                    <div id="eco-questions"></div>
-                </div>
+<!-- Monitoring -->
+<section id="monitoring">
+<h2 class="section-title">📊 Астана аудандары бойынша мониторинг</h2>
+<div class="cards-grid">
+<div class="card">
+<div class="card-header">
+<span>🌬️</span>
+<h3>Орташа AQI</h3>
+</div>
+<div class="stat-value" id="avgAqi">--</div>
+<div class="stat-label">Air Quality Index</div>
+<div class="stat-unit" id="aqiStatus">Деректер күтілуде...</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>📍</span>
+<h3>Аудандар саны</h3>
+</div>
+<div class="stat-value">6</div>
+<div class="stat-label">Алматы, Есіл, Сарыарқа...</div>
+<div class="stat-unit">Астана қ.</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>🌳</span>
+<h3>Жасыл желек</h3>
+</div>
+<div class="stat-value">18%</div>
+<div class="stat-label">Қала аумағы</div>
+<div class="stat-unit">Көгалдандыру</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>💧</span>
+<h3>Су сапасы</h3>
+</div>
+<div class="stat-value">85%</div>
+<div class="stat-label">Тазарту деңгейі</div>
+<div class="stat-unit">Астана Су Арнасы</div>
+</div>
+</div>
+<div class="map-section">
+<div class="map-header">
+<h3>🗺️ Астана қаласының ауа сапасы картасы</h3>
+<button class="nav-btn" id="geoBtn" onclick="getUserLocation()">📍 Менің орнымды табу</button>
+</div>
+<div class="map-container">
+<iframe class="map-iframe" src="https://aqicn.org/map/astana/" title="Astana Air Quality Map" loading="lazy"></iframe>
+</div>
+<p style="text-align: center; opacity: 0.7; margin-top: 10px; font-size: 0.9rem;">
+🌐 Деректер көзі: <a href="https://waqi.info" target="_blank" style="color: var(--secondary);">WAQI.info</a>
+</p>
+</div>
+<div class="map-section" style="margin-top: 25px;">
+<div class="map-header">
+<h3>🌊 Қазгидромет - Су ресурстары картасы</h3>
+<a href="http://ecodata.kz:3838/app_dem_water_visual/" target="_blank" class="nav-btn">Толық нұсқасы ↗</a>
+</div>
+<div class="map-container">
+<iframe class="map-iframe" src="http://ecodata.kz:3838/app_dem_water_visual/" title="Kazhydromet" loading="lazy"></iframe>
+</div>
+<p style="opacity: 0.7; margin-top: 10px; font-size: 0.9rem;">
+💡 Ескерту: Бұл Қазгидрометтің ресми су ресурстары мониторингі картасы.
+</p>
+</div>
+</section>
 
-                <!-- Water Footprint Calculator -->
-                <div id="water-calc" class="calc-content">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="water-progress" style="width: 0%"></div>
-                    </div>
-                    <div id="water-questions"></div>
-                </div>
+<!-- Organizations -->
+<section id="organizations">
+<h2 class="section-title">🌐 Халықаралық ұйымдар</h2>
+<div class="org-grid">
+<a href="https://www.footprintnetwork.org" target="_blank" class="org-card">
+<span class="org-icon">🌐</span>
+<span class="org-name">Global Footprint Network</span>
+<span class="org-desc">Экологиялық ізді есептеудің әлемдік стандарттары</span>
+</a>
+<a href="https://www.waterfootprint.org" target="_blank" class="org-card">
+<span class="org-icon">💧</span>
+<span class="org-name">Water Footprint Network</span>
+<span class="org-desc">Су ізін есептеу бойынша халықаралық әдістеме</span>
+</a>
+<a href="https://www.unwater.org" target="_blank" class="org-card">
+<span class="org-icon">🌊</span>
+<span class="org-name">UN Water</span>
+<span class="org-desc">БҰҰ Су ресурстары бағдарламасы</span>
+</a>
+<a href="https://www.ipcc.ch" target="_blank" class="org-card">
+<span class="org-icon">🌡️</span>
+<span class="org-name">IPCC Reports</span>
+<span class="org-desc">Климат өзгеруі бойынша сараптама</span>
+</a>
+</div>
+</section>
 
-                <!-- Results Section -->
-                <div id="calc-results" class="results-section">
-                    <h3>📊 Сіздің нәтижелеріңіз</h3>
-                    
-                    <!-- Planet Visual -->
-                    <div class="planet-visual" id="planetVisual">🌍</div>
-                    
-                    <!-- Overshoot Day -->
-                    <div class="overshoot-day">
-                        <h4 style="margin-bottom: 10px;">📅 Жеке экологиялық қарыз күніңіз</h4>
-                        <div class="date" id="overshootDay">--</div>
-                        <p style="margin-top: 10px; opacity: 0.9;">Егер барлық адам сіз сияқты өмір сүрсе, Жер ресурстары осы күні таусылады</p>
-                    </div>
+<!-- About -->
+<section id="about">
+<h2 class="section-title">🎓 Жоба туралы</h2>
+<div class="info-grid">
+<div class="info-card">
+<span class="info-icon">🏫</span>
+<div class="info-content">
+<h4>№54 мектеп-лицейі</h4>
+<p>А. Сейдімбек атындағы мектеп-лицей, Астана қаласы</p>
+</div>
+</div>
+<div class="info-card">
+<span class="info-icon">🏆</span>
+<div class="info-content">
+<h4>Ұлттық жүлде</h4>
+<p>III орын, Педагогикалық идеялар фестивалі 2026</p>
+</div>
+</div>
+<div class="info-card">
+<span class="info-icon">🇰🇿</span>
+<div class="info-content">
+<h4>Қазақстанға арналған</h4>
+<p>Нақты деректер, жергілікті тарифтер, ұлттық диета</p>
+</div>
+</div>
+</div>
+<div class="card" style="margin-top: 20px;">
+<div class="card-header">
+<span>📍</span>
+<h3>Байланыс</h3>
+</div>
+<p><strong>Мекенжай:</strong> Астана қаласы, №54 мектеп-лицей (А. Сейдімбек атындағы)</p>
+<p><strong>Мақсат:</strong> Оқушыларға экологиялық сауаттылықты және су ресурстарын үнемдеуді үйрету</p>
+<p><strong>💡 Инновация:</strong> Заманауи 3D визуализация, ҚР Статистика деректері, ғылыми негізделген кеңестер</p>
+</div>
+</section>
+</div>
 
-                    <div class="cards-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <span>🌍</span>
-                                <h3>Экологиялық із</h3>
-                            </div>
-                            <div class="result-value" id="eco-result">0</div>
-                            <div class="result-label">планета қажет</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <span>💧</span>
-                                <h3>Су тұтыну</h3>
-                            </div>
-                            <div class="result-value" id="water-result">0</div>
-                            <div class="result-label">литр/күн</div>
-                        </div>
-                    </div>
+<footer>
+<p>🏫 №54 мектеп-лицейі, Астана | 🌱 Экологиялық білім беру жобасы</p>
+<p style="margin-top: 8px;">Дереккөздер: <a href="https://stat.gov.kz" target="_blank">ҚР Статистика бюросы</a> | <a href="https://waqi.info" target="_blank">WAQI</a> | <a href="http://ecodata.kz:3838/app_dem_water_visual/" target="_blank">Қазгидромет</a></p>
+<p style="margin-top: 8px;">
+<span id="serverStatus" style="color: var(--primary);">🟢 Жүйе жұмыс істейді</span>
+<span id="lastUpdate" style="margin-left: 15px; opacity: 0.7;">🕐 Жаңартылды: --:--</span>
+</p>
+</footer>
 
-                    <!-- Comparison with Kazakhstan -->
-                    <div class="comparison-box">
-                        <strong>🇰🇿 Қазақстанмен салыстыру:</strong>
-                        <div style="margin-top: 10px;">
-                            <span>Сіздің көрсеткішіңіз: </span><strong id="userFootprint" style="color: var(--primary);">--</strong> gha<br>
-                            <span>ҚР орташа көрсеткіші: </span><strong class="kz-avg">9.731</strong> gha<br>
-                            <span id="comparisonResult" style="font-weight: 600;"></span>
-                        </div>
-                    </div>
+<script>
+// ==================== CONFIG ====================
+let currentCalc = 'eco', ecoStep = 1, waterStep = 1;
+let ecoAnswers = [], waterAnswers = [];
+let ecoScore = 0, waterScore = 0;
+let currentRegion = 'astana';
 
-                    <!-- Food Comparison Chart -->
-                    <div class="food-comparison">
-                        <h4>🍽️ Тамақ тұтынуыңызды ҚР орташа деңгейімен салыстыру</h4>
-                        <div id="foodComparisonChart"></div>
-                    </div>
+// Kazakh months
+const kazakhMonths = ['қаңтар', 'ақпан', 'наурыз', 'сәуір', 'мамыр', 'маусым', 'шілде', 'тамыз', 'қыркүйек', 'қазан', 'қараша', 'желтоқсан'];
 
-                    <!-- Utility Costs -->
-                    <div id="utility-costs" style="display: none; margin-top: 20px;">
-                        <h4 style="color: var(--secondary); margin-bottom: 15px;">💰 Коммуналдық шығындар (Астана)</h4>
-                        <div class="cards-grid">
-                            <div class="card">
-                                <div class="card-header">
-                                    <span>🗑️</span>
-                                    <h3>ТБО</h3>
-                                </div>
-                                <div class="result-value" id="costTbo">0</div>
-                                <div class="result-label">₸/ай</div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <span>💧</span>
-                                    <h3>Су</h3>
-                                </div>
-                                <div class="result-value" id="costWater">0</div>
-                                <div class="result-label">₸/ай</div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <span>⚡</span>
-                                    <h3>Электр</h3>
-                                </div>
-                                <div class="result-value" id="costElectricity">0</div>
-                                <div class="result-label">₸/ай</div>
-                            </div>
-                        </div>
-                        <div style="background: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 12px; margin: 15px 0;">
-                            <strong style="color: var(--warning);">📊 Барлығы:</strong>
-                            <span style="color: var(--primary); font-size: 1.5rem; margin-left: 10px;" id="costTotal">0</span>
-                            <span style="opacity: 0.7;">₸/ай</span>
-                        </div>
-                    </div>
+// Kazakhstan regional coefficients
+const REGION_COEFFICIENTS = {
+astana: { electricityCarbon: 0.85, heatingCarbon: 0.65, name: 'Астана' },
+almaty: { electricityCarbon: 0.75, heatingCarbon: 0.55, name: 'Алматы' },
+north: { electricityCarbon: 0.95, heatingCarbon: 0.85, name: 'Солтүстік (көмір)' },
+west: { electricityCarbon: 0.65, heatingCarbon: 0.45, name: 'Батыс (газ)' },
+south: { electricityCarbon: 0.70, heatingCarbon: 0.50, name: 'Оңтүстік (аралас)' }
+};
 
-                    <!-- AI Advisor -->
-                    <div class="ai-assistant" style="background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.2)); border: 2px solid var(--accent); border-radius: 16px; padding: 20px; margin: 20px 0;">
-                        <h4 style="color: var(--accent); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                            🤖 AI-эко кеңесші
-                        </h4>
-                        <div id="aiTips"></div>
-                    </div>
+// Kazakhstan Food Statistics (from stat.gov.kz)
+const KZ_FOOD_STATS = {
+beef: { yearly: 6.3, monthly: 0.53, carbon: 27.0, label: 'Сиыр еті' },
+horse: { yearly: 1.8, monthly: 0.15, carbon: 22.0, label: 'Жылқы еті 🐴' },
+mutton: { yearly: 2.1, monthly: 0.18, carbon: 24.0, label: 'Қой еті' },
+chicken: { yearly: 8.5, monthly: 0.71, carbon: 6.0, label: 'Тауық еті' },
+milk: { yearly: 280, monthly: 23.3, carbon: 1.2, label: 'Сүт өнімдері' },
+potatoes: { yearly: 90, monthly: 7.5, carbon: 0.3, label: 'Картоп' },
+vegetables: { yearly: 75, monthly: 6.3, carbon: 0.4, label: 'Көкөністер' },
+bread: { yearly: 130, monthly: 10.8, carbon: 0.9, label: 'Нан өнімдері' }
+};
 
-                    <!-- Scientific Recommendations -->
-                    <div class="recommendations-container" id="recommendations">
-                        <h4>🎓 Ғылыми негізделген ұсыныстар</h4>
-                        <div id="recommendations-content"></div>
-                    </div>
+// Global and Kazakhstan indicators
+const GLOBAL_AVG_ECO = 2.7;
+const KZ_AVG_ECO = 9.731;
+const GLOBAL_BIOCAPACITY = 1.6;
 
-                    <div class="result-actions">
-                        <button class="nav-btn" onclick="restartCalculator()">🔄 Қайта бастау</button>
-                        <button class="nav-btn primary" onclick="savePDF()">📄 PDF Сақтау</button>
-                        <button class="nav-btn" onclick="shareResults()">🔗 Бөлісу</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+// Tariffs (Astana, 2025)
+const TARIFFS = {
+tbo: 637,
+water: 97,
+wastewater: 100,
+electricity: 22.68
+};
 
-        <!-- Contact Section -->
-        <section id="contact" class="contact-section">
-            <h2 class="section-title">📧 Кері байланыс</h2>
-            <div class="contact-form">
-                <div class="form-group">
-                    <label for="contactName">Аты-жөніңіз *</label>
-                    <input type="text" id="contactName" required placeholder="Атыңызды енгізіңіз">
-                </div>
-                <div class="form-group">
-                    <label for="contactEmail">Электронды пошта *</label>
-                    <input type="email" id="contactEmail" required placeholder="email@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="contactPhone">Телефон нөмірі</label>
-                    <input type="tel" id="contactPhone" placeholder="+7 (___) ___-__-__">
-                </div>
-                <div class="form-group">
-                    <label for="contactMessage">Хабарламаңыз *</label>
-                    <textarea id="contactMessage" required placeholder="Сұрағыңыз немесе ұсынысыңыз..."></textarea>
-                </div>
-                <button type="button" class="submit-btn" onclick="sendFeedback()">📩 Хат жіберу</button>
-                
-                <div class="contact-info">
-                    <h4 style="color: var(--secondary); margin-bottom: 10px;">📞 Байланыс ақпараты:</h4>
-                    <p><strong>📱 Телефон:</strong> <a href="tel:+77781969746" style="color: var(--primary);">8 (778) 196-97-46</a></p>
-                    <p><strong>📧 Email:</strong> <a href="mailto:hakimbakytbek@54sl.edu.kz" style="color: var(--primary);">hakimbakytbek@54sl.edu.kz</a></p>
-                    <p><strong>🏫 Мекенжай:</strong> Астана қ., №54 мектеп-лицей (А. Сейдімбек атындағы)</p>
-                </div>
-            </div>
-        </section>
+// Eco questions
+const ecoQuestions = [
+{ q: "1/6 - Тұрғын үй түрі?", hint: "Жылыту жүйесі экологиялық ізге әсер етеді", options: [
+{ text: "🏢 Пәтер (орталық жылу)", score: 'apartment' },
+{ text: "🏠 Жеке үй (көмір)", score: 'house_coal' },
+{ text: "🏠 Жеке үй (газ)", score: 'house_gas' },
+{ text: "🏠 Жеке үй (электр)", score: 'house_electric' }
+]},
+{ q: "2/6 - Айлық электр тұтынуы?", hint: "Шотыңыздан немесе есептегіштен қараңыз", type: 'input', inputType: 'number', inputId: 'electricityInput', placeholder: 'Мысалы: 150', min: 0, max: 2000 },
+{ q: "3/6 - Көлік пайдалану?", hint: "Жанармай шығыны немесе жүріс", options: [
+{ text: "🚶 Жаяу/велосипед/қоғамдық көлік", score: 'none' },
+{ text: "🚗 Жеңіл авто (кіші)", score: 'car_small' },
+{ text: "🚙 Жеңіл авто (орта)", score: 'car_medium' },
+{ text: "🚘 Жеңіл авто (үлкен)", score: 'car_large' }
+], hasInput: true, inputId: 'fuelLiters', inputPlaceholder: 'Мысалы: 60' },
+{ q: "4/6 - Ет өнімдерін тұтыну (кг/ай)?", hint: "🇰 ҚР Статистика бюросы деректерімен салыстыру", type: 'multi-input', inputs: [
+{ label: 'Сиыр еті', sublabel: '(ҚР орташа: 0.53 кг/ай)', id: 'beefInput', placeholder: '0.5', min: 0, max: 20, step: 0.1 },
+{ label: 'Жылқы еті 🐴', sublabel: '(ҚР орташа: 0.15 кг/ай)', id: 'horseInput', placeholder: '0.15', min: 0, max: 10, step: 0.1 },
+{ label: 'Қой еті', sublabel: '(ҚР орташа: 0.18 кг/ай)', id: 'muttonInput', placeholder: '0.18', min: 0, max: 10, step: 0.1 },
+{ label: 'Тауық еті', sublabel: '(ҚР орташа: 0.71 кг/ай)', id: 'chickenInput', placeholder: '0.71', min: 0, max: 20, step: 0.1 }
+]},
+{ q: "5/6 - Сүт және көкөністер (кг/ай)?", hint: "🇰🇿 Ұлттық орташамен салыстыру", type: 'multi-input', inputs: [
+{ label: 'Сүт өнімдері (литр/ай)', sublabel: '(ҚР: ~23 л/ай)', id: 'milkInput', placeholder: '23', min: 0, max: 100, step: 0.1 },
+{ label: 'Картоп (кг/ай)', sublabel: '(ҚР: ~7.5 кг/ай)', id: 'potatoInput', placeholder: '7.5', min: 0, max: 50, step: 0.1 },
+{ label: 'Көкөністер (кг/ай)', sublabel: '(ҚР: ~6.3 кг/ай)', id: 'vegetableInput', placeholder: '6.3', min: 0, max: 30, step: 0.1 }
+]},
+{ q: "6/6 - Есептеуді аяқтау?", hint: "Барлық деректер тек браузерде өңделеді", type: 'final', content: '<p style="margin-bottom: 15px;">✅ Барлық сұрақтарға жауап бердіңіз</p><p style="opacity: 0.8; font-size: 0.9rem;">🔒 Деректеріңіз ешқайда жіберілмейді</p>' }
+];
 
-        <!-- Monitoring -->
-        <section id="monitoring">
-            <h2 class="section-title">📊 Астана аудандары бойынша мониторинг</h2>
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-header">
-                        <span>🌬️</span>
-                        <h3>Орташа AQI</h3>
-                    </div>
-                    <div class="stat-value" id="avgAqi">--</div>
-                    <div class="stat-label">Air Quality Index</div>
-                    <div class="stat-unit" id="aqiStatus">Деректер күтілуде...</div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <span>📍</span>
-                        <h3>Аудандар саны</h3>
-                    </div>
-                    <div class="stat-value">6</div>
-                    <div class="stat-label">Алматы, Есіл, Сарыарқа...</div>
-                    <div class="stat-unit">Астана қ.</div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <span>🌳</span>
-                        <h3>Жасыл желек</h3>
-                    </div>
-                    <div class="stat-value">18%</div>
-                    <div class="stat-label">Қала аумағы</div>
-                    <div class="stat-unit">Көгалдандыру</div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <span>💧</span>
-                        <h3>Су сапасы</h3>
-                    </div>
-                    <div class="stat-value">85%</div>
-                    <div class="stat-label">Тазарту деңгейі</div>
-                    <div class="stat-unit">Астана Су Арнасы</div>
-                </div>
-            </div>
-            <div class="map-section">
-                <div class="map-header">
-                    <h3>🗺️ Астана қаласының ауа сапасы картасы</h3>
-                    <button class="nav-btn" id="geoBtn" onclick="getUserLocation()">📍 Менің орнымды табу</button>
-                </div>
-                <div class="map-container">
-                    <iframe class="map-iframe" src="https://aqicn.org/map/astana/" title="Astana Air Quality Map" loading="lazy"></iframe>
-                </div>
-                <p style="text-align: center; opacity: 0.7; margin-top: 10px; font-size: 0.9rem;">
-                    🌐 Деректер көзі: <a href="https://waqi.info" target="_blank" style="color: var(--secondary);">WAQI.info</a>
-                </p>
-            </div>
-            <div class="map-section" style="margin-top: 25px;">
-                <div class="map-header">
-                    <h3>🌊 Қазгидромет - Су ресурстары картасы</h3>
-                    <a href="http://ecodata.kz:3838/app_dem_water_visual/" target="_blank" class="nav-btn">Толық нұсқасы ↗</a>
-                </div>
-                <div class="map-container">
-                    <iframe class="map-iframe" src="http://ecodata.kz:3838/app_dem_water_visual/" title="Kazhydromet" loading="lazy"></iframe>
-                </div>
-                <p style="opacity: 0.7; margin-top: 10px; font-size: 0.9rem;">
-                    💡 Ескерту: Бұл Қазгидрометтің ресми су ресурстары мониторингі картасы.
-                </p>
-            </div>
-        </section>
+// Water questions
+const waterQuestions = [
+{ q: "1/4 - Күнделікті душ қабылдау уақыты?", options: [
+{ text: "20+ минут", score: 150 },
+{ text: "10-15 минут", score: 100 },
+{ text: "5-10 минут", score: 50 },
+{ text: "5 минуттан аз", score: 25 }
+]},
+{ q: "2/4 - Ыдыс жуу қалай жүзеге асады?", options: [
+{ text: "Ағын сумен", score: 100 },
+{ text: "Ыдыс жуғыш машина", score: 50 },
+{ text: "Жуынтықта жуамын", score: 30 },
+{ text: "Үнемді режим", score: 20 }
+]},
+{ q: "3/4 - Бақша/гүл суару?", options: [
+{ text: "Күн сайын", score: 80 },
+{ text: "Аптада 3-4 рет", score: 50 },
+{ text: "Аптада 1-2 рет", score: 20 },
+{ text: "Суармаймын", score: 0 }
+]},
+{ q: "4/4 - Су ағып кетуін тексересіз бе?", options: [
+{ text: "Мүлдем", score: 50 },
+{ text: "Сирек", score: 30 },
+{ text: "Жиі", score: 10 },
+{ text: "Әрқашан", score: 0 }
+]}
+];
 
-        <!-- Organizations -->
-        <section id="organizations">
-            <h2 class="section-title">🌐 Халықаралық ұйымдар</h2>
-            <div class="org-grid">
-                <a href="https://www.footprintnetwork.org" target="_blank" class="org-card">
-                    <span class="org-icon">🌐</span>
-                    <span class="org-name">Global Footprint Network</span>
-                    <span class="org-desc">Экологиялық ізді есептеудің әлемдік стандарттары</span>
-                </a>
-                <a href="https://www.waterfootprint.org" target="_blank" class="org-card">
-                    <span class="org-icon">💧</span>
-                    <span class="org-name">Water Footprint Network</span>
-                    <span class="org-desc">Су ізін есептеу бойынша халықаралық әдістеме</span>
-                </a>
-                <a href="https://www.unwater.org" target="_blank" class="org-card">
-                    <span class="org-icon">🌊</span>
-                    <span class="org-name">UN Water</span>
-                    <span class="org-desc">БҰҰ Су ресурстары бағдарламасы</span>
-                </a>
-                <a href="https://www.ipcc.ch" target="_blank" class="org-card">
-                    <span class="org-icon">🌡️</span>
-                    <span class="org-name">IPCC Reports</span>
-                    <span class="org-desc">Климат өзгеруі бойынша сараптама</span>
-                </a>
-            </div>
-        </section>
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', () => {
+loadEcoQuestions();
+loadWaterQuestions();
+fetchAllStations();
+setInterval(fetchAllStations, 300000);
+updateTime();
+setInterval(updateTime, 60000);
+});
 
-        <!-- About -->
-        <section id="about">
-            <h2 class="section-title">🎓 Жоба туралы</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <span class="info-icon">🏫</span>
-                    <div class="info-content">
-                        <h4>№54 мектеп-лицейі</h4>
-                        <p>А. Сейдімбек атындағы мектеп-лицей, Астана қаласы</p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <span class="info-icon">🏆</span>
-                    <div class="info-content">
-                        <h4>Ұлттық жүлде</h4>
-                        <p>III орын, Педагогикалық идеялар фестивалі 2026</p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <span class="info-icon">🇰🇿</span>
-                    <div class="info-content">
-                        <h4>Қазақстанға арналған</h4>
-                        <p>Нақты деректер, жергілікті тарифтер, ұлттық диета</p>
-                    </div>
-                </div>
-            </div>
-            <div class="card" style="margin-top: 20px;">
-                <div class="card-header">
-                    <span>📍</span>
-                    <h3>Байланыс</h3>
-                </div>
-                <p><strong>Мекенжай:</strong> Астана қаласы, №54 мектеп-лицей (А. Сейдімбек атындағы)</p>
-                <p><strong>Мақсат:</strong> Оқушыларға экологиялық сауаттылықты және су ресурстарын үнемдеуді үйрету</p>
-                <p><strong>💡 Инновация:</strong> Заманауи 3D визуализация, ҚР Статистика деректері, ғылыми негізделген кеңестер</p>
-            </div>
-        </section>
-    </div>
+function updateTime() {
+const now = new Date();
+document.getElementById('lastUpdate').textContent = '🕐 Жаңартылды: ' + now.toLocaleTimeString('kk-KZ');
+}
 
-    <footer>
-        <p>🏫 №54 мектеп-лицейі, Астана | 🌱 Экологиялық білім беру жобасы</p>
-        <p style="margin-top: 8px;">Дереккөздер: <a href="https://stat.gov.kz" target="_blank">ҚР Статистика бюросы</a> | <a href="https://waqi.info" target="_blank">WAQI</a> | <a href="http://ecodata.kz:3838/app_dem_water_visual/" target="_blank">Қазгидромет</a></p>
-        <p style="margin-top: 8px;">
-            <span id="serverStatus" style="color: var(--primary);">🟢 Жүйе жұмыс істейді</span>
-            <span id="lastUpdate" style="margin-left: 15px; opacity: 0.7;">🕐 Жаңартылды: --:--</span>
-        </p>
-    </footer>
+// ==================== CALCULATOR FUNCTIONS ====================
+function switchCalcTab(tab) {
+currentCalc = tab;
+document.querySelectorAll('.calc-tab').forEach(b => b.classList.remove('active'));
+document.querySelectorAll('.calc-content').forEach(c => c.classList.remove('active'));
+if (tab === 'eco') {
+document.querySelector('.calc-tab:nth-child(1)').classList.add('active');
+document.getElementById('eco-calc').classList.add('active');
+} else {
+document.querySelector('.calc-tab:nth-child(2)').classList.add('active');
+document.getElementById('water-calc').classList.add('active');
+}
+}
 
-    <script>
-        // ==================== CONFIG ====================
-        let currentCalc = 'eco', ecoStep = 1, waterStep = 1;
-        let ecoAnswers = [], waterAnswers = [];
-        let ecoScore = 0, waterScore = 0;
-        let currentRegion = 'astana';
+function loadEcoQuestions() {
+const c = document.getElementById('eco-questions');
+c.innerHTML = ecoQuestions.map((q, i) => {
+let content = '';
+if (q.type === 'input') {
+content = `
+<div class="input-group">
+<label>${q.hint}</label>
+<input type="${q.inputType}" id="${q.inputId}" placeholder="${q.placeholder}" min="${q.min}" max="${q.max}">
+</div>
+`;
+} else if (q.type === 'multi-input') {
+content = q.inputs.map(input => `
+<div class="input-group">
+<label>${input.label} <small style="opacity: 0.7">${input.sublabel}</small></label>
+<input type="number" id="${input.id}" placeholder="${input.placeholder}" min="${input.min}" max="${input.max}" step="${input.step}">
+</div>
+`).join('');
+} else if (q.type === 'final') {
+content = `<div style="text-align: center; padding: 20px;">${q.content}</div>`;
+} else {
+content = `
+<div class="options">
+${q.options.map((opt, j) => `<button class="option-btn" onclick="selectEcoOption(${i}, ${j}, '${opt.score}')">${opt.text}</button>`).join('')}
+</div>
+${q.hasInput ? `
+<div class="input-group" id="fuelInput" style="display: none;">
+<label>Айлық жанармай шығыны (литр)</label>
+<input type="number" id="${q.inputId}" placeholder="${q.inputPlaceholder}" min="0" max="500">
+</div>
+` : ''}
+`;
+}
+return `
+<div class="question-container" id="eco-q${i}" style="display: ${i === 0 ? 'block' : 'none'}">
+<div class="question-text">${q.q}</div>
+${q.hint && q.type !== 'input' && q.type !== 'multi-input' && q.type !== 'final' ? `<div class="question-hint">${q.hint}</div>` : ''}
+${content}
+<div class="calc-navigation">
+<button class="nav-btn" ${i === 0 ? 'disabled' : ''} onclick="prevEcoQuestion(${i})">← Артқа</button>
+<button class="nav-btn primary" onclick="nextEcoQuestion(${i})">${i === ecoQuestions.length - 1 ? '🎯 Нәтижені көру' : 'Келесі →'}</button>
+</div>
+</div>
+`;
+}).join('');
+}
 
-        // Kazakh months
-        const kazakhMonths = ['қаңтар', 'ақпан', 'наурыз', 'сәуір', 'мамыр', 'маусым', 'шілде', 'тамыз', 'қыркүйек', 'қазан', 'қараша', 'желтоқсан'];
+function loadWaterQuestions() {
+const c = document.getElementById('water-questions');
+c.innerHTML = waterQuestions.map((q, i) => `
+<div class="question-container" id="water-q${i}" style="display: ${i === 0 ? 'block' : 'none'}">
+<div class="question-text">${q.q}</div>
+<div class="options">
+${q.options.map((opt, j) => `<button class="option-btn" onclick="selectWaterOption(${i}, ${j}, ${opt.score})">${opt.text}</button>`).join('')}
+</div>
+<div class="calc-navigation">
+<button class="nav-btn" ${i === 0 ? 'disabled' : ''} onclick="prevWaterQuestion(${i})">← Артқа</button>
+<button class="nav-btn primary" onclick="nextWaterQuestion(${i})">Келесі →</button>
+</div>
+</div>
+`).join('');
+}
 
-        // Kazakhstan regional coefficients
-        const REGION_COEFFICIENTS = {
-            astana: { electricityCarbon: 0.85, heatingCarbon: 0.65, name: 'Астана' },
-            almaty: { electricityCarbon: 0.75, heatingCarbon: 0.55, name: 'Алматы' },
-            north: { electricityCarbon: 0.95, heatingCarbon: 0.85, name: 'Солтүстік (көмір)' },
-            west: { electricityCarbon: 0.65, heatingCarbon: 0.45, name: 'Батыс (газ)' },
-            south: { electricityCarbon: 0.70, heatingCarbon: 0.50, name: 'Оңтүстік (аралас)' }
-        };
+function selectEcoOption(qIndex, optIndex, score) {
+document.querySelectorAll(`#eco-q${qIndex} .option-btn`).forEach((btn, i) => {
+btn.classList.toggle('selected', i === optIndex);
+});
+ecoAnswers[qIndex] = score;
+// Show/hide fuel input for car question
+if (qIndex === 2) {
+const fuelInput = document.getElementById('fuelInput');
+if (fuelInput) {
+fuelInput.style.display = score !== 'none' ? 'block' : 'none';
+}
+}
+}
 
-        // Kazakhstan Food Statistics (from stat.gov.kz)
-        const KZ_FOOD_STATS = {
-            beef: { yearly: 6.3, monthly: 0.53, carbon: 27.0, label: 'Сиыр еті' },
-            horse: { yearly: 1.8, monthly: 0.15, carbon: 22.0, label: 'Жылқы еті 🐴' },
-            mutton: { yearly: 2.1, monthly: 0.18, carbon: 24.0, label: 'Қой еті' },
-            chicken: { yearly: 8.5, monthly: 0.71, carbon: 6.0, label: 'Тауық еті' },
-            milk: { yearly: 280, monthly: 23.3, carbon: 1.2, label: 'Сүт өнімдері' },
-            potatoes: { yearly: 90, monthly: 7.5, carbon: 0.3, label: 'Картоп' },
-            vegetables: { yearly: 75, monthly: 6.3, carbon: 0.4, label: 'Көкөністер' },
-            bread: { yearly: 130, monthly: 10.8, carbon: 0.9, label: 'Нан өнімдері' }
-        };
+function selectWaterOption(qIndex, optIndex, score) {
+document.querySelectorAll(`#water-q${qIndex} .option-btn`).forEach((btn, i) => {
+btn.classList.toggle('selected', i === optIndex);
+});
+waterAnswers[qIndex] = score;
+}
 
-        // Global and Kazakhstan indicators
-        const GLOBAL_AVG_ECO = 2.7;
-        const KZ_AVG_ECO = 9.731;
-        const GLOBAL_BIOCAPACITY = 1.6;
+function nextEcoQuestion(current) {
+// Validate current step
+if (current === 1) {
+const kwh = parseFloat(document.getElementById('electricityInput').value) || 0;
+if (kwh < 0 || kwh > 2000) {
+alert('Дұрыс мәнді енгізіңіз (0-2000 кВт·сағ)');
+return;
+}
+ecoAnswers[current] = kwh;
+} else if (current === 2) {
+if (ecoAnswers[current] !== 'none') {
+const liters = parseFloat(document.getElementById('fuelLiters').value) || 0;
+if (liters < 0 || liters > 500) {
+alert('Дұрыс мәнді енгізіңіз (0-500 литр)');
+return;
+}
+ecoAnswers[current + '_fuel'] = liters;
+}
+} else if (current === 3) {
+ecoAnswers[current + '_beef'] = parseFloat(document.getElementById('beefInput').value) || 0;
+ecoAnswers[current + '_horse'] = parseFloat(document.getElementById('horseInput').value) || 0;
+ecoAnswers[current + '_mutton'] = parseFloat(document.getElementById('muttonInput').value) || 0;
+ecoAnswers[current + '_chicken'] = parseFloat(document.getElementById('chickenInput').value) || 0;
+} else if (current === 4) {
+ecoAnswers[current + '_milk'] = parseFloat(document.getElementById('milkInput').value) || 0;
+ecoAnswers[current + '_potato'] = parseFloat(document.getElementById('potatoInput').value) || 0;
+ecoAnswers[current + '_vegetable'] = parseFloat(document.getElementById('vegetableInput').value) || 0;
+} else if (current === 5) {
+calculateResults();
+return;
+}
+if (current < ecoQuestions.length - 1) {
+document.getElementById(`eco-q${current}`).style.display = 'none';
+document.getElementById(`eco-q${current + 1}`).style.display = 'block';
+document.getElementById('eco-progress').style.width = `${((current + 1) / ecoQuestions.length) * 100}%`;
+}
+}
 
-        // Tariffs (Astana, 2025)
-        const TARIFFS = {
-            tbo: 637,
-            water: 97,
-            wastewater: 100,
-            electricity: 22.68
-        };
+function prevEcoQuestion(current) {
+if (current > 0) {
+document.getElementById(`eco-q${current}`).style.display = 'none';
+document.getElementById(`eco-q${current - 1}`).style.display = 'block';
+document.getElementById('eco-progress').style.width = `${(current / ecoQuestions.length) * 100}%`;
+}
+}
 
-        // Eco questions
-        const ecoQuestions = [
-            { q: "1/6 - Тұрғын үй түрі?", hint: "Жылыту жүйесі экологиялық ізге әсер етеді", options: [
-                { text: "🏢 Пәтер (орталық жылу)", score: 'apartment' },
-                { text: "🏠 Жеке үй (көмір)", score: 'house_coal' },
-                { text: "🏠 Жеке үй (газ)", score: 'house_gas' },
-                { text: "🏠 Жеке үй (электр)", score: 'house_electric' }
-            ]},
-            { q: "2/6 - Айлық электр тұтынуы?", hint: "Шотыңыздан немесе есептегіштен қараңыз", type: 'input', inputType: 'number', inputId: 'electricityInput', placeholder: 'Мысалы: 150', min: 0, max: 2000 },
-            { q: "3/6 - Көлік пайдалану?", hint: "Жанармай шығыны немесе жүріс", options: [
-                { text: "🚶 Жаяу/велосипед/қоғамдық көлік", score: 'none' },
-                { text: "🚗 Жеңіл авто (кіші)", score: 'car_small' },
-                { text: "🚙 Жеңіл авто (орта)", score: 'car_medium' },
-                { text: "🚘 Жеңіл авто (үлкен)", score: 'car_large' }
-            ], hasInput: true, inputId: 'fuelLiters', inputPlaceholder: 'Мысалы: 60' },
-            { q: "4/6 - Ет өнімдерін тұтыну (кг/ай)?", hint: "🇰🇿 ҚР Статистика бюросы деректерімен салыстыру", type: 'multi-input', inputs: [
-                { label: 'Сиыр еті', sublabel: '(ҚР орташа: 0.53 кг/ай)', id: 'beefInput', placeholder: '0.5', min: 0, max: 20, step: 0.1 },
-                { label: 'Жылқы еті 🐴', sublabel: '(ҚР орташа: 0.15 кг/ай)', id: 'horseInput', placeholder: '0.15', min: 0, max: 10, step: 0.1 },
-                { label: 'Қой еті', sublabel: '(ҚР орташа: 0.18 кг/ай)', id: 'muttonInput', placeholder: '0.18', min: 0, max: 10, step: 0.1 },
-                { label: 'Тауық еті', sublabel: '(ҚР орташа: 0.71 кг/ай)', id: 'chickenInput', placeholder: '0.71', min: 0, max: 20, step: 0.1 }
-            ]},
-            { q: "5/6 - Сүт және көкөністер (кг/ай)?", hint: "🇰🇿 Ұлттық орташамен салыстыру", type: 'multi-input', inputs: [
-                { label: 'Сүт өнімдері (литр/ай)', sublabel: '(ҚР: ~23 л/ай)', id: 'milkInput', placeholder: '23', min: 0, max: 100, step: 0.1 },
-                { label: 'Картоп (кг/ай)', sublabel: '(ҚР: ~7.5 кг/ай)', id: 'potatoInput', placeholder: '7.5', min: 0, max: 50, step: 0.1 },
-                { label: 'Көкөністер (кг/ай)', sublabel: '(ҚР: ~6.3 кг/ай)', id: 'vegetableInput', placeholder: '6.3', min: 0, max: 30, step: 0.1 }
-            ]},
-            { q: "6/6 - Есептеуді аяқтау?", hint: "Барлық деректер тек браузерде өңделеді", type: 'final', content: '<p style="margin-bottom: 15px;">✅ Барлық сұрақтарға жауап бердіңіз</p><p style="opacity: 0.8; font-size: 0.9rem;">🔒 Деректеріңіз ешқайда жіберілмейді</p>' }
-        ];
+function nextWaterQuestion(current) {
+if (waterAnswers[current] === undefined) {
+alert('Өтінемін, жауап таңдаңыз!');
+return;
+}
+if (current < waterQuestions.length - 1) {
+document.getElementById(`water-q${current}`).style.display = 'none';
+document.getElementById(`water-q${current + 1}`).style.display = 'block';
+document.getElementById('water-progress').style.width = `${((current + 2) / waterQuestions.length) * 100}%`;
+} else {
+calculateResults();
+}
+}
 
-        // Water questions
-        const waterQuestions = [
-            { q: "1/4 - Күнделікті душ қабылдау уақыты?", options: [
-                { text: "20+ минут", score: 150 },
-                { text: "10-15 минут", score: 100 },
-                { text: "5-10 минут", score: 50 },
-                { text: "5 минуттан аз", score: 25 }
-            ]},
-            { q: "2/4 - Ыдыс жуу қалай жүзеге асады?", options: [
-                { text: "Ағын сумен", score: 100 },
-                { text: "Ыдыс жуғыш машина", score: 50 },
-                { text: "Жуынтықта жуамын", score: 30 },
-                { text: "Үнемді режим", score: 20 }
-            ]},
-            { q: "3/4 - Бақша/гүл суару?", options: [
-                { text: "Күн сайын", score: 80 },
-                { text: "Аптада 3-4 рет", score: 50 },
-                { text: "Аптада 1-2 рет", score: 20 },
-                { text: "Суармаймын", score: 0 }
-            ]},
-            { q: "4/4 - Су ағып кетуін тексересіз бе?", options: [
-                { text: "Мүлдем", score: 50 },
-                { text: "Сирек", score: 30 },
-                { text: "Жиі", score: 10 },
-                { text: "Әрқашан", score: 0 }
-            ]}
-        ];
+function prevWaterQuestion(current) {
+if (current > 0) {
+document.getElementById(`water-q${current}`).style.display = 'none';
+document.getElementById(`water-q${current - 1}`).style.display = 'block';
+document.getElementById('water-progress').style.width = `${(current / waterQuestions.length) * 100}%`;
+}
+}
 
-        // ==================== INIT ====================
-        document.addEventListener('DOMContentLoaded', () => {
-            loadEcoQuestions();
-            loadWaterQuestions();
-            fetchAllStations();
-            setInterval(fetchAllStations, 300000);
-            updateTime();
-            setInterval(updateTime, 60000);
-        });
+function calculateResults() {
+const coef = REGION_COEFFICIENTS[currentRegion];
 
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('lastUpdate').textContent = '🕐 Жаңартылды: ' + now.toLocaleTimeString('kk-KZ');
-        }
+// 1. Housing
+let housingEco = {
+'apartment': 1.2,
+'house_coal': 3.5,
+'house_gas': 2.1,
+'house_electric': 2.8
+}[ecoAnswers[0]] || 1.2;
 
-        // ==================== CALCULATOR FUNCTIONS ====================
-        function switchCalcTab(tab) {
-            currentCalc = tab;
-            document.querySelectorAll('.calc-tab').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.calc-content').forEach(c => c.classList.remove('active'));
-            
-            if (tab === 'eco') {
-                document.querySelector('.calc-tab:nth-child(1)').classList.add('active');
-                document.getElementById('eco-calc').classList.add('active');
-            } else {
-                document.querySelector('.calc-tab:nth-child(2)').classList.add('active');
-                document.getElementById('water-calc').classList.add('active');
-            }
-        }
+// 2. Electricity
+const electricityEco = (ecoAnswers[1] || 0) * coef.electricityCarbon * 0.0012;
 
-        function loadEcoQuestions() {
-            const c = document.getElementById('eco-questions');
-            c.innerHTML = ecoQuestions.map((q, i) => {
-                let content = '';
-                
-                if (q.type === 'input') {
-                    content = `
-                        <div class="input-group">
-                            <label>${q.hint}</label>
-                            <input type="${q.inputType}" id="${q.inputId}" placeholder="${q.placeholder}" min="${q.min}" max="${q.max}">
-                        </div>
-                    `;
-                } else if (q.type === 'multi-input') {
-                    content = q.inputs.map(input => `
-                        <div class="input-group">
-                            <label>${input.label} <small style="opacity: 0.7">${input.sublabel}</small></label>
-                            <input type="number" id="${input.id}" placeholder="${input.placeholder}" min="${input.min}" max="${input.max}" step="${input.step}">
-                        </div>
-                    `).join('');
-                } else if (q.type === 'final') {
-                    content = `<div style="text-align: center; padding: 20px;">${q.content}</div>`;
-                } else {
-                    content = `
-                        <div class="options">
-                            ${q.options.map((opt, j) => `<button class="option-btn" onclick="selectEcoOption(${i}, ${j}, '${opt.score}')">${opt.text}</button>`).join('')}
-                        </div>
-                        ${q.hasInput ? `
-                            <div class="input-group" id="fuelInput" style="display: none;">
-                                <label>Айлық жанармай шығыны (литр)</label>
-                                <input type="number" id="${q.inputId}" placeholder="${q.inputPlaceholder}" min="0" max="500">
-                            </div>
-                        ` : ''}
-                    `;
-                }
-                
-                return `
-                    <div class="question-container" id="eco-q${i}" style="display: ${i === 0 ? 'block' : 'none'}">
-                        <div class="question-text">${q.q}</div>
-                        ${q.hint && q.type !== 'input' && q.type !== 'multi-input' && q.type !== 'final' ? `<div class="question-hint">${q.hint}</div>` : ''}
-                        ${content}
-                        <div class="calc-navigation">
-                            <button class="nav-btn" ${i === 0 ? 'disabled' : ''} onclick="prevEcoQuestion(${i})">← Артқа</button>
-                            <button class="nav-btn primary" onclick="nextEcoQuestion(${i})">${i === ecoQuestions.length - 1 ? '🎯 Нәтижені көру' : 'Келесі →'}</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
+// 3. Transport
+let transportEco = 0;
+if (ecoAnswers[2] !== 'none') {
+const fuelFactor = {
+'car_small': 2.3,
+'car_medium': 2.8,
+'car_large': 3.5
+}[ecoAnswers[2]] || 2.8;
+transportEco = (ecoAnswers['2_fuel'] || 0) * fuelFactor * 0.003;
+}
 
-        function loadWaterQuestions() {
-            const c = document.getElementById('water-questions');
-            c.innerHTML = waterQuestions.map((q, i) => `
-                <div class="question-container" id="water-q${i}" style="display: ${i === 0 ? 'block' : 'none'}">
-                    <div class="question-text">${q.q}</div>
-                    <div class="options">
-                        ${q.options.map((opt, j) => `<button class="option-btn" onclick="selectWaterOption(${i}, ${j}, ${opt.score})">${opt.text}</button>`).join('')}
-                    </div>
-                    <div class="calc-navigation">
-                        <button class="nav-btn" ${i === 0 ? 'disabled' : ''} onclick="prevWaterQuestion(${i})">← Артқа</button>
-                        <button class="nav-btn primary" onclick="nextWaterQuestion(${i})">Келесі →</button>
-                    </div>
-                </div>
-            `).join('');
-        }
+// 4. Meat consumption (with Kazakhstan data)
+const meatEco = (
+(ecoAnswers['3_beef'] || 0) * KZ_FOOD_STATS.beef.carbon +
+(ecoAnswers['3_horse'] || 0) * KZ_FOOD_STATS.horse.carbon +
+(ecoAnswers['3_mutton'] || 0) * KZ_FOOD_STATS.mutton.carbon +
+(ecoAnswers['3_chicken'] || 0) * KZ_FOOD_STATS.chicken.carbon
+) * 0.0008 * 12;
 
-        function selectEcoOption(qIndex, optIndex, score) {
-            document.querySelectorAll(`#eco-q${qIndex} .option-btn`).forEach((btn, i) => {
-                btn.classList.toggle('selected', i === optIndex);
-            });
-            ecoAnswers[qIndex] = score;
-            
-            // Show/hide fuel input for car question
-            if (qIndex === 2) {
-                const fuelInput = document.getElementById('fuelInput');
-                if (fuelInput) {
-                    fuelInput.style.display = score !== 'none' ? 'block' : 'none';
-                }
-            }
-        }
+// 5. Dairy and vegetables
+const dairyVegEco = (
+(ecoAnswers['4_milk'] || 0) * KZ_FOOD_STATS.milk.carbon +
+(ecoAnswers['4_potato'] || 0) * KZ_FOOD_STATS.potatoes.carbon +
+(ecoAnswers['4_vegetable'] || 0) * KZ_FOOD_STATS.vegetables.carbon
+) * 0.0008 * 12;
 
-        function selectWaterOption(qIndex, optIndex, score) {
-            document.querySelectorAll(`#water-q${qIndex} .option-btn`).forEach((btn, i) => {
-                btn.classList.toggle('selected', i === optIndex);
-            });
-            waterAnswers[qIndex] = score;
-        }
+// 6. Shopping (Scope 3)
+const shoppingEco = 1.2;
 
-        function nextEcoQuestion(current) {
-            // Validate current step
-            if (current === 1) {
-                const kwh = parseFloat(document.getElementById('electricityInput').value) || 0;
-                if (kwh < 0 || kwh > 2000) {
-                    alert('Дұрыс мәнді енгізіңіз (0-2000 кВт·сағ)');
-                    return;
-                }
-                ecoAnswers[current] = kwh;
-            } else if (current === 2) {
-                if (ecoAnswers[current] !== 'none') {
-                    const liters = parseFloat(document.getElementById('fuelLiters').value) || 0;
-                    if (liters < 0 || liters > 500) {
-                        alert('Дұрыс мәнді енгізіңіз (0-500 литр)');
-                        return;
-                    }
-                    ecoAnswers[current + '_fuel'] = liters;
-                }
-            } else if (current === 3) {
-                ecoAnswers[current + '_beef'] = parseFloat(document.getElementById('beefInput').value) || 0;
-                ecoAnswers[current + '_horse'] = parseFloat(document.getElementById('horseInput').value) || 0;
-                ecoAnswers[current + '_mutton'] = parseFloat(document.getElementById('muttonInput').value) || 0;
-                ecoAnswers[current + '_chicken'] = parseFloat(document.getElementById('chickenInput').value) || 0;
-            } else if (current === 4) {
-                ecoAnswers[current + '_milk'] = parseFloat(document.getElementById('milkInput').value) || 0;
-                ecoAnswers[current + '_potato'] = parseFloat(document.getElementById('potatoInput').value) || 0;
-                ecoAnswers[current + '_vegetable'] = parseFloat(document.getElementById('vegetableInput').value) || 0;
-            } else if (current === 5) {
-                calculateResults();
-                return;
-            }
-            
-            if (current < ecoQuestions.length - 1) {
-                document.getElementById(`eco-q${current}`).style.display = 'none';
-                document.getElementById(`eco-q${current + 1}`).style.display = 'block';
-                document.getElementById('eco-progress').style.width = `${((current + 1) / ecoQuestions.length) * 100}%`;
-            }
-        }
+// 7. Government share
+const governmentShare = 2.35;
 
-        function prevEcoQuestion(current) {
-            if (current > 0) {
-                document.getElementById(`eco-q${current}`).style.display = 'none';
-                document.getElementById(`eco-q${current - 1}`).style.display = 'block';
-                document.getElementById('eco-progress').style.width = `${(current / ecoQuestions.length) * 100}%`;
-            }
-        }
+// Total ecological footprint
+const totalEco = housingEco + electricityEco + transportEco + meatEco + dairyVegEco + shoppingEco + governmentShare;
 
-        function nextWaterQuestion(current) {
-            if (waterAnswers[current] === undefined) {
-                alert('Өтінемін, жауап таңдаңыз!');
-                return;
-            }
-            
-            if (current < waterQuestions.length - 1) {
-                document.getElementById(`water-q${current}`).style.display = 'none';
-                document.getElementById(`water-q${current + 1}`).style.display = 'block';
-                document.getElementById('water-progress').style.width = `${((current + 2) / waterQuestions.length) * 100}%`;
-            } else {
-                calculateResults();
-            }
-        }
+// Water footprint
+waterScore = waterAnswers.reduce((a, b) => a + b, 0);
+const waterResult = waterScore + 100;
 
-        function prevWaterQuestion(current) {
-            if (current > 0) {
-                document.getElementById(`water-q${current}`).style.display = 'none';
-                document.getElementById(`water-q${current - 1}`).style.display = 'block';
-                document.getElementById('water-progress').style.width = `${(current / waterQuestions.length) * 100}%`;
-            }
-        }
+// Display results
+document.getElementById('eco-result').textContent = totalEco.toFixed(1);
+document.getElementById('water-result').textContent = Math.round(waterResult);
 
-        function calculateResults() {
-            const coef = REGION_COEFFICIENTS[currentRegion];
-            
-            // 1. Housing
-            let housingEco = {
-                'apartment': 1.2,
-                'house_coal': 3.5,
-                'house_gas': 2.1,
-                'house_electric': 2.8
-            }[ecoAnswers[0]] || 1.2;
-            
-            // 2. Electricity
-            const electricityEco = (ecoAnswers[1] || 0) * coef.electricityCarbon * 0.0012;
-            
-            // 3. Transport
-            let transportEco = 0;
-            if (ecoAnswers[2] !== 'none') {
-                const fuelFactor = {
-                    'car_small': 2.3,
-                    'car_medium': 2.8,
-                    'car_large': 3.5
-                }[ecoAnswers[2]] || 2.8;
-                transportEco = (ecoAnswers['2_fuel'] || 0) * fuelFactor * 0.003;
-            }
-            
-            // 4. Meat consumption (with Kazakhstan data)
-            const meatEco = (
-                (ecoAnswers['3_beef'] || 0) * KZ_FOOD_STATS.beef.carbon +
-                (ecoAnswers['3_horse'] || 0) * KZ_FOOD_STATS.horse.carbon +
-                (ecoAnswers['3_mutton'] || 0) * KZ_FOOD_STATS.mutton.carbon +
-                (ecoAnswers['3_chicken'] || 0) * KZ_FOOD_STATS.chicken.carbon
-            ) * 0.0008 * 12;
-            
-            // 5. Dairy and vegetables
-            const dairyVegEco = (
-                (ecoAnswers['4_milk'] || 0) * KZ_FOOD_STATS.milk.carbon +
-                (ecoAnswers['4_potato'] || 0) * KZ_FOOD_STATS.potatoes.carbon +
-                (ecoAnswers['4_vegetable'] || 0) * KZ_FOOD_STATS.vegetables.carbon
-            ) * 0.0008 * 12;
-            
-            // 6. Shopping (Scope 3)
-            const shoppingEco = 1.2;
-            
-            // 7. Government share
-            const governmentShare = 2.35;
-            
-            // Total ecological footprint
-            const totalEco = housingEco + electricityEco + transportEco + meatEco + dairyVegEco + shoppingEco + governmentShare;
-            
-            // Water footprint
-            waterScore = waterAnswers.reduce((a, b) => a + b, 0);
-            const waterResult = waterScore + 100;
-            
-            // Display results
-            document.getElementById('eco-result').textContent = totalEco.toFixed(1);
-            document.getElementById('water-result').textContent = Math.round(waterResult);
-            
-            // Planet visual
-            const planetsNeeded = (totalEco / GLOBAL_BIOCAPACITY).toFixed(1);
-            const planetEmoji = planetsNeeded <= 1 ? '🌍' : 
-                               planetsNeeded <= 2 ? '🌍🌍' : 
-                               planetsNeeded <= 3 ? '🌍🌍🌍' : '🌍🌍🌍🌍';
-            document.getElementById('planetVisual').textContent = planetEmoji;
-            
-            // Overshoot day
-            const overshootDay = calculateOvershootDay(totalEco);
-            document.getElementById('overshootDay').textContent = overshootDay;
-            
-            // Comparison with Kazakhstan
-            document.getElementById('userFootprint').textContent = totalEco.toFixed(2);
-            const comparison = document.getElementById('comparisonResult');
-            if (totalEco < KZ_AVG_ECO) {
-                comparison.textContent = `✅ Сіз ҚР орташа деңгейінен ${(KZ_AVG_ECO - totalEco).toFixed(1)} gha төменсіз!`;
-                comparison.style.color = 'var(--primary)';
-            } else {
-                comparison.textContent = `⚠️ Сіз ҚР орташа деңгейінен ${(totalEco - KZ_AVG_ECO).toFixed(1)} gha жоғарысыз`;
-                comparison.style.color = 'var(--warning)';
-            }
-            
-            // Display food comparison
-            displayFoodComparison();
-            
-            // Calculate utility costs
-            calculateUtilityCosts();
-            
-            // Generate AI tips
-            generateAITips(totalEco);
-            
-            // Generate scientific recommendations
-            generateRecommendations(totalEco, waterResult);
-            
-            // Show results
-            document.getElementById('eco-calc').style.display = 'none';
-            document.getElementById('water-calc').style.display = 'none';
-            document.getElementById('calc-results').classList.add('active');
-            document.getElementById('calc-results').scrollIntoView({ behavior: 'smooth' });
-        }
+// Planet visual
+const planetsNeeded = (totalEco / GLOBAL_BIOCAPACITY).toFixed(1);
+const planetEmoji = planetsNeeded <= 1 ? '🌍' :
+planetsNeeded <= 2 ? '🌍🌍' :
+planetsNeeded <= 3 ? '🌍🌍🌍' : '🌍🌍🌍';
+document.getElementById('planetVisual').textContent = planetEmoji;
 
-        function calculateOvershootDay(ecoResult) {
-            const daysInYear = 365;
-            const overshootDay = Math.round((GLOBAL_BIOCAPACITY / ecoResult) * daysInYear);
-            const date = new Date(2025, 0, overshootDay);
-            const day = date.getDate();
-            const month = kazakhMonths[date.getMonth()];
-            return `${day} ${month}`;
-        }
+// Overshoot day
+const overshootDay = calculateOvershootDay(totalEco);
+document.getElementById('overshootDay').textContent = overshootDay;
 
-        function displayFoodComparison() {
-            const categories = ['beef', 'horse', 'mutton', 'chicken', 'milk', 'potatoes', 'vegetables'];
-            const container = document.getElementById('foodComparisonChart');
-            
-            let html = '';
-            categories.forEach(cat => {
-                const stat = KZ_FOOD_STATS[cat];
-                const userVal = ecoAnswers[`3_${cat}`] || ecoAnswers[`4_${cat}`] || 0;
-                const nationalVal = stat.monthly;
-                const percent = Math.min((userVal / nationalVal) * 100, 200);
-                const diff = ((userVal - nationalVal) / nationalVal * 100).toFixed(0);
-                const statusClass = diff < -20 ? '' : diff < 20 ? 'medium' : 'high';
-                const statusText = diff < -20 ? 'Төмен ✅' : diff < 20 ? 'Орташа ⚠️' : 'Жоғары 🔴';
-                
-                html += `
-                    <div class="bar-item">
-                        <span class="label">${stat.label}</span>
-                        <div class="bar-container">
-                            <div class="bar national" style="width: 100%">
-                                <span class="bar-label">ҚР: ${nationalVal.toFixed(1)}</span>
-                            </div>
-                            <div class="bar user ${statusClass}" style="width: ${percent}%">
-                                <span class="bar-label">Сіз: ${userVal.toFixed(1)}</span>
-                            </div>
-                        </div>
-                        <small style="opacity: 0.7; margin-left: 10px">${statusText} (${diff > 0 ? '+' : ''}${diff}%)</small>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
+// Comparison with Kazakhstan
+document.getElementById('userFootprint').textContent = totalEco.toFixed(2);
+const comparison = document.getElementById('comparisonResult');
+if (totalEco < KZ_AVG_ECO) {
+comparison.textContent = `✅ Сіз ҚР орташа деңгейінен ${(KZ_AVG_ECO - totalEco).toFixed(1)} gha төменсіз!`;
+comparison.style.color = 'var(--primary)';
+} else {
+comparison.textContent = `⚠️ Сіз ҚР орташа деңгейінен ${(totalEco - KZ_AVG_ECO).toFixed(1)} gha жоғарысыз`;
+comparison.style.color = 'var(--warning)';
+}
 
-        function calculateUtilityCosts() {
-            const tbo = TARIFFS.tbo;
-            const waterUsage = 180 * 30 / 1000; // 180 l/day → m³/month
-            const waterCost = waterUsage * (TARIFFS.water + TARIFFS.wastewater);
-            const electricityCost = (ecoAnswers[1] || 0) * TARIFFS.electricity;
-            const total = tbo + waterCost + electricityCost;
-            
-            document.getElementById('costTbo').textContent = tbo.toFixed(0);
-            document.getElementById('costWater').textContent = waterCost.toFixed(0);
-            document.getElementById('costElectricity').textContent = electricityCost.toFixed(0);
-            document.getElementById('costTotal').textContent = total.toFixed(0);
-            document.getElementById('utility-costs').style.display = 'block';
-        }
+// Display food comparison
+displayFoodComparison();
 
-        function generateAITips(ecoFootprint) {
-            const tips = [];
-            
-            if (ecoAnswers[0] === 'house_coal') {
-                tips.push({ tip: 'Көмір жылытуын газға ауыстыру', impact: '~1.4 gha үнем', priority: 'high' });
-            }
-            
-            if ((ecoAnswers['3_beef'] || 0) > KZ_FOOD_STATS.beef.monthly) {
-                tips.push({ tip: 'Сиыр етін аптасына 2-3 ретке дейін азайту', impact: '~0.5 gha үнем', priority: 'medium' });
-            }
-            
-            if (ecoAnswers[2] !== 'none' && (ecoAnswers['2_fuel'] || 0) > 50) {
-                tips.push({ tip: 'Аптасына 1 күн қоғамдық көлікпен жүру', impact: '~0.3 gha үнем', priority: 'medium' });
-            }
-            
-            if ((ecoAnswers[1] || 0) > 200) {
-                tips.push({ tip: 'LED шамдары мен энергия үнемдейтін техника', impact: '~0.2 gha үнем', priority: 'low' });
-            }
-            
-            const container = document.getElementById('aiTips');
-            if (tips.length > 0) {
-                container.innerHTML = tips.map((t, i) => `
-                    <div class="ai-tip" style="background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 8px; margin: 10px 0; text-align: left;">
-                        <strong>${i + 1}. ${t.tip}</strong><br>
-                        <span class="impact" style="color: var(--primary); font-weight: 600;">🎯 ${t.impact}</span>
-                    </div>
-                `).join('');
-            } else {
-                container.innerHTML = '<p style="opacity: 0.8;">🎉 Сіздің тұтынуыңыз экологиялық тұрғыдан тиімді!</p>';
-            }
-        }
+// Calculate utility costs
+calculateUtilityCosts();
 
-        function generateRecommendations(ecoResult, waterResult) {
-            const container = document.getElementById('recommendations-content');
-            let levelText;
-            
-            if (ecoResult <= 1.5) {
-                levelText = '🌟 Тамаша! Экологиялық саналы өмір салты';
-            } else if (ecoResult <= 3.0) {
-                levelText = '👍 Жақсы нәтиже! Бірақ жақсартуға болады';
-            } else {
-                levelText = '⚠️ Назар аударыңыз! Экологиялық із жоғары';
-            }
-            
-            let html = `
-                <p style="font-size: 1.1rem; margin-bottom: 15px;"><strong>${levelText}</strong></p>
-                <p style="opacity: 0.9; margin-bottom: 20px;">Сіздің экологиялық ізіңіз әлемдік орташа деңгейге жақын. Кішігірім өзгерістер үлкен әсер етеді!</p>
-                
-                <div style="background: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-                    <strong style="color: var(--warning);">📊 Сіздің деңгейіңіз:</strong>
-                    <span style="color: var(--primary); font-size: 1.1rem; margin-left: 10px;">
-                        ${ecoResult <= 1.5 ? '0-1.5' : ecoResult <= 3.0 ? '1.6-3.0' : '3.1+'} планета
-                    </span>
-                </div>
-                
-                <h5>1. Ет тұтынуды азайту</h5>
-                <div class="science-note">
-                    <strong>🔬 Ғылыми негіз:</strong> Science журналында жарияланған зерттеу (Poore & Nemecek, 2018) бойынша, ет пен сүт өнімдерін 50% азайту экологиялық ізді 30% төмендетеді.
-                </div>
-                <div class="science-note" style="border-left-color: var(--secondary);">
-                    <strong>📚 Дереккөз:</strong> Science, Vol 360, 2018
-                </div>
-                <div class="action-tip">
-                    💡 <strong>Нақты әрекет:</strong> Аптада 2-3 күн вегетариандық тамақтану - бұл жылына 500 кг CO₂ үнемдейді
-                </div>
-                
-                <h5>2. Көлік түрін өзгерту</h5>
-                <div class="science-note">
-                    <strong>🔬 Ғылыми негіз:</strong> European Environment Agency (2023) деректері бойынша, қоғамдық көлік жеке автоға қарағанда 75% аз CO₂ шығарады.
-                </div>
-                <div class="science-note" style="border-left-color: var(--secondary);">
-                    <strong>📚 Дереккөз:</strong> EEA Report, 2023
-                </div>
-                <div class="action-tip">
-                    💡 <strong>Нақты әрекет:</strong> Аптада 3 күн қоғамдық көлікпен жүру - жылына 1 тонна CO₂ үнемдейді
-                </div>
-                
-                <h5>3. Энергияны үнемдеу</h5>
-                <div class="science-note">
-                    <strong>🔬 Ғылыми негіз:</strong> IEA (International Energy Agency) зерттеуі бойынша, LED шамдары мен A++ техникасы электр энергиясын 40-60% үнемдейді.
-                </div>
-                <div class="science-note" style="border-left-color: var(--secondary);">
-                    <strong>📚 Дереккөз:</strong> IEA Energy Efficiency Report, 2023
-                </div>
-                <div class="action-tip">
-                    💡 <strong>Нақты әрекет:</strong> LED шамдарына көшу - жылына 200 кВт·сағ үнемдейді (45,000₸)
-                </div>
-                
-                <div class="challenge-card">
-                    <strong style="color: var(--primary); font-size: 1.1rem;">
-                        🎯 Мақсат: 2.0 планета деңгейіне түсу! Жоғарыдағы 3 кеңестің кем дегенде 2-еуін орындаңыз.
-                    </strong>
-                </div>
-            `;
-            
-            container.innerHTML = html;
-        }
+// Generate AI tips
+generateAITips(totalEco);
 
-        function restartCalculator() {
-            ecoAnswers = [];
-            waterAnswers = [];
-            ecoStep = 1;
-            waterStep = 1;
-            
-            document.querySelectorAll('.calc-content').forEach(c => c.style.display = 'none');
-            document.getElementById('eco-calc').style.display = 'block';
-            document.getElementById('calc-results').classList.remove('active');
-            
-            loadEcoQuestions();
-            loadWaterQuestions();
-            
-            document.getElementById('eco-progress').style.width = '0%';
-            document.getElementById('water-progress').style.width = '0%';
-        }
+// Generate scientific recommendations
+generateRecommendations(totalEco, waterResult);
 
-        function savePDF() {
-            alert('📄 PDF жүктеу функциясы жақын арада қосылады!');
-        }
+// Show results
+document.getElementById('eco-calc').style.display = 'none';
+document.getElementById('water-calc').style.display = 'none';
+document.getElementById('calc-results').classList.add('active');
+document.getElementById('calc-results').scrollIntoView({ behavior: 'smooth' });
 
-        function shareResults() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Менің экологиялық ізім',
-                    text: `Менің экологиялық ізім: ${document.getElementById('eco-result').textContent} планета`,
-                    url: location.href
-                });
-            } else {
-                alert('🔗 Сілтемені көшіріп алыңыз: ' + location.href);
-            }
-        }
+// ✅ GOOGLE ANALYTICS EVENT: Калькулятор аяқталды
+gtag('event', 'calculator_complete', {
+'event_category': 'engagement',
+'event_label': 'eco_footprint_calculated',
+'value': 1
+});
+}
 
-        function switchLang(lang) {
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            alert('🌐 Тіл ауыстыру функциясы әзірленуде...');
-        }
+function calculateOvershootDay(ecoResult) {
+const daysInYear = 365;
+const overshootDay = Math.round((GLOBAL_BIOCAPACITY / ecoResult) * daysInYear);
+const date = new Date(2025, 0, overshootDay);
+const day = date.getDate();
+const month = kazakhMonths[date.getMonth()];
+return `${day} ${month}`;
+}
 
-        function filterSci(category) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            document.querySelectorAll('#scientificGrid .card').forEach(card => {
-                if (category === 'all' || card.dataset.category.includes(category)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
+function displayFoodComparison() {
+const categories = ['beef', 'horse', 'mutton', 'chicken', 'milk', 'potatoes', 'vegetables'];
+const container = document.getElementById('foodComparisonChart');
+let html = '';
+categories.forEach(cat => {
+const stat = KZ_FOOD_STATS[cat];
+const userVal = ecoAnswers[`3_${cat}`] || ecoAnswers[`4_${cat}`] || 0;
+const nationalVal = stat.monthly;
+const percent = Math.min((userVal / nationalVal) * 100, 200);
+const diff = ((userVal - nationalVal) / nationalVal * 100).toFixed(0);
+const statusClass = diff < -20 ? '' : diff < 20 ? 'medium' : 'high';
+const statusText = diff < -20 ? 'Төмен ✅' : diff < 20 ? 'Орташа ⚠️' : 'Жоғары 🔴';
+html += `
+<div class="bar-item">
+<span class="label">${stat.label}</span>
+<div class="bar-container">
+<div class="bar national" style="width: 100%">
+<span class="bar-label">ҚР: ${nationalVal.toFixed(1)}</span>
+</div>
+<div class="bar user ${statusClass}" style="width: ${percent}%">
+<span class="bar-label">Сіз: ${userVal.toFixed(1)}</span>
+</div>
+</div>
+<small style="opacity: 0.7; margin-left: 10px">${statusText} (${diff > 0 ? '+' : ''}${diff}%)</small>
+</div>
+`;
+});
+container.innerHTML = html;
+}
 
-        function getUserLocation() {
-            const btn = document.getElementById('geoBtn');
-            if (!navigator.geolocation) {
-                alert('🌐 Геолокация қолдау көрсетілмейді');
-                return;
-            }
-            
-            btn.disabled = true;
-            btn.innerHTML = '🔄 Ізделуде...';
-            
-            navigator.geolocation.getCurrentPosition(
-                pos => {
-                    const { latitude, longitude } = pos.coords;
-                    btn.innerHTML = `✅ ${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
-                    setTimeout(() => {
-                        btn.innerHTML = '📍 Менің орнымды табу';
-                        btn.disabled = false;
-                    }, 3000);
-                },
-                err => {
-                    alert('🔒 Рұқсат берілмеді');
-                    btn.innerHTML = '📍 Менің орнымды табу';
-                    btn.disabled = false;
-                },
-                { enableHighAccuracy: true, timeout: 10000 }
-            );
-        }
+function calculateUtilityCosts() {
+const tbo = TARIFFS.tbo;
+const waterUsage = 180 * 30 / 1000; // 180 l/day → m³/month
+const waterCost = waterUsage * (TARIFFS.water + TARIFFS.wastewater);
+const electricityCost = (ecoAnswers[1] || 0) * TARIFFS.electricity;
+const total = tbo + waterCost + electricityCost;
+document.getElementById('costTbo').textContent = tbo.toFixed(0);
+document.getElementById('costWater').textContent = waterCost.toFixed(0);
+document.getElementById('costElectricity').textContent = electricityCost.toFixed(0);
+document.getElementById('costTotal').textContent = total.toFixed(0);
+document.getElementById('utility-costs').style.display = 'block';
+}
 
-        async function fetchAllStations() {
-            const tb = document.getElementById('tableBody');
-            tb.innerHTML = `<tr><td colspan="5" class="news-loading"><div class="spinner"></div>Жаңартылуда...</td></tr>`;
-            
-            try {
-                // Demo data
-                tb.innerHTML = `
-                    <tr>
-                        <td>🌆 Астана (орташа)</td>
-                        <td><strong>65</strong></td>
-                        <td><span class="status-badge status-good">🟢 Жақсы</span></td>
-                        <td>18.5</td>
-                        <td>➡️ Тұрақты</td>
-                    </tr>
-                `;
-                document.getElementById('avgAqi').textContent = '65';
-                document.getElementById('aqiStatus').textContent = '🟢 Жақсы';
-            } catch (e) {
-                tb.innerHTML = '<tr><td colspan="5">❌ Қате</td></tr>';
-            }
-        }
+function generateAITips(ecoFootprint) {
+const tips = [];
+if (ecoAnswers[0] === 'house_coal') {
+tips.push({ tip: 'Көмір жылытуын газға ауыстыру', impact: '~1.4 gha үнем', priority: 'high' });
+}
+if ((ecoAnswers['3_beef'] || 0) > KZ_FOOD_STATS.beef.monthly) {
+tips.push({ tip: 'Сиыр етін аптасына 2-3 ретке дейін азайту', impact: '~0.5 gha үнем', priority: 'medium' });
+}
+if (ecoAnswers[2] !== 'none' && (ecoAnswers['2_fuel'] || 0) > 50) {
+tips.push({ tip: 'Аптасына 1 күн қоғамдық көлікпен жүру', impact: '~0.3 gha үнем', priority: 'medium' });
+}
+if ((ecoAnswers[1] || 0) > 200) {
+tips.push({ tip: 'LED шамдары мен энергия үнемдейтін техника', impact: '~0.2 gha үнем', priority: 'low' });
+}
+const container = document.getElementById('aiTips');
+if (tips.length > 0) {
+container.innerHTML = tips.map((t, i) => `
+<div class="ai-tip" style="background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 8px; margin: 10px 0; text-align: left;">
+<strong>${i + 1}. ${t.tip}</strong><br>
+<span class="impact" style="color: var(--primary); font-weight: 600;">🎯 ${t.impact}</span>
+</div>
+`).join('');
+} else {
+container.innerHTML = '<p style="opacity: 0.8;">🎉 Сіздің тұтынуыңыз экологиялық тұрғыдан тиімді!</p>';
+}
+}
 
-        function sendFeedback() {
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const phone = document.getElementById('contactPhone').value;
-            const message = document.getElementById('contactMessage').value;
-            
-            if (!name || !email || !message) {
-                alert('❌ Атыңыз, email және хабарлама міндетті түрде толтырылуы керек!');
-                return;
-            }
-            
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('❌ Дұрыс email мекенжайын енгізіңіз!');
-                return;
-            }
-            
-            // Create mailto link
-            const subject = `Eco-Hub №54 - Кері байланыс: ${name}`;
-            const body = `Аты: ${name}%0D%0AEmail: ${email}%0D%0AТелефон: ${phone || 'Көрсетілмеген'}%0D%0A%0D%0AХабарлама:%0D%0A${message}`;
-            const mailtoLink = `mailto:hakimbakytbek@54sl.edu.kz?subject=${subject}&body=${body}`;
-            
-            // Open email client
-            window.location.href = mailtoLink;
-            
-            // Show success message
-            setTimeout(() => {
-                alert('✅ Хат жіберілді! Біз сізге жақын арада жауап береміз.%0D%0A%0D%0A📧 Email: hakimbakytbek@54sl.edu.kz%0D%0A📱 Телефон: 8 (778) 196-97-46');
-                
-                // Clear form
-                document.getElementById('contactName').value = '';
-                document.getElementById('contactEmail').value = '';
-                document.getElementById('contactPhone').value = '';
-                document.getElementById('contactMessage').value = '';
-            }, 500);
-        }
+function generateRecommendations(ecoResult, waterResult) {
+const container = document.getElementById('recommendations-content');
+let levelText;
+if (ecoResult <= 1.5) {
+levelText = '🌟 Тамаша! Экологиялық саналы өмір салты';
+} else if (ecoResult <= 3.0) {
+levelText = '👍 Жақсы нәтиже! Бірақ жақсартуға болады';
+} else {
+levelText = '⚠️ Назар аударыңыз! Экологиялық із жоғары';
+}
+let html = `
+<p style="font-size: 1.1rem; margin-bottom: 15px;"><strong>${levelText}</strong></p>
+<p style="opacity: 0.9; margin-bottom: 20px;">Сіздің экологиялық ізіңіз әлемдік орташа деңгейге жақын. Кішігірім өзгерістер үлкен әсер етеді!</p>
+<div style="background: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+<strong style="color: var(--warning);">📊 Сіздің деңгейіңіз:</strong>
+<span style="color: var(--primary); font-size: 1.1rem; margin-left: 10px;">
+${ecoResult <= 1.5 ? '0-1.5' : ecoResult <= 3.0 ? '1.6-3.0' : '3.1+'} планета
+</span>
+</div>
+<h5>1. Ет тұтынуды азайту</h5>
+<div class="science-note">
+<strong>🔬 Ғылыми негіз:</strong> Science журналында жарияланған зерттеу (Poore & Nemecek, 2018) бойынша, ет пен сүт өнімдерін 50% азайту экологиялық ізді 30% төмендетеді.
+</div>
+<div class="science-note" style="border-left-color: var(--secondary);">
+<strong>📚 Дереккөз:</strong> Science, Vol 360, 2018
+</div>
+<div class="action-tip">
+💡 <strong>Нақты әрекет:</strong> Аптада 2-3 күн вегетариандық тамақтану - бұл жылына 500 кг CO₂ үнемдейді
+</div>
+<h5>2. Көлік түрін өзгерту</h5>
+<div class="science-note">
+<strong>🔬 Ғылыми негіз:</strong> European Environment Agency (2023) деректері бойынша, қоғамдық көлік жеке автоға қарағанда 75% аз CO₂ шығарады.
+</div>
+<div class="science-note" style="border-left-color: var(--secondary);">
+<strong>📚 Дереккөз:</strong> EEA Report, 2023
+</div>
+<div class="action-tip">
+💡 <strong>Нақты әрекет:</strong> Аптада 3 күн қоғамдық көлікпен жүру - жылына 1 тонна CO₂ үнемдейді
+</div>
+<h5>3. Энергияны үнемдеу</h5>
+<div class="science-note">
+<strong>🔬 Ғылыми негіз:</strong> IEA (International Energy Agency) зерттеуі бойынша, LED шамдары мен A++ техникасы электр энергиясын 40-60% үнемдейді.
+</div>
+<div class="science-note" style="border-left-color: var(--secondary);">
+<strong>📚 Дереккөз:</strong> IEA Energy Efficiency Report, 2023
+</div>
+<div class="action-tip">
+💡 <strong>Нақты әрекет:</strong> LED шамдарына көшу - жылына 200 кВт·сағ үнемдейді (45,000₸)
+</div>
+<div class="challenge-card">
+<strong style="color: var(--primary); font-size: 1.1rem;">
+🎯 Мақсат: 2.0 планета деңгейіне түсу! Жоғарыдағы 3 кеңестің кем дегенде 2-еуін орындаңыз.
+</strong>
+</div>
+`;
+container.innerHTML = html;
+}
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
+function restartCalculator() {
+ecoAnswers = [];
+waterAnswers = [];
+ecoStep = 1;
+waterStep = 1;
+document.querySelectorAll('.calc-content').forEach(c => c.style.display = 'none');
+document.getElementById('eco-calc').style.display = 'block';
+document.getElementById('calc-results').classList.remove('active');
+loadEcoQuestions();
+loadWaterQuestions();
+document.getElementById('eco-progress').style.width = '0%';
+document.getElementById('water-progress').style.width = '0%';
+}
+
+function savePDF() {
+// ✅ GOOGLE ANALYTICS EVENT: PDF жүктеу
+gtag('event', 'pdf_download', {
+'event_category': 'download',
+'event_label': 'results_pdf'
+});
+alert('📄 PDF жүктеу функциясы жақын арада қосылады!');
+}
+
+function shareResults() {
+if (navigator.share) {
+navigator.share({
+title: 'Менің экологиялық ізім',
+text: `Менің экологиялық ізім: ${document.getElementById('eco-result').textContent} планета`,
+url: location.href
+});
+} else {
+alert('🔗 Сілтемені көшіріп алыңыз: ' + location.href);
+}
+}
+
+function switchLang(lang) {
+document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+event.target.classList.add('active');
+alert('🌐 Тіл ауыстыру функциясы әзірленуде...');
+}
+
+function filterSci(category) {
+document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+event.target.classList.add('active');
+document.querySelectorAll('#scientificGrid .card').forEach(card => {
+if (category === 'all' || card.dataset.category.includes(category)) {
+card.style.display = 'block';
+} else {
+card.style.display = 'none';
+}
+});
+}
+
+function getUserLocation() {
+const btn = document.getElementById('geoBtn');
+if (!navigator.geolocation) {
+alert('🌐 Геолокация қолдау көрсетілмейді');
+return;
+}
+btn.disabled = true;
+btn.innerHTML = '🔄 Ізделуде...';
+navigator.geolocation.getCurrentPosition(
+pos => {
+const { latitude, longitude } = pos.coords;
+btn.innerHTML = `✅ ${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
+setTimeout(() => {
+btn.innerHTML = '📍 Менің орнымды табу';
+btn.disabled = false;
+}, 3000);
+},
+err => {
+alert('🔒 Рұқсат берілмеді');
+btn.innerHTML = '📍 Менің орнымды табу';
+btn.disabled = false;
+},
+{ enableHighAccuracy: true, timeout: 10000 }
+);
+}
+
+async function fetchAllStations() {
+const tb = document.getElementById('tableBody');
+tb.innerHTML = `<tr><td colspan="5" class="news-loading"><div class="spinner"></div>Жаңартылуда...</td></tr>`;
+try {
+// Demo data
+tb.innerHTML = `
+<tr>
+<td>🌆 Астана (орташа)</td>
+<td><strong>65</strong></td>
+<td><span class="status-badge status-good">🟢 Жақсы</span></td>
+<td>18.5</td>
+<td>➡️ Тұрақты</td>
+</tr>
+`;
+document.getElementById('avgAqi').textContent = '65';
+document.getElementById('aqiStatus').textContent = '🟢 Жақсы';
+} catch (e) {
+tb.innerHTML = '<tr><td colspan="5">❌ Қате</td></tr>';
+}
+}
+
+function sendFeedback() {
+const name = document.getElementById('contactName').value;
+const email = document.getElementById('contactEmail').value;
+const phone = document.getElementById('contactPhone').value;
+const message = document.getElementById('contactMessage').value;
+
+if (!name || !email || !message) {
+alert('❌ Атыңыз, email және хабарлама міндетті түрде толтырылуы керек!');
+return;
+}
+
+// Email validation
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!emailRegex.test(email)) {
+alert('❌ Дұрыс email мекенжайын енгізіңіз!');
+return;
+}
+
+// ✅ GOOGLE ANALYTICS EVENT: Хат жіберу
+gtag('event', 'contact_form_submit', {
+'event_category': 'contact',
+'event_label': 'feedback_sent'
+});
+
+// Create mailto link
+const subject = `Eco-Hub №54 - Кері байланыс: ${name}`;
+const body = `Аты: ${name}%0D%0AEmail: ${email}%0D%0AТелефон: ${phone || 'Көрсетілмеген'}%0D%0A%0D%0AХабарлама:%0D%0A${message}`;
+const mailtoLink = `mailto:hakimbakytbek@54sl.edu.kz?subject=${subject}&body=${body}`;
+
+// Open email client
+window.location.href = mailtoLink;
+
+// Show success message
+setTimeout(() => {
+alert('✅ Хат жіберілді! Біз сізге жақын арада жауап береміз.%0D%0A%0D%0A📧 Email: hakimbakytbek@54sl.edu.kz%0D%0A📱 Телефон: 8 (778) 196-97-46');
+// Clear form
+document.getElementById('contactName').value = '';
+document.getElementById('contactEmail').value = '';
+document.getElementById('contactPhone').value = '';
+document.getElementById('contactMessage').value = '';
+}, 500);
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+const target = document.querySelector(this.getAttribute('href'));
+if (target) {
+target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+});
+});
+</script>
 </body>
 </html>
