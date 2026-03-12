@@ -836,6 +836,7 @@ font-size: 0.9rem;
 <div class="lang-switch">
 <button class="lang-btn active" onclick="switchLang('kk')">KK</button>
 <button class="lang-btn" onclick="switchLang('ru')">RU</button>
+<button class="lang-btn" onclick="switchLang('en')">EN</button>
 </div>
 </div>
 </header>
@@ -1489,7 +1490,8 @@ setInterval(updateTime, 60000);
 
 function updateTime() {
 const now = new Date();
-document.getElementById('lastUpdate').textContent = '🕐 Жаңартылды: ' + now.toLocaleTimeString('kk-KZ');
+const upd = currentLang === 'ru' ? 'Обновлено: ' : currentLang === 'en' ? 'Updated: ' : 'Жаңартылды: ';
+document.getElementById('lastUpdate').textContent = '🕐 ' + upd + now.toLocaleTimeString();
 }
 
 // ==================== CALCULATOR FUNCTIONS ====================
@@ -1595,7 +1597,7 @@ function nextEcoQuestion(current) {
 if (current === 1) {
 const kwh = parseFloat(document.getElementById('electricityInput').value) || 0;
 if (kwh < 0 || kwh > 2000) {
-alert('Дұрыс мәнді енгізіңіз (0-2000 кВт·сағ)');
+alert(t('alert_range'));
 return;
 }
 ecoAnswers[current] = kwh;
@@ -1603,7 +1605,7 @@ ecoAnswers[current] = kwh;
 if (ecoAnswers[current] !== 'none') {
 const liters = parseFloat(document.getElementById('fuelLiters').value) || 0;
 if (liters < 0 || liters > 500) {
-alert('Дұрыс мәнді енгізіңіз (0-500 литр)');
+alert(t('alert_range_fuel'));
 return;
 }
 ecoAnswers[current + '_fuel'] = liters;
@@ -1638,7 +1640,7 @@ document.getElementById('eco-progress').style.width = `${(current / ecoQuestions
 
 function nextWaterQuestion(current) {
 if (waterAnswers[current] === undefined) {
-alert('Өтінемін, жауап таңдаңыз!');
+alert(t('alert_answer'));
 return;
 }
 if (current < waterQuestions.length - 1) {
@@ -1730,10 +1732,10 @@ document.getElementById('overshootDay').textContent = overshootDay;
 document.getElementById('userFootprint').textContent = totalEco.toFixed(2);
 const comparison = document.getElementById('comparisonResult');
 if (totalEco < KZ_AVG_ECO) {
-comparison.textContent = `✅ Сіз ҚР орташа деңгейінен ${(KZ_AVG_ECO - totalEco).toFixed(1)} gha төменсіз!`;
+comparison.textContent = t('cmp_below').replace('{diff}', (KZ_AVG_ECO - totalEco).toFixed(1));
 comparison.style.color = 'var(--primary)';
 } else {
-comparison.textContent = `⚠️ Сіз ҚР орташа деңгейінен ${(totalEco - KZ_AVG_ECO).toFixed(1)} gha жоғарысыз`;
+comparison.textContent = t('cmp_above').replace('{diff}', (totalEco - KZ_AVG_ECO).toFixed(1));
 comparison.style.color = 'var(--warning)';
 }
 
@@ -1768,7 +1770,8 @@ const daysInYear = 365;
 const overshootDay = Math.round((GLOBAL_BIOCAPACITY / ecoResult) * daysInYear);
 const date = new Date(2025, 0, overshootDay);
 const day = date.getDate();
-const month = kazakhMonths[date.getMonth()];
+const months = t('months');
+const month = Array.isArray(months) ? months[date.getMonth()] : kazakhMonths[date.getMonth()];
 return `${day} ${month}`;
 }
 
@@ -1818,27 +1821,27 @@ document.getElementById('utility-costs').style.display = 'block';
 function generateAITips(ecoFootprint) {
 const tips = [];
 if (ecoAnswers[0] === 'house_coal') {
-tips.push({ tip: 'Көмір жылытуын газға ауыстыру', impact: '~1.4 gha үнем', priority: 'high' });
+tips.push({ tip: t('ai_coal_tip'), impact: t('ai_coal_impact'), priority: 'high' });
 }
 if ((ecoAnswers['3_beef'] || 0) > KZ_FOOD_STATS.beef.monthly) {
-tips.push({ tip: 'Сиыр етін аптасына 2-3 ретке дейін азайту', impact: '~0.5 gha үнем', priority: 'medium' });
+tips.push({ tip: t('ai_beef_tip'), impact: t('ai_beef_impact'), priority: 'medium' });
 }
 if (ecoAnswers[2] !== 'none' && (ecoAnswers['2_fuel'] || 0) > 50) {
-tips.push({ tip: 'Аптасына 1 күн қоғамдық көлікпен жүру', impact: '~0.3 gha үнем', priority: 'medium' });
+tips.push({ tip: t('ai_car_tip'), impact: t('ai_car_impact'), priority: 'medium' });
 }
 if ((ecoAnswers[1] || 0) > 200) {
-tips.push({ tip: 'LED шамдары мен энергия үнемдейтін техника', impact: '~0.2 gha үнем', priority: 'low' });
+tips.push({ tip: t('ai_led_tip'), impact: t('ai_led_impact'), priority: 'low' });
 }
 const container = document.getElementById('aiTips');
 if (tips.length > 0) {
-container.innerHTML = tips.map((t, i) => `
+container.innerHTML = tips.map((tip, i) => `
 <div class="ai-tip" style="background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 8px; margin: 10px 0; text-align: left;">
-<strong>${i + 1}. ${t.tip}</strong><br>
-<span class="impact" style="color: var(--primary); font-weight: 600;">🎯 ${t.impact}</span>
+<strong>${i + 1}. ${tip.tip}</strong><br>
+<span class="impact" style="color: var(--primary); font-weight: 600;">🎯 ${tip.impact}</span>
 </div>
 `).join('');
 } else {
-container.innerHTML = '<p style="opacity: 0.8;">🎉 Сіздің тұтынуыңыз экологиялық тұрғыдан тиімді!</p>';
+container.innerHTML = `<p style="opacity: 0.8;">${t('ai_great')}</p>`;
 }
 }
 
@@ -1846,11 +1849,11 @@ function generateRecommendations(ecoResult, waterResult) {
 const container = document.getElementById('recommendations-content');
 let levelText;
 if (ecoResult <= 1.5) {
-levelText = '🌟 Тамаша! Экологиялық саналы өмір салты';
+levelText = t('rec_great');
 } else if (ecoResult <= 3.0) {
-levelText = '👍 Жақсы нәтиже! Бірақ жақсартуға болады';
+levelText = t('rec_good');
 } else {
-levelText = '⚠️ Назар аударыңыз! Экологиялық із жоғары';
+levelText = t('rec_warn');
 }
 let html = `
 <p style="font-size: 1.1rem; margin-bottom: 15px;"><strong>${levelText}</strong></p>
@@ -1926,19 +1929,947 @@ alert('📄 PDF жүктеу функциясы жақын арада қосыл
 function shareResults() {
 if (navigator.share) {
 navigator.share({
-title: 'Менің экологиялық ізім',
-text: `Менің экологиялық ізім: ${document.getElementById('eco-result').textContent} планета`,
+title: 'Eco-Hub №54',
+text: `${t('res_eco_title')}: ${document.getElementById('eco-result').textContent} ${t('res_eco_unit')}`,
 url: location.href
 });
 } else {
-alert('🔗 Сілтемені көшіріп алыңыз: ' + location.href);
+alert(t('alert_share') + location.href);
 }
 }
 
+// ==================== i18n TRANSLATIONS ====================
+const TRANSLATIONS = {
+  kk: {
+    // Nav
+    nav_home: '🏠 Басты',
+    nav_legal: '⚖️ Заңнама',
+    nav_calculator: '🧮 Калькулятор',
+    nav_monitoring: '📊 Мониторинг',
+    nav_contact: '📧 Байланыс',
+    nav_about: '🎓 Жоба',
+    // Hero
+    hero_title: '🌍💧 Экологиялық із және Су ізін есептеу',
+    hero_subtitle: 'Қазақстанға арналған нақты деректермен — №54 мектеп-лицейі',
+    badge_stats: '🇰🇿 ҚР Статистика деректері',
+    badge_eco: '🌱 Эко-із',
+    badge_water: '💧 Су ізін',
+    badge_tariff: '💰 ТКШ тарифтері',
+    badge_ai: '🤖 AI-кеңесші',
+    badge_secure: '🔒 Деректер қорғалған',
+    // Tariffs
+    section_tariffs: '💰 Астана қ. ТКШ тарифтері',
+    tariff_title: 'Қолданыстағы тарифтер',
+    tariff_updated: 'Жаңартылды:',
+    tariff_date: '9 наурыз 2025',
+    tariff_relevant: '✅ Өзекті',
+    tariff_trash_apt: '🗑️ Қоқыс шығару (пәтерлер)',
+    tariff_trash_house: '🗑️ Қоқыс шығару (жеке сектор)',
+    tariff_water: '💧 Ауыз су',
+    tariff_elec: '⚡ Электр (күн)',
+    tariff_night: 'Түн: 11.34 ₸',
+    tariff_2026: '2026: ~135 ₸',
+    tariff_prev_apt: 'алдыңғысынан +63%',
+    tariff_prev_house: 'алдыңғысынан +74%',
+    tariff_discount: '🎁 <strong>Жеңілдіктер:</strong> Көпбалалы отбасылар, мүгедектер — 50% жеңілдік.',
+    tariff_discount_link: 'Ресімдеу ↗',
+    // Legal
+    section_legal: '⚖️ Су кодексі: Білу маңызды',
+    legal_obligations_title: 'Суды пайдаланушылардың міндеттері',
+    legal_obligations_text: 'ҚР Су кодексінің 45-бабына сәйкес:',
+    legal_o1: '✅ Суды үнемді пайдалану',
+    legal_o2: '✅ Су нысандарын ластанудан қорғау',
+    legal_o3: '✅ Су өлшеу құралдарын орнату',
+    legal_o4: '✅ Төлемдерді уақытылы төлеу',
+    legal_source: '📚 Дереккөз:',
+    legal_code_link: 'Су кодексі РК ↗',
+    legal_ban_title: 'Су қорғау аймақтарында тыйым салынады',
+    legal_ban_text: 'Су кодексінің 108-бабы бойынша өзен-көл жағалауында:',
+    legal_b1: '❌ Көлік жуу және майлау',
+    legal_b2: '❌ Қоқыс пен қалдық тастау',
+    legal_b3: '❌ Химиялық заттарды ағызу',
+    legal_b4: '❌ Жағалауды бұзу жұмыстары',
+    legal_ban_warn: '⚠️ Бұзушылық үшін әкімшілік жауапкершілік қарастырылған',
+    legal_school_title: 'Мектептерге арналған талаптар',
+    legal_school_text: 'Білім беру мекемелері үшін:',
+    legal_s1: '💧 Ауыз су сапасын бақылау',
+    legal_s2: '🚰 Су үнемдейтін құрылғылар орнату',
+    legal_s3: '📊 Су тұтынуды есепке алу',
+    legal_s4: '🎓 Оқушыларға эко-сауаттылықты үйрету',
+    legal_note: '<strong style="color: var(--accent);">📌 Еске саламыз:</strong> Су кодексінің 92-бабы бойынша ауыз су сапасы мемлекеттік стандарттарға сәйкес келуі тиіс. Мектептегі судың түсі, дәмі немесе иісі өзгерсе — бұл заң бұзушылық болып табылады.',
+    // Water stats
+    section_waterstats: '💧 Су ресурстары: Статистика',
+    stat_total: 'Қазақстандағы су қоры',
+    stat_unit_total: 'км³/жыл (жалпы)',
+    stat_per_capita: 'Жан басына',
+    stat_unit_capita: 'м³/жыл (орташа)',
+    stat_astana: 'Астанада су тұтыну',
+    stat_unit_astana: 'литр/адам/күн',
+    stat_loss: 'Су жоғалтуы',
+    stat_unit_loss: 'ескі құбырлар',
+    water_analysis_title: 'Су ресурстары туралы талдау',
+    water_analysis_text: 'Қазақстан су ресурстарына бай ел болғанымен, су тапшылығы мәселелері бар:',
+    water_a1: 'Су құбырларының тозуы (70%-дан астамы ескірген)',
+    water_a2: 'Су ресурстарын тиімсіз пайдалану',
+    water_a3: 'Өнеркәсіптік ластану',
+    water_a4: 'Климат өзгеруінің әсері',
+    // Concepts
+    section_concepts: '📚 Негізгі ұғымдар',
+    concept1_title: 'Биосыйымдылық',
+    concept1_text: 'Табиғаттың ресурстарды қалпына келтіру және CO₂ сіңіру қабілеті.',
+    concept2_title: 'Су ізін есептеу',
+    concept2_text: 'Өнімдер мен қызметтерді өндіруге жұмсалатын тұщы су көлемі.',
+    concept3_title: 'Эко-дефицит',
+    concept3_text: 'Тұтыну биосыйымдылықтан асып кеткенде пайда болады.',
+    // Scientific
+    section_sci: '🔬 Ғылыми зерттеулер, заңнама және бағдарламалар',
+    sci_all: '📚 Барлығы',
+    sci_research: '🔬 Ғылыми зерттеулер',
+    sci_programs: '🏛️ Мемлекеттік бағдарламалар',
+    sci_legislation: '⚖️ Заңнамалық өзгерістер',
+    sci_projects: '🏗️ Іске асырылып жатқан жобалар',
+    // Calculator
+    section_calc: '🧮 Кешенді экологиялық калькулятор',
+    calc_tab_eco: '🌱 Экологиялық із',
+    calc_tab_water: '💧 Су ізін есептеу',
+    // Monitoring
+    section_monitoring: '📊 Астана аудандары бойынша мониторинг',
+    mon_aqi: 'Орташа AQI',
+    mon_districts: 'Аудандар саны',
+    mon_green: 'Жасыл желек',
+    mon_water_q: 'Су сапасы',
+    mon_map1: '🗺️ Астана қаласының ауа сапасы картасы',
+    mon_loc_btn: '📍 Менің орнымды табу',
+    mon_map2: '🌊 Қазгидромет - Су ресурстары картасы',
+    mon_map2_link: 'Толық нұсқасы ↗',
+    mon_source: '🌐 Деректер көзі:',
+    mon_note: '💡 Ескерту: Бұл Қазгидрометтің ресми су ресурстары мониторингі картасы.',
+    // Organizations
+    section_org: '🌐 Халықаралық ұйымдар',
+    org1_desc: 'Экологиялық ізді есептеудің әлемдік стандарттары',
+    org2_desc: 'Су ізін есептеу бойынша халықаралық әдістеме',
+    org3_desc: 'БҰҰ Су ресурстары бағдарламасы',
+    org4_desc: 'Климат өзгеруі бойынша сараптама',
+    // About
+    section_about: '🎓 Жоба туралы',
+    about1_title: '№54 мектеп-лицейі',
+    about1_text: 'А. Сейдімбек атындағы мектеп-лицей, Астана қаласы',
+    about2_title: 'Ұлттық жүлде',
+    about2_text: 'III орын, Педагогикалық идеялар фестивалі 2026',
+    about3_title: 'Қазақстанға арналған',
+    about3_text: 'Нақты деректер, жергілікті тарифтер, ұлттық диета',
+    about_contact_title: 'Байланыс',
+    about_address: '<strong>Мекенжай:</strong> Астана қаласы, №54 мектеп-лицей (А. Сейдімбек атындағы)',
+    about_goal: '<strong>Мақсат:</strong> Оқушыларға экологиялық сауаттылықты және су ресурстарын үнемдеуді үйрету',
+    about_innovation: '<strong>💡 Инновация:</strong> Заманауи 3D визуализация, ҚР Статистика деректері, ғылыми негізделген кеңестер',
+    // Contact
+    section_contact: '📧 Кері байланыс',
+    form_name_label: 'Аты-жөніңіз *',
+    form_name_placeholder: 'Атыңызды енгізіңіз',
+    form_email_label: 'Электронды пошта *',
+    form_phone_label: 'Телефон нөмірі',
+    form_message_label: 'Хабарламаңыз *',
+    form_message_placeholder: 'Сұрағыңыз немесе ұсынысыңыз...',
+    form_submit: '📩 Хат жіберу',
+    contact_info_title: '📞 Байланыс ақпараты:',
+    contact_phone_label: '📱 Телефон:',
+    contact_email_label: '📧 Email:',
+    contact_address_label: '🏫 Мекенжай:',
+    contact_address_val: 'Астана қ., №54 мектеп-лицей (А. Сейдімбек атындағы)',
+    // Results
+    results_title: '📊 Сіздің нәтижелеріңіз',
+    overshoot_title: '📅 Жеке экологиялық қарыз күніңіз',
+    overshoot_text: 'Егер барлық адам сіз сияқты өмір сүрсе, Жер ресурстары осы күні таусылады',
+    res_eco_title: 'Экологиялық із',
+    res_eco_unit: 'планета қажет',
+    res_water_title: 'Су тұтыну',
+    res_water_unit: 'литр/күн',
+    res_compare: '🇰🇿 Қазақстанмен салыстыру:',
+    res_your: 'Сіздің көрсеткішіңіз: ',
+    res_kz: 'ҚР орташа көрсеткіші: ',
+    res_food_title: '🍽️ Тамақ тұтынуыңызды ҚР орташа деңгейімен салыстыру',
+    res_cost_title: '💰 Коммуналдық шығындар (Астана)',
+    res_tbo: 'ТБО',
+    res_water_cost: 'Су',
+    res_elec_cost: 'Электр',
+    res_total_label: '📊 Барлығы:',
+    ai_title: '🤖 AI-эко кеңесші',
+    sci_rec_title: '🎓 Ғылыми негізделген ұсыныстар',
+    btn_restart: '🔄 Қайта бастау',
+    btn_pdf: '📄 PDF Сақтау',
+    btn_share: '🔗 Бөлісу',
+    // Footer
+    footer_main: '🏫 №54 мектеп-лицейі, Астана | 🌱 Экологиялық білім беру жобасы',
+    footer_sources: 'Дереккөздер:',
+    system_ok: '🟢 Жүйе жұмыс істейді',
+    // Alerts
+    alert_answer: 'Өтінемін, жауап таңдаңыз!',
+    alert_range: 'Дұрыс мәнді енгізіңіз (0-2000 кВт·сағ)',
+    alert_range_fuel: 'Дұрыс мәнді енгізіңіз (0-500 литр)',
+    alert_contact_required: '❌ Атыңыз, email және хабарлама міндетті түрде толтырылуы керек!',
+    alert_contact_email: '❌ Дұрыс email мекенжайын енгізіңіз!',
+    alert_contact_sent: '✅ Хат жіберілді! Біз сізге жақын арада жауап береміз.',
+    alert_geo_unsupported: '🌐 Геолокация қолдау көрсетілмейді',
+    alert_geo_denied: '🔒 Рұқсат берілмеді',
+    alert_share: '🔗 Сілтемені көшіріп алыңыз: ',
+    // Overshoot month names (Kazakh)
+    months: ['қаңтар','ақпан','наурыз','сәуір','мамыр','маусым','шілде','тамыз','қыркүйек','қазан','қараша','желтоқсан'],
+    // AI tips
+    ai_coal_tip: 'Көмір жылытуын газға ауыстыру',
+    ai_coal_impact: '~1.4 gha үнем',
+    ai_beef_tip: 'Сиыр етін аптасына 2-3 ретке дейін азайту',
+    ai_beef_impact: '~0.5 gha үнем',
+    ai_car_tip: 'Аптасына 1 күн қоғамдық көлікпен жүру',
+    ai_car_impact: '~0.3 gha үнем',
+    ai_led_tip: 'LED шамдары мен энергия үнемдейтін техника',
+    ai_led_impact: '~0.2 gha үнем',
+    ai_great: '🎉 Сіздің тұтынуыңыз экологиялық тұрғыдан тиімді!',
+    // Comparison text
+    cmp_below: 'ҚР орташа деңгейінен {diff} gha төменсіз!',
+    cmp_above: 'ҚР орташа деңгейінен {diff} gha жоғарысыз',
+    // Rec levels
+    rec_great: '🌟 Тамаша! Экологиялық саналы өмір салты',
+    rec_good: '👍 Жақсы нәтиже! Бірақ жақсартуға болады',
+    rec_warn: '⚠️ Назар аударыңыз! Экологиялық із жоғары',
+    rec_geo_locating: '🔄 Ізделуде...'
+  },
+  ru: {
+    nav_home: '🏠 Главная',
+    nav_legal: '⚖️ Законодательство',
+    nav_calculator: '🧮 Калькулятор',
+    nav_monitoring: '📊 Мониторинг',
+    nav_contact: '📧 Контакты',
+    nav_about: '🎓 Проект',
+    hero_title: '🌍💧 Расчёт экологического и водного следа',
+    hero_subtitle: 'Точные данные для Казахстана — школа-лицей №54',
+    badge_stats: '🇰🇿 Данные Статбюро РК',
+    badge_eco: '🌱 Эко-след',
+    badge_water: '💧 Водный след',
+    badge_tariff: '💰 Тарифы ЖКХ',
+    badge_ai: '🤖 AI-советник',
+    badge_secure: '🔒 Данные защищены',
+    section_tariffs: '💰 Тарифы ЖКХ г. Астана',
+    tariff_title: 'Действующие тарифы',
+    tariff_updated: 'Обновлено:',
+    tariff_date: '9 марта 2025',
+    tariff_relevant: '✅ Актуально',
+    tariff_trash_apt: '🗑️ Вывоз мусора (квартиры)',
+    tariff_trash_house: '🗑️ Вывоз мусора (частный сектор)',
+    tariff_water: '💧 Питьевая вода',
+    tariff_elec: '⚡ Электричество (день)',
+    tariff_night: 'Ночь: 11.34 ₸',
+    tariff_2026: '2026: ~135 ₸',
+    tariff_prev_apt: '+63% к предыдущему',
+    tariff_prev_house: '+74% к предыдущему',
+    tariff_discount: '🎁 <strong>Льготы:</strong> Многодетные семьи, инвалиды — скидка 50%.',
+    tariff_discount_link: 'Оформить ↗',
+    section_legal: '⚖️ Водный кодекс: важно знать',
+    legal_obligations_title: 'Обязанности водопользователей',
+    legal_obligations_text: 'Согласно ст. 45 Водного кодекса РК:',
+    legal_o1: '✅ Экономное использование воды',
+    legal_o2: '✅ Охрана водных объектов от загрязнения',
+    legal_o3: '✅ Установка приборов учёта воды',
+    legal_o4: '✅ Своевременная оплата',
+    legal_source: '📚 Источник:',
+    legal_code_link: 'Водный кодекс РК ↗',
+    legal_ban_title: 'Запрещено в водоохранных зонах',
+    legal_ban_text: 'Ст. 108 Водного кодекса — на берегах рек и озёр:',
+    legal_b1: '❌ Мойка и смазка транспорта',
+    legal_b2: '❌ Сброс мусора и отходов',
+    legal_b3: '❌ Слив химических веществ',
+    legal_b4: '❌ Разрушение береговой линии',
+    legal_ban_warn: '⚠️ За нарушения предусмотрена административная ответственность',
+    legal_school_title: 'Требования для школ',
+    legal_school_text: 'Для образовательных учреждений:',
+    legal_s1: '💧 Контроль качества питьевой воды',
+    legal_s2: '🚰 Установка водосберегающих устройств',
+    legal_s3: '📊 Учёт водопотребления',
+    legal_s4: '🎓 Обучение учеников эко-грамотности',
+    legal_note: '<strong style="color: var(--accent);">📌 Напоминаем:</strong> Согласно ст. 92 Водного кодекса качество питьевой воды должно соответствовать государственным стандартам. Если в школе изменился цвет, вкус или запах воды — это нарушение закона.',
+    section_waterstats: '💧 Водные ресурсы: Статистика',
+    stat_total: 'Водные запасы Казахстана',
+    stat_unit_total: 'км³/год (всего)',
+    stat_per_capita: 'На душу населения',
+    stat_unit_capita: 'м³/год (среднее)',
+    stat_astana: 'Водопотребление в Астане',
+    stat_unit_astana: 'литр/чел/день',
+    stat_loss: 'Потери воды',
+    stat_unit_loss: 'старые трубы',
+    water_analysis_title: 'Анализ водных ресурсов',
+    water_analysis_text: 'Казахстан богат водными ресурсами, однако существуют проблемы дефицита:',
+    water_a1: 'Износ водопровода (более 70% устарело)',
+    water_a2: 'Неэффективное использование водных ресурсов',
+    water_a3: 'Промышленное загрязнение',
+    water_a4: 'Влияние изменения климата',
+    section_concepts: '📚 Основные понятия',
+    concept1_title: 'Биоёмкость',
+    concept1_text: 'Способность природы восстанавливать ресурсы и поглощать CO₂.',
+    concept2_title: 'Водный след',
+    concept2_text: 'Объём пресной воды, затраченной на производство товаров и услуг.',
+    concept3_title: 'Эко-дефицит',
+    concept3_text: 'Возникает, когда потребление превышает биоёмкость.',
+    section_sci: '🔬 Научные исследования, законодательство и программы',
+    sci_all: '📚 Все',
+    sci_research: '🔬 Научные исследования',
+    sci_programs: '🏛️ Государственные программы',
+    sci_legislation: '⚖️ Законодательные изменения',
+    sci_projects: '🏗️ Реализуемые проекты',
+    section_calc: '🧮 Комплексный экологический калькулятор',
+    calc_tab_eco: '🌱 Экологический след',
+    calc_tab_water: '💧 Водный след',
+    section_monitoring: '📊 Мониторинг по районам Астаны',
+    mon_aqi: 'Средний AQI',
+    mon_districts: 'Количество районов',
+    mon_green: 'Зелёные зоны',
+    mon_water_q: 'Качество воды',
+    mon_map1: '🗺️ Карта качества воздуха Астаны',
+    mon_loc_btn: '📍 Найти моё местоположение',
+    mon_map2: '🌊 Казгидромет — карта водных ресурсов',
+    mon_map2_link: 'Полная версия ↗',
+    mon_source: '🌐 Источник данных:',
+    mon_note: '💡 Примечание: официальная карта мониторинга водных ресурсов Казгидромета.',
+    section_org: '🌐 Международные организации',
+    org1_desc: 'Мировые стандарты расчёта экологического следа',
+    org2_desc: 'Международная методология расчёта водного следа',
+    org3_desc: 'Программа ООН по водным ресурсам',
+    org4_desc: 'Экспертные оценки изменения климата',
+    section_about: '🎓 О проекте',
+    about1_title: 'Школа-лицей №54',
+    about1_text: 'Школа-лицей им. А. Сейдимбека, г. Астана',
+    about2_title: 'Национальная премия',
+    about2_text: 'III место, Фестиваль педагогических идей 2026',
+    about3_title: 'Для Казахстана',
+    about3_text: 'Реальные данные, местные тарифы, национальная диета',
+    about_contact_title: 'Контакты',
+    about_address: '<strong>Адрес:</strong> г. Астана, школа-лицей №54 (им. А. Сейдимбека)',
+    about_goal: '<strong>Цель:</strong> Обучение учеников экологической грамотности и бережному использованию водных ресурсов',
+    about_innovation: '<strong>💡 Инновация:</strong> Современная 3D-визуализация, данные Статбюро РК, научно обоснованные рекомендации',
+    section_contact: '📧 Обратная связь',
+    form_name_label: 'Ваше имя *',
+    form_name_placeholder: 'Введите ваше имя',
+    form_email_label: 'Электронная почта *',
+    form_phone_label: 'Номер телефона',
+    form_message_label: 'Ваше сообщение *',
+    form_message_placeholder: 'Ваш вопрос или предложение...',
+    form_submit: '📩 Отправить письмо',
+    contact_info_title: '📞 Контактная информация:',
+    contact_phone_label: '📱 Телефон:',
+    contact_email_label: '📧 Email:',
+    contact_address_label: '🏫 Адрес:',
+    contact_address_val: 'г. Астана, школа-лицей №54 (им. А. Сейдимбека)',
+    results_title: '📊 Ваши результаты',
+    overshoot_title: '📅 Ваш личный день экологического долга',
+    overshoot_text: 'Если все люди жили бы как вы, ресурсы Земли иссякнут в этот день',
+    res_eco_title: 'Экологический след',
+    res_eco_unit: 'планет необходимо',
+    res_water_title: 'Водопотребление',
+    res_water_unit: 'литр/день',
+    res_compare: '🇰🇿 Сравнение с Казахстаном:',
+    res_your: 'Ваш показатель: ',
+    res_kz: 'Среднее по РК: ',
+    res_food_title: '🍽️ Сравнение вашего питания со средним по РК',
+    res_cost_title: '💰 Коммунальные расходы (Астана)',
+    res_tbo: 'ТБО',
+    res_water_cost: 'Вода',
+    res_elec_cost: 'Электричество',
+    res_total_label: '📊 Итого:',
+    ai_title: '🤖 AI-эко советник',
+    sci_rec_title: '🎓 Научно обоснованные рекомендации',
+    btn_restart: '🔄 Начать заново',
+    btn_pdf: '📄 Сохранить PDF',
+    btn_share: '🔗 Поделиться',
+    footer_main: '🏫 Школа-лицей №54, Астана | 🌱 Проект экологического образования',
+    footer_sources: 'Источники:',
+    system_ok: '🟢 Система работает',
+    alert_answer: 'Пожалуйста, выберите ответ!',
+    alert_range: 'Введите корректное значение (0-2000 кВт·ч)',
+    alert_range_fuel: 'Введите корректное значение (0-500 литров)',
+    alert_contact_required: '❌ Имя, email и сообщение обязательны для заполнения!',
+    alert_contact_email: '❌ Введите корректный email-адрес!',
+    alert_contact_sent: '✅ Письмо отправлено! Мы ответим вам в ближайшее время.',
+    alert_geo_unsupported: '🌐 Геолокация не поддерживается',
+    alert_geo_denied: '🔒 Доступ запрещён',
+    alert_share: '🔗 Скопируйте ссылку: ',
+    months: ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],
+    ai_coal_tip: 'Заменить угольное отопление на газовое',
+    ai_coal_impact: '~1.4 gha экономии',
+    ai_beef_tip: 'Сократить говядину до 2-3 раз в неделю',
+    ai_beef_impact: '~0.5 gha экономии',
+    ai_car_tip: 'Ездить на общественном транспорте 1 день в неделю',
+    ai_car_impact: '~0.3 gha экономии',
+    ai_led_tip: 'LED-лампы и энергосберегающая техника',
+    ai_led_impact: '~0.2 gha экономии',
+    ai_great: '🎉 Ваше потребление экологически эффективно!',
+    cmp_below: 'Вы ниже среднего по РК на {diff} gha!',
+    cmp_above: 'Вы выше среднего по РК на {diff} gha',
+    rec_great: '🌟 Отлично! Экологически осознанный образ жизни',
+    rec_good: '👍 Хороший результат! Но есть куда улучшать',
+    rec_warn: '⚠️ Обратите внимание! Экологический след высокий',
+    rec_geo_locating: '🔄 Определяется...'
+  },
+  en: {
+    nav_home: '🏠 Home',
+    nav_legal: '⚖️ Legislation',
+    nav_calculator: '🧮 Calculator',
+    nav_monitoring: '📊 Monitoring',
+    nav_contact: '📧 Contact',
+    nav_about: '🎓 Project',
+    hero_title: '🌍💧 Ecological & Water Footprint Calculator',
+    hero_subtitle: 'Accurate data for Kazakhstan — School-Lyceum №54',
+    badge_stats: '🇰🇿 RK Statistics Bureau Data',
+    badge_eco: '🌱 Eco-footprint',
+    badge_water: '💧 Water footprint',
+    badge_tariff: '💰 Utility tariffs',
+    badge_ai: '🤖 AI Advisor',
+    badge_secure: '🔒 Data protected',
+    section_tariffs: '💰 Astana Utility Tariffs',
+    tariff_title: 'Current Tariffs',
+    tariff_updated: 'Updated:',
+    tariff_date: 'March 9, 2025',
+    tariff_relevant: '✅ Current',
+    tariff_trash_apt: '🗑️ Waste collection (apartments)',
+    tariff_trash_house: '🗑️ Waste collection (private sector)',
+    tariff_water: '💧 Drinking water',
+    tariff_elec: '⚡ Electricity (day)',
+    tariff_night: 'Night: 11.34 ₸',
+    tariff_2026: '2026: ~135 ₸',
+    tariff_prev_apt: '+63% vs previous',
+    tariff_prev_house: '+74% vs previous',
+    tariff_discount: '🎁 <strong>Discounts:</strong> Large families, disabled persons — 50% discount.',
+    tariff_discount_link: 'Apply ↗',
+    section_legal: '⚖️ Water Code: What to Know',
+    legal_obligations_title: 'Water User Obligations',
+    legal_obligations_text: 'According to Article 45 of the RK Water Code:',
+    legal_o1: '✅ Economical water use',
+    legal_o2: '✅ Protecting water bodies from pollution',
+    legal_o3: '✅ Installing water meters',
+    legal_o4: '✅ Timely payment',
+    legal_source: '📚 Source:',
+    legal_code_link: 'RK Water Code ↗',
+    legal_ban_title: 'Prohibited in Water Protection Zones',
+    legal_ban_text: 'Art. 108 Water Code — near rivers and lakes:',
+    legal_b1: '❌ Vehicle washing and lubrication',
+    legal_b2: '❌ Dumping waste and garbage',
+    legal_b3: '❌ Discharging chemicals',
+    legal_b4: '❌ Shoreline destruction works',
+    legal_ban_warn: '⚠️ Administrative liability is provided for violations',
+    legal_school_title: 'Requirements for Schools',
+    legal_school_text: 'For educational institutions:',
+    legal_s1: '💧 Drinking water quality control',
+    legal_s2: '🚰 Installing water-saving devices',
+    legal_s3: '📊 Water consumption accounting',
+    legal_s4: '🎓 Teaching students eco-literacy',
+    legal_note: '<strong style="color: var(--accent);">📌 Reminder:</strong> According to Art. 92 of the Water Code, drinking water quality must meet state standards. If water in school changes colour, taste or smell — this is a legal violation.',
+    section_waterstats: '💧 Water Resources: Statistics',
+    stat_total: 'Kazakhstan water reserves',
+    stat_unit_total: 'km³/year (total)',
+    stat_per_capita: 'Per capita',
+    stat_unit_capita: 'm³/year (average)',
+    stat_astana: 'Water consumption in Astana',
+    stat_unit_astana: 'litres/person/day',
+    stat_loss: 'Water losses',
+    stat_unit_loss: 'aging pipes',
+    water_analysis_title: 'Water Resources Analysis',
+    water_analysis_text: 'Kazakhstan is rich in water resources, but water scarcity issues exist:',
+    water_a1: 'Aging water pipes (over 70% outdated)',
+    water_a2: 'Inefficient use of water resources',
+    water_a3: 'Industrial pollution',
+    water_a4: 'Impact of climate change',
+    section_concepts: '📚 Key Concepts',
+    concept1_title: 'Biocapacity',
+    concept1_text: "Nature's ability to regenerate resources and absorb CO₂.",
+    concept2_title: 'Water Footprint',
+    concept2_text: 'Volume of freshwater used to produce goods and services.',
+    concept3_title: 'Eco-deficit',
+    concept3_text: 'Occurs when consumption exceeds biocapacity.',
+    section_sci: '🔬 Research, Legislation & Programmes',
+    sci_all: '📚 All',
+    sci_research: '🔬 Scientific Research',
+    sci_programs: '🏛️ Government Programmes',
+    sci_legislation: '⚖️ Legislative Changes',
+    sci_projects: '🏗️ Ongoing Projects',
+    section_calc: '🧮 Comprehensive Ecological Calculator',
+    calc_tab_eco: '🌱 Ecological Footprint',
+    calc_tab_water: '💧 Water Footprint',
+    section_monitoring: '📊 Monitoring by Astana Districts',
+    mon_aqi: 'Average AQI',
+    mon_districts: 'Number of Districts',
+    mon_green: 'Green Areas',
+    mon_water_q: 'Water Quality',
+    mon_map1: '🗺️ Astana Air Quality Map',
+    mon_loc_btn: '📍 Find My Location',
+    mon_map2: '🌊 Kazhydromet — Water Resources Map',
+    mon_map2_link: 'Full version ↗',
+    mon_source: '🌐 Data source:',
+    mon_note: '💡 Note: This is the official Kazhydromet water resources monitoring map.',
+    section_org: '🌐 International Organisations',
+    org1_desc: 'Global standards for ecological footprint calculation',
+    org2_desc: 'International methodology for water footprint calculation',
+    org3_desc: 'UN Water Resources Programme',
+    org4_desc: 'Expert assessments of climate change',
+    section_about: '🎓 About the Project',
+    about1_title: 'School-Lyceum №54',
+    about1_text: 'School-Lyceum named after A. Seidimbekov, Astana',
+    about2_title: 'National Award',
+    about2_text: '3rd place, Festival of Pedagogical Ideas 2026',
+    about3_title: 'Made for Kazakhstan',
+    about3_text: 'Real data, local tariffs, national diet',
+    about_contact_title: 'Contact',
+    about_address: '<strong>Address:</strong> Astana, School-Lyceum №54 (A. Seidimbekov)',
+    about_goal: '<strong>Goal:</strong> Teaching students ecological literacy and water conservation',
+    about_innovation: '<strong>💡 Innovation:</strong> Modern 3D visualisation, RK Statistics data, science-based recommendations',
+    section_contact: '📧 Feedback',
+    form_name_label: 'Your Name *',
+    form_name_placeholder: 'Enter your name',
+    form_email_label: 'Email Address *',
+    form_phone_label: 'Phone Number',
+    form_message_label: 'Your Message *',
+    form_message_placeholder: 'Your question or suggestion...',
+    form_submit: '📩 Send Message',
+    contact_info_title: '📞 Contact Information:',
+    contact_phone_label: '📱 Phone:',
+    contact_email_label: '📧 Email:',
+    contact_address_label: '🏫 Address:',
+    contact_address_val: 'Astana, School-Lyceum №54 (A. Seidimbekov)',
+    results_title: '📊 Your Results',
+    overshoot_title: '📅 Your Personal Overshoot Day',
+    overshoot_text: 'If everyone lived like you, Earth\'s resources would run out on this date',
+    res_eco_title: 'Ecological Footprint',
+    res_eco_unit: 'planets needed',
+    res_water_title: 'Water Consumption',
+    res_water_unit: 'litres/day',
+    res_compare: '🇰🇿 Comparison with Kazakhstan:',
+    res_your: 'Your indicator: ',
+    res_kz: 'RK average: ',
+    res_food_title: '🍽️ Your diet vs. RK average',
+    res_cost_title: '💰 Utility Costs (Astana)',
+    res_tbo: 'Waste',
+    res_water_cost: 'Water',
+    res_elec_cost: 'Electricity',
+    res_total_label: '📊 Total:',
+    ai_title: '🤖 AI Eco-Advisor',
+    sci_rec_title: '🎓 Science-Based Recommendations',
+    btn_restart: '🔄 Restart',
+    btn_pdf: '📄 Save PDF',
+    btn_share: '🔗 Share',
+    footer_main: '🏫 School-Lyceum №54, Astana | 🌱 Environmental Education Project',
+    footer_sources: 'Sources:',
+    system_ok: '🟢 System is running',
+    alert_answer: 'Please select an answer!',
+    alert_range: 'Enter a valid value (0-2000 kWh)',
+    alert_range_fuel: 'Enter a valid value (0-500 litres)',
+    alert_contact_required: '❌ Name, email and message are required!',
+    alert_contact_email: '❌ Please enter a valid email address!',
+    alert_contact_sent: '✅ Message sent! We will reply soon.',
+    alert_geo_unsupported: '🌐 Geolocation not supported',
+    alert_geo_denied: '🔒 Access denied',
+    alert_share: '🔗 Copy this link: ',
+    months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+    ai_coal_tip: 'Replace coal heating with gas',
+    ai_coal_impact: '~1.4 gha saved',
+    ai_beef_tip: 'Reduce beef to 2-3 times per week',
+    ai_beef_impact: '~0.5 gha saved',
+    ai_car_tip: 'Use public transport 1 day per week',
+    ai_car_impact: '~0.3 gha saved',
+    ai_led_tip: 'LED bulbs and energy-efficient appliances',
+    ai_led_impact: '~0.2 gha saved',
+    ai_great: '🎉 Your consumption is ecologically efficient!',
+    cmp_below: 'You are {diff} gha below the RK average!',
+    cmp_above: 'You are {diff} gha above the RK average',
+    rec_great: '🌟 Excellent! Ecologically conscious lifestyle',
+    rec_good: '👍 Good result! But there is room for improvement',
+    rec_warn: '⚠️ Attention! Ecological footprint is high',
+    rec_geo_locating: '🔄 Locating...'
+  }
+};
+
+let currentLang = 'kk';
+
+function t(key) {
+  return (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) ||
+         (TRANSLATIONS['kk'] && TRANSLATIONS['kk'][key]) || key;
+}
+
 function switchLang(lang) {
-document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-event.target.classList.add('active');
-alert('🌐 Тіл ауыстыру функциясы әзірленуде...');
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  // Find the clicked button by matching its text
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    if (btn.textContent.trim() === lang.toUpperCase()) btn.classList.add('active');
+  });
+  applyLang();
+}
+
+function applyLang() {
+  const L = currentLang;
+  // Update html lang attr
+  document.documentElement.lang = L;
+
+  // --- NAV ---
+  const navLinks = document.querySelectorAll('nav ul li a');
+  const navKeys = ['nav_home','nav_legal','nav_calculator','nav_monitoring','nav_contact','nav_about'];
+  navLinks.forEach((a, i) => { if (navKeys[i]) a.textContent = t(navKeys[i]); });
+
+  // --- HERO ---
+  const heroH1 = document.querySelector('#home h1');
+  if (heroH1) heroH1.textContent = t('hero_title');
+  const heroP = document.querySelector('#home > p');
+  if (heroP) heroP.textContent = t('hero_subtitle');
+  const badges = document.querySelectorAll('.hero-badges .badge');
+  const badgeKeys = ['badge_stats','badge_eco','badge_water','badge_tariff','badge_ai','badge_secure'];
+  badges.forEach((b, i) => { if (badgeKeys[i]) b.textContent = t(badgeKeys[i]); });
+
+  // --- TARIFFS ---
+  const tariffSection = document.querySelector('#tariffs h2.section-title');
+  if (tariffSection) tariffSection.textContent = t('section_tariffs');
+  const tariffH3 = document.querySelector('.tariff-header h3');
+  if (tariffH3) tariffH3.textContent = t('tariff_title');
+  const tariffSrc = document.querySelector('.tariff-source');
+  if (tariffSrc) tariffSrc.innerHTML = t('tariff_updated') + ' <strong>' + t('tariff_date') + '</strong> | <a href="https://astana.gov.kz" target="_blank" class="tariff-link">astana.gov.kz ↗</a>';
+  const tariffBadge = document.querySelector('.tariff-badge');
+  if (tariffBadge) tariffBadge.textContent = t('tariff_relevant');
+  const tariffLabels = document.querySelectorAll('.tariff-label');
+  const tariffLabelKeys = ['tariff_trash_apt','tariff_trash_house','tariff_water','tariff_elec'];
+  tariffLabels.forEach((el, i) => { if (tariffLabelKeys[i]) el.textContent = t(tariffLabelKeys[i]); });
+  const tariffUnits = document.querySelectorAll('.tariff-item span[style]');
+  const tariffSmalls = document.querySelectorAll('.tariff-item span:last-child');
+  tariffSmalls.forEach((el, i) => {
+    const keys = ['tariff_prev_apt','tariff_prev_house','tariff_2026','tariff_night'];
+    if (keys[i]) el.textContent = t(keys[i]);
+  });
+  const tariffNote = document.querySelector('.tariff-note');
+  if (tariffNote) tariffNote.innerHTML = t('tariff_discount') + ' <a href="https://egov.kz" target="_blank" style="color: var(--secondary);">' + t('tariff_discount_link') + '</a>';
+
+  // --- LEGAL ---
+  const legalSection = document.querySelector('#legal-water h2.section-title');
+  if (legalSection) legalSection.textContent = t('section_legal');
+  const infoCards = document.querySelectorAll('#legal-water .info-card');
+  if (infoCards[0]) {
+    infoCards[0].querySelector('h4').textContent = t('legal_obligations_title');
+    const ps = infoCards[0].querySelectorAll('p');
+    if (ps[0]) ps[0].textContent = t('legal_obligations_text');
+    const lis = infoCards[0].querySelectorAll('li');
+    ['legal_o1','legal_o2','legal_o3','legal_o4'].forEach((k,i) => { if (lis[i]) lis[i].textContent = t(k); });
+    if (ps[1]) ps[1].innerHTML = t('legal_source') + ' <a href="https://adilet.zan.kz/kaz/docs/K030000401_" target="_blank" style="color: var(--secondary);">' + t('legal_code_link') + '</a>';
+  }
+  if (infoCards[1]) {
+    infoCards[1].querySelector('h4').textContent = t('legal_ban_title');
+    const ps = infoCards[1].querySelectorAll('p');
+    if (ps[0]) ps[0].textContent = t('legal_ban_text');
+    const lis = infoCards[1].querySelectorAll('li');
+    ['legal_b1','legal_b2','legal_b3','legal_b4'].forEach((k,i) => { if (lis[i]) lis[i].textContent = t(k); });
+    if (ps[1]) ps[1].textContent = t('legal_ban_warn');
+  }
+  if (infoCards[2]) {
+    infoCards[2].querySelector('h4').textContent = t('legal_school_title');
+    const ps = infoCards[2].querySelectorAll('p');
+    if (ps[0]) ps[0].textContent = t('legal_school_text');
+    const lis = infoCards[2].querySelectorAll('li');
+    ['legal_s1','legal_s2','legal_s3','legal_s4'].forEach((k,i) => { if (lis[i]) lis[i].textContent = t(k); });
+  }
+  const legalNoteEl = document.querySelector('#legal-water > div[style]');
+  if (legalNoteEl) legalNoteEl.innerHTML = t('legal_note');
+
+  // --- WATER STATS ---
+  const wsSection = document.querySelector('#water-stats h2.section-title');
+  if (wsSection) wsSection.textContent = t('section_waterstats');
+  const statCards = document.querySelectorAll('#water-stats .stat-card');
+  const statData = [
+    { label: 'stat_total', unit: 'stat_unit_total' },
+    { label: 'stat_per_capita', unit: 'stat_unit_capita' },
+    { label: 'stat_astana', unit: 'stat_unit_astana' },
+    { label: 'stat_loss', unit: 'stat_unit_loss' }
+  ];
+  statCards.forEach((sc, i) => {
+    if (statData[i]) {
+      const lbl = sc.querySelector('.label'); if (lbl) lbl.textContent = t(statData[i].label);
+      const unt = sc.querySelector('.unit'); if (unt) unt.textContent = t(statData[i].unit);
+    }
+  });
+  const wsCard = document.querySelector('#water-stats .card');
+  if (wsCard) {
+    wsCard.querySelector('h3').textContent = t('water_analysis_title');
+    const p = wsCard.querySelector('p'); if (p) p.textContent = t('water_analysis_text');
+    const lis = wsCard.querySelectorAll('li');
+    ['water_a1','water_a2','water_a3','water_a4'].forEach((k,i) => { if (lis[i]) lis[i].textContent = t(k); });
+  }
+
+  // --- CONCEPTS ---
+  const conceptSection = document.querySelector('#concepts h2.section-title');
+  if (conceptSection) conceptSection.textContent = t('section_concepts');
+  const conceptCards = document.querySelectorAll('#concepts .info-card');
+  const conceptData = [
+    { title: 'concept1_title', text: 'concept1_text' },
+    { title: 'concept2_title', text: 'concept2_text' },
+    { title: 'concept3_title', text: 'concept3_text' }
+  ];
+  conceptCards.forEach((cc, i) => {
+    if (conceptData[i]) {
+      const h4 = cc.querySelector('h4'); if (h4) h4.textContent = t(conceptData[i].title);
+      const p = cc.querySelector('p'); if (p) p.textContent = t(conceptData[i].text);
+    }
+  });
+
+  // --- SCIENTIFIC TABS ---
+  const sciSection = document.querySelector('#scientific h2.section-title');
+  if (sciSection) sciSection.textContent = t('section_sci');
+  const sciTabBtns = document.querySelectorAll('#scientific .tab-btn');
+  const sciTabKeys = ['sci_all','sci_research','sci_programs','sci_legislation','sci_projects'];
+  sciTabBtns.forEach((btn, i) => { if (sciTabKeys[i]) btn.textContent = t(sciTabKeys[i]); });
+
+  // --- CALCULATOR ---
+  const calcSection = document.querySelector('#calculator h2.section-title');
+  if (calcSection) calcSection.textContent = t('section_calc');
+  const calcTabs = document.querySelectorAll('.calc-tab');
+  if (calcTabs[0]) calcTabs[0].textContent = t('calc_tab_eco');
+  if (calcTabs[1]) calcTabs[1].textContent = t('calc_tab_water');
+
+  // --- RESULTS (if visible) ---
+  const resH3 = document.querySelector('#calc-results > h3');
+  if (resH3) resH3.textContent = t('results_title');
+  const overshootH4 = document.querySelector('.overshoot-day h4');
+  if (overshootH4) overshootH4.textContent = t('overshoot_title');
+  const overshootP = document.querySelector('.overshoot-day p');
+  if (overshootP) overshootP.textContent = t('overshoot_text');
+  const resCards = document.querySelectorAll('#calc-results .cards-grid > .card');
+  if (resCards[0]) {
+    resCards[0].querySelector('h3').textContent = t('res_eco_title');
+    const rl = resCards[0].querySelector('.result-label'); if (rl) rl.textContent = t('res_eco_unit');
+  }
+  if (resCards[1]) {
+    resCards[1].querySelector('h3').textContent = t('res_water_title');
+    const rl = resCards[1].querySelector('.result-label'); if (rl) rl.textContent = t('res_water_unit');
+  }
+  const cmpBox = document.querySelector('.comparison-box strong');
+  if (cmpBox) cmpBox.textContent = t('res_compare');
+  const cmpYour = document.querySelector('.comparison-box > div > span:first-child');
+  if (cmpYour) cmpYour.textContent = t('res_your');
+  const cmpKz = document.querySelectorAll('.comparison-box > div > span');
+  if (cmpKz[1]) cmpKz[1].textContent = t('res_kz');
+  const foodTitle = document.querySelector('.food-comparison h4');
+  if (foodTitle) foodTitle.textContent = t('res_food_title');
+  const costH4 = document.querySelector('#utility-costs h4');
+  if (costH4) costH4.textContent = t('res_cost_title');
+  const costCards = document.querySelectorAll('#utility-costs .card');
+  if (costCards[0]) costCards[0].querySelector('h3').textContent = t('res_tbo');
+  if (costCards[1]) costCards[1].querySelector('h3').textContent = t('res_water_cost');
+  if (costCards[2]) costCards[2].querySelector('h3').textContent = t('res_elec_cost');
+  const totalLabel = document.querySelector('#utility-costs strong');
+  if (totalLabel) totalLabel.textContent = t('res_total_label');
+  const aiTitle = document.querySelector('.ai-assistant h4');
+  if (aiTitle) aiTitle.innerHTML = '🤖 ' + t('ai_title').replace('🤖 ','');
+  const sciRecTitle = document.querySelector('.recommendations-container > h4');
+  if (sciRecTitle) sciRecTitle.textContent = t('sci_rec_title');
+  const resActions = document.querySelectorAll('.result-actions .nav-btn');
+  if (resActions[0]) resActions[0].textContent = t('btn_restart');
+  if (resActions[1]) resActions[1].textContent = t('btn_pdf');
+  if (resActions[2]) resActions[2].textContent = t('btn_share');
+
+  // --- MONITORING ---
+  const monSection = document.querySelector('#monitoring h2.section-title');
+  if (monSection) monSection.textContent = t('section_monitoring');
+  const monCards = document.querySelectorAll('#monitoring > div.cards-grid > .card');
+  if (monCards[0]) monCards[0].querySelector('h3').textContent = t('mon_aqi');
+  if (monCards[1]) monCards[1].querySelector('h3').textContent = t('mon_districts');
+  if (monCards[2]) monCards[2].querySelector('h3').textContent = t('mon_green');
+  if (monCards[3]) monCards[3].querySelector('h3').textContent = t('mon_water_q');
+  const mapSections = document.querySelectorAll('#monitoring .map-section');
+  if (mapSections[0]) {
+    const h3 = mapSections[0].querySelector('h3'); if (h3) h3.textContent = t('mon_map1');
+    const btn = mapSections[0].querySelector('#geoBtn'); if (btn) btn.textContent = t('mon_loc_btn');
+    const src = mapSections[0].querySelector('p'); if (src) src.innerHTML = t('mon_source') + ' <a href="https://waqi.info" target="_blank" style="color: var(--secondary);">WAQI.info</a>';
+  }
+  if (mapSections[1]) {
+    const h3 = mapSections[1].querySelector('h3'); if (h3) h3.textContent = t('mon_map2');
+    const lnk = mapSections[1].querySelector('a.nav-btn'); if (lnk) lnk.textContent = t('mon_map2_link');
+    const note = mapSections[1].querySelector('p'); if (note) note.textContent = t('mon_note');
+  }
+
+  // --- ORGANISATIONS ---
+  const orgSection = document.querySelector('#organizations h2.section-title');
+  if (orgSection) orgSection.textContent = t('section_org');
+  const orgCards = document.querySelectorAll('.org-card');
+  const orgDescKeys = ['org1_desc','org2_desc','org3_desc','org4_desc'];
+  orgCards.forEach((oc, i) => {
+    const desc = oc.querySelector('.org-desc'); if (desc && orgDescKeys[i]) desc.textContent = t(orgDescKeys[i]);
+  });
+
+  // --- ABOUT ---
+  const aboutSection = document.querySelector('#about h2.section-title');
+  if (aboutSection) aboutSection.textContent = t('section_about');
+  const aboutCards = document.querySelectorAll('#about .info-card');
+  const aboutData = [
+    { title: 'about1_title', text: 'about1_text' },
+    { title: 'about2_title', text: 'about2_text' },
+    { title: 'about3_title', text: 'about3_text' }
+  ];
+  aboutCards.forEach((ac, i) => {
+    if (aboutData[i]) {
+      const h4 = ac.querySelector('h4'); if (h4) h4.textContent = t(aboutData[i].title);
+      const p = ac.querySelector('p'); if (p) p.textContent = t(aboutData[i].text);
+    }
+  });
+  const aboutCard = document.querySelector('#about .card');
+  if (aboutCard) {
+    aboutCard.querySelector('h3').textContent = t('about_contact_title');
+    const ps = aboutCard.querySelectorAll('p');
+    if (ps[0]) ps[0].innerHTML = t('about_address');
+    if (ps[1]) ps[1].innerHTML = t('about_goal');
+    if (ps[2]) ps[2].innerHTML = t('about_innovation');
+  }
+
+  // --- CONTACT ---
+  const contactSection = document.querySelector('#contact h2.section-title');
+  if (contactSection) contactSection.textContent = t('section_contact');
+  const nameLbl = document.querySelector('label[for="contactName"]');
+  if (nameLbl) nameLbl.textContent = t('form_name_label');
+  const nameInp = document.getElementById('contactName');
+  if (nameInp) nameInp.placeholder = t('form_name_placeholder');
+  const emailLbl = document.querySelector('label[for="contactEmail"]');
+  if (emailLbl) emailLbl.textContent = t('form_email_label');
+  const phoneLbl = document.querySelector('label[for="contactPhone"]');
+  if (phoneLbl) phoneLbl.textContent = t('form_phone_label');
+  const msgLbl = document.querySelector('label[for="contactMessage"]');
+  if (msgLbl) msgLbl.textContent = t('form_message_label');
+  const msgTa = document.getElementById('contactMessage');
+  if (msgTa) msgTa.placeholder = t('form_message_placeholder');
+  const submitBtn = document.querySelector('.submit-btn');
+  if (submitBtn) submitBtn.textContent = t('form_submit');
+  const ciTitle = document.querySelector('.contact-info h4');
+  if (ciTitle) ciTitle.textContent = t('contact_info_title');
+  const ciPs = document.querySelectorAll('.contact-info p');
+  if (ciPs[0]) ciPs[0].innerHTML = '<strong>' + t('contact_phone_label') + '</strong> <a href="tel:+77781969746" style="color: var(--primary);">8 (778) 196-97-46</a>';
+  if (ciPs[1]) ciPs[1].innerHTML = '<strong>' + t('contact_email_label') + '</strong> <a href="mailto:hakimbakytbek@54sl.edu.kz" style="color: var(--primary);">hakimbakytbek@54sl.edu.kz</a>';
+  if (ciPs[2]) ciPs[2].innerHTML = '<strong>' + t('contact_address_label') + '</strong> ' + t('contact_address_val');
+
+  // --- FOOTER ---
+  const footerP = document.querySelector('footer > p:first-child');
+  if (footerP) footerP.textContent = t('footer_main');
+  const footerSrc = document.querySelector('footer > p:nth-child(2)');
+  if (footerSrc) footerSrc.innerHTML = t('footer_sources') + ' <a href="https://stat.gov.kz" target="_blank">stat.gov.kz</a> | <a href="https://waqi.info" target="_blank">WAQI</a> | <a href="http://ecodata.kz:3838/app_dem_water_visual/" target="_blank">Kazhydromet</a>';
+  const sysStatus = document.getElementById('serverStatus');
+  if (sysStatus) sysStatus.textContent = t('system_ok');
+
+  // --- Reload calculator questions in new language ---
+  updateCalcQuestionsLang();
+}
+
+function updateCalcQuestionsLang() {
+  // Re-render calculator questions with updated language
+  const ecoData = [
+    { q: `1/6 - ${currentLang==='kk'?'Тұрғын үй түрі':currentLang==='ru'?'Тип жилья':'Type of housing'}?`,
+      hint: currentLang==='kk'?'Жылыту жүйесі экологиялық ізге әсер етеді':currentLang==='ru'?'Система отопления влияет на экологический след':'Heating system affects the ecological footprint',
+      options: [
+        { text: currentLang==='kk'?'🏢 Пәтер (орталық жылу)':currentLang==='ru'?'🏢 Квартира (центральное отопление)':'🏢 Apartment (central heating)', score: 'apartment' },
+        { text: currentLang==='kk'?'🏠 Жеке үй (көмір)':currentLang==='ru'?'🏠 Частный дом (уголь)':'🏠 Private house (coal)', score: 'house_coal' },
+        { text: currentLang==='kk'?'🏠 Жеке үй (газ)':currentLang==='ru'?'🏠 Частный дом (газ)':'🏠 Private house (gas)', score: 'house_gas' },
+        { text: currentLang==='kk'?'🏠 Жеке үй (электр)':currentLang==='ru'?'🏠 Частный дом (электро)':'🏠 Private house (electric)', score: 'house_electric' }
+      ]
+    },
+    { q: `2/6 - ${currentLang==='kk'?'Айлық электр тұтынуы':currentLang==='ru'?'Ежемесячное потребление электричества':'Monthly electricity consumption'}?`,
+      hint: currentLang==='kk'?'Шотыңыздан немесе есептегіштен қараңыз':currentLang==='ru'?'Посмотрите в квитанции или на счётчике':'Check your bill or meter',
+      type: 'input', inputType: 'number', inputId: 'electricityInput',
+      placeholder: currentLang==='kk'?'Мысалы: 150':currentLang==='ru'?'Например: 150':'E.g.: 150',
+      min: 0, max: 2000
+    },
+    { q: `3/6 - ${currentLang==='kk'?'Көлік пайдалану':currentLang==='ru'?'Использование транспорта':'Transport use'}?`,
+      hint: currentLang==='kk'?'Жанармай шығыны немесе жүріс':currentLang==='ru'?'Расход топлива или пробег':'Fuel consumption or mileage',
+      options: [
+        { text: currentLang==='kk'?'🚶 Жаяу/велосипед/қоғамдық көлік':currentLang==='ru'?'🚶 Пешком/велосипед/общественный транспорт':'🚶 On foot/bicycle/public transport', score: 'none' },
+        { text: currentLang==='kk'?'🚗 Жеңіл авто (кіші)':currentLang==='ru'?'🚗 Легковой (малый)':'🚗 Car (small)', score: 'car_small' },
+        { text: currentLang==='kk'?'🚙 Жеңіл авто (орта)':currentLang==='ru'?'🚙 Легковой (средний)':'🚙 Car (medium)', score: 'car_medium' },
+        { text: currentLang==='kk'?'🚘 Жеңіл авто (үлкен)':currentLang==='ru'?'🚘 Легковой (большой)':'🚘 Car (large)', score: 'car_large' }
+      ],
+      hasInput: true, inputId: 'fuelLiters',
+      inputPlaceholder: currentLang==='kk'?'Мысалы: 60':currentLang==='ru'?'Например: 60':'E.g.: 60'
+    },
+    { q: `4/6 - ${currentLang==='kk'?'Ет өнімдерін тұтыну (кг/ай)':currentLang==='ru'?'Потребление мяса (кг/мес)':'Meat consumption (kg/month)'}?`,
+      hint: currentLang==='kk'?'🇰🇿 ҚР Статистика бюросы деректерімен салыстыру':currentLang==='ru'?'🇰🇿 Сравнение с данными Статбюро РК':'🇰🇿 Comparison with RK Statistics Bureau data',
+      type: 'multi-input', inputs: [
+        { label: currentLang==='kk'?'Сиыр еті':currentLang==='ru'?'Говядина':'Beef', sublabel: currentLang==='kk'?'(ҚР орташа: 0.53 кг/ай)':currentLang==='ru'?'(среднее по РК: 0.53 кг/мес)':'(RK avg: 0.53 kg/mo)', id: 'beefInput', placeholder: '0.5', min: 0, max: 20, step: 0.1 },
+        { label: currentLang==='kk'?'Жылқы еті 🐴':currentLang==='ru'?'Конина 🐴':'Horse meat 🐴', sublabel: currentLang==='kk'?'(ҚР орташа: 0.15 кг/ай)':currentLang==='ru'?'(среднее по РК: 0.15 кг/мес)':'(RK avg: 0.15 kg/mo)', id: 'horseInput', placeholder: '0.15', min: 0, max: 10, step: 0.1 },
+        { label: currentLang==='kk'?'Қой еті':currentLang==='ru'?'Баранина':'Mutton', sublabel: currentLang==='kk'?'(ҚР орташа: 0.18 кг/ай)':currentLang==='ru'?'(среднее по РК: 0.18 кг/мес)':'(RK avg: 0.18 kg/mo)', id: 'muttonInput', placeholder: '0.18', min: 0, max: 10, step: 0.1 },
+        { label: currentLang==='kk'?'Тауық еті':currentLang==='ru'?'Курятина':'Chicken', sublabel: currentLang==='kk'?'(ҚР орташа: 0.71 кг/ай)':currentLang==='ru'?'(среднее по РК: 0.71 кг/мес)':'(RK avg: 0.71 kg/mo)', id: 'chickenInput', placeholder: '0.71', min: 0, max: 20, step: 0.1 }
+      ]
+    },
+    { q: `5/6 - ${currentLang==='kk'?'Сүт және көкөністер (кг/ай)':currentLang==='ru'?'Молоко и овощи (кг/мес)':'Dairy & Vegetables (kg/month)'}?`,
+      hint: currentLang==='kk'?'🇰🇿 Ұлттық орташамен салыстыру':currentLang==='ru'?'🇰🇿 Сравнение с национальным средним':'🇰🇿 Comparison with national average',
+      type: 'multi-input', inputs: [
+        { label: currentLang==='kk'?'Сүт өнімдері (литр/ай)':currentLang==='ru'?'Молочные продукты (литр/мес)':'Dairy (litres/month)', sublabel: currentLang==='kk'?'(ҚР: ~23 л/ай)':currentLang==='ru'?'(РК: ~23 л/мес)':'(RK: ~23 l/mo)', id: 'milkInput', placeholder: '23', min: 0, max: 100, step: 0.1 },
+        { label: currentLang==='kk'?'Картоп (кг/ай)':currentLang==='ru'?'Картофель (кг/мес)':'Potatoes (kg/month)', sublabel: currentLang==='kk'?'(ҚР: ~7.5 кг/ай)':currentLang==='ru'?'(РК: ~7.5 кг/мес)':'(RK: ~7.5 kg/mo)', id: 'potatoInput', placeholder: '7.5', min: 0, max: 50, step: 0.1 },
+        { label: currentLang==='kk'?'Көкөністер (кг/ай)':currentLang==='ru'?'Овощи (кг/мес)':'Vegetables (kg/month)', sublabel: currentLang==='kk'?'(ҚР: ~6.3 кг/ай)':currentLang==='ru'?'(РК: ~6.3 кг/мес)':'(RK: ~6.3 kg/mo)', id: 'vegetableInput', placeholder: '6.3', min: 0, max: 30, step: 0.1 }
+      ]
+    },
+    { q: `6/6 - ${currentLang==='kk'?'Есептеуді аяқтау':currentLang==='ru'?'Завершить расчёт':'Complete calculation'}?`,
+      hint: '', type: 'final',
+      content: currentLang==='kk'?
+        '<p style="margin-bottom: 15px;">✅ Барлық сұрақтарға жауап бердіңіз</p><p style="opacity: 0.8; font-size: 0.9rem;">🔒 Деректеріңіз ешқайда жіберілмейді</p>':
+        currentLang==='ru'?
+        '<p style="margin-bottom: 15px;">✅ Вы ответили на все вопросы</p><p style="opacity: 0.8; font-size: 0.9rem;">🔒 Ваши данные никуда не отправляются</p>':
+        '<p style="margin-bottom: 15px;">✅ You have answered all questions</p><p style="opacity: 0.8; font-size: 0.9rem;">🔒 Your data is not sent anywhere</p>'
+    }
+  ];
+
+  const waterData = [
+    { q: `1/4 - ${currentLang==='kk'?'Күнделікті душ қабылдау уақыты':currentLang==='ru'?'Ежедневное время в душе':'Daily shower duration'}?`,
+      options: [
+        { text: currentLang==='kk'?'20+ минут':currentLang==='ru'?'20+ минут':'20+ minutes', score: 150 },
+        { text: currentLang==='kk'?'10-15 минут':currentLang==='ru'?'10-15 минут':'10-15 minutes', score: 100 },
+        { text: currentLang==='kk'?'5-10 минут':currentLang==='ru'?'5-10 минут':'5-10 minutes', score: 50 },
+        { text: currentLang==='kk'?'5 минуттан аз':currentLang==='ru'?'Менее 5 минут':'Less than 5 minutes', score: 25 }
+      ]
+    },
+    { q: `2/4 - ${currentLang==='kk'?'Ыдыс жуу қалай жүзеге асады':currentLang==='ru'?'Как моете посуду':'How do you wash dishes'}?`,
+      options: [
+        { text: currentLang==='kk'?'Ағын сумен':currentLang==='ru'?'Под проточной водой':'Under running water', score: 100 },
+        { text: currentLang==='kk'?'Ыдыс жуғыш машина':currentLang==='ru'?'Посудомоечная машина':'Dishwasher', score: 50 },
+        { text: currentLang==='kk'?'Жуынтықта жуамын':currentLang==='ru'?'В тазике':'In a basin', score: 30 },
+        { text: currentLang==='kk'?'Үнемді режим':currentLang==='ru'?'Экономный режим':'Economy mode', score: 20 }
+      ]
+    },
+    { q: `3/4 - ${currentLang==='kk'?'Бақша/гүл суару':currentLang==='ru'?'Полив сада/цветов':'Garden/plant watering'}?`,
+      options: [
+        { text: currentLang==='kk'?'Күн сайын':currentLang==='ru'?'Каждый день':'Every day', score: 80 },
+        { text: currentLang==='kk'?'Аптада 3-4 рет':currentLang==='ru'?'3-4 раза в неделю':'3-4 times a week', score: 50 },
+        { text: currentLang==='kk'?'Аптада 1-2 рет':currentLang==='ru'?'1-2 раза в неделю':'1-2 times a week', score: 20 },
+        { text: currentLang==='kk'?'Суармаймын':currentLang==='ru'?'Не поливаю':'No watering', score: 0 }
+      ]
+    },
+    { q: `4/4 - ${currentLang==='kk'?'Су ағып кетуін тексересіз бе':currentLang==='ru'?'Проверяете ли утечки воды':'Do you check for water leaks'}?`,
+      options: [
+        { text: currentLang==='kk'?'Мүлдем':currentLang==='ru'?'Никогда':'Never', score: 50 },
+        { text: currentLang==='kk'?'Сирек':currentLang==='ru'?'Редко':'Rarely', score: 30 },
+        { text: currentLang==='kk'?'Жиі':currentLang==='ru'?'Часто':'Often', score: 10 },
+        { text: currentLang==='kk'?'Әрқашан':currentLang==='ru'?'Всегда':'Always', score: 0 }
+      ]
+    }
+  ];
+
+  // Temporarily save answers
+  const savedEco = [...ecoAnswers];
+  const savedWater = [...waterAnswers];
+
+  // Update global question arrays
+  ecoQuestions.splice(0, ecoQuestions.length, ...ecoData);
+  waterQuestions.splice(0, waterQuestions.length, ...waterData);
+
+  // Re-render
+  loadEcoQuestions();
+  loadWaterQuestions();
+
+  // Restore answers state
+  ecoAnswers = savedEco;
+  waterAnswers = savedWater;
+
+  // Find correct step and show it
+  const ecoVisible = Math.max(0, ecoAnswers.length);
+  document.querySelectorAll('[id^="eco-q"]').forEach((el, i) => {
+    el.style.display = (i === ecoVisible) ? 'block' : 'none';
+  });
+  const waterVisible = Math.max(0, waterAnswers.length);
+  document.querySelectorAll('[id^="water-q"]').forEach((el, i) => {
+    el.style.display = (i === waterVisible) ? 'block' : 'none';
+  });
 }
 
 function filterSci(category) {
@@ -1956,23 +2887,23 @@ card.style.display = 'none';
 function getUserLocation() {
 const btn = document.getElementById('geoBtn');
 if (!navigator.geolocation) {
-alert('🌐 Геолокация қолдау көрсетілмейді');
+alert(t('alert_geo_unsupported'));
 return;
 }
 btn.disabled = true;
-btn.innerHTML = '🔄 Ізделуде...';
+btn.innerHTML = t('rec_geo_locating');
 navigator.geolocation.getCurrentPosition(
 pos => {
 const { latitude, longitude } = pos.coords;
 btn.innerHTML = `✅ ${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
 setTimeout(() => {
-btn.innerHTML = '📍 Менің орнымды табу';
+btn.innerHTML = t('mon_loc_btn');
 btn.disabled = false;
 }, 3000);
 },
 err => {
-alert('🔒 Рұқсат берілмеді');
-btn.innerHTML = '📍 Менің орнымды табу';
+alert(t('alert_geo_denied'));
+btn.innerHTML = t('mon_loc_btn');
 btn.disabled = false;
 },
 { enableHighAccuracy: true, timeout: 10000 }
@@ -1981,7 +2912,12 @@ btn.disabled = false;
 
 async function fetchAllStations() {
 const tb = document.getElementById('tableBody');
-tb.innerHTML = `<tr><td colspan="5" class="news-loading"><div class="spinner"></div>Жаңартылуда...</td></tr>`;
+if (!tb) {
+document.getElementById('avgAqi').textContent = '65';
+document.getElementById('aqiStatus').textContent = '🟢 ' + (currentLang === 'ru' ? 'Хорошо' : currentLang === 'en' ? 'Good' : 'Жақсы');
+return;
+}
+tb.innerHTML = `<tr><td colspan="5">...</td></tr>`;
 try {
 // Demo data
 tb.innerHTML = `
@@ -2007,14 +2943,14 @@ const phone = document.getElementById('contactPhone').value;
 const message = document.getElementById('contactMessage').value;
 
 if (!name || !email || !message) {
-alert('❌ Атыңыз, email және хабарлама міндетті түрде толтырылуы керек!');
+alert(t('alert_contact_required'));
 return;
 }
 
 // Email validation
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 if (!emailRegex.test(email)) {
-alert('❌ Дұрыс email мекенжайын енгізіңіз!');
+alert(t('alert_contact_email'));
 return;
 }
 
@@ -2034,7 +2970,7 @@ window.location.href = mailtoLink;
 
 // Show success message
 setTimeout(() => {
-alert('✅ Хат жіберілді! Біз сізге жақын арада жауап береміз.%0D%0A%0D%0A📧 Email: hakimbakytbek@54sl.edu.kz%0D%0A📱 Телефон: 8 (778) 196-97-46');
+alert(t('alert_contact_sent'));
 // Clear form
 document.getElementById('contactName').value = '';
 document.getElementById('contactEmail').value = '';
